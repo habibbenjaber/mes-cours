@@ -1,0 +1,1574 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atelier React - JSX et Intégration JavaScript</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            /* max-width: 1200px;*/
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #61dafb 0%, #21a1c4 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .author-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .author-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            object-fit: cover;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .author-photo:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .author-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .author-title {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .title-section {
+            flex: 1;
+            text-align: left;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .title-section {
+                text-align: center;
+            }
+
+            .author-photo {
+                width: 100px;
+                height: 100px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .theory-section,
+        .practice-section {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        h2 {
+            color: #21a1c4;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        h3 {
+            color: #333;
+            margin: 1.5rem 0 0.5rem 0;
+            background: linear-gradient(90deg, #61dafb, transparent);
+            padding: 0.5rem;
+            border-radius: 4px;
+        }
+
+        h4 {
+            color: #21a1c4;
+            margin: 1rem 0 0.5rem 0;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        ul,
+        ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        .code-block {
+            background-color: #282c34;
+            color: #abb2bf;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .keyword {
+            color: #c678dd;
+        }
+
+        .function {
+            color: #61afef;
+        }
+
+        .string {
+            color: #98c379;
+        }
+
+        .comment {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        .variable {
+            color: #e06c75;
+        }
+
+        .prop {
+            color: #d19a66;
+        }
+
+        .example-container {
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            padding: 1rem;
+            margin: 1rem 0;
+            background-color: #f9f9f9;
+        }
+
+        .exercise {
+            background-color: #e8f4fc;
+            border-left: 4px solid #21a1c4;
+            padding: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .exercise h4 {
+            color: #21a1c4;
+            margin-bottom: 0.5rem;
+        }
+
+        .important-note {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .warning-note {
+            background-color: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .success-note {
+            background-color: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .comparison-item {
+            padding: 1rem;
+            border-radius: 5px;
+        }
+
+        .correct {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+        }
+
+        .incorrect {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+        }
+
+        button {
+            background-color: #61dafb;
+            color: #333;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            margin: 0.25rem;
+        }
+
+        button:hover {
+            background-color: #21a1c4;
+            color: white;
+        }
+
+        .demo-area {
+            margin-top: 1rem;
+            padding: 1rem;
+            border: 1px dashed #ccc;
+            border-radius: 5px;
+            min-height: 200px;
+        }
+
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .concept-card {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 1rem;
+        }
+
+        .concept-card h4 {
+            color: #21a1c4;
+            margin-bottom: 0.5rem;
+        }
+
+        .code-example {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 0.5rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            border-left: 3px solid #21a1c4;
+        }
+
+        .method-explanation {
+            background: #e8f4fc;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid #61dafb;
+        }
+
+        .method-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .method-icon {
+            font-size: 1.5rem;
+        }
+
+        .use-case {
+            background: #f8f9fa;
+            padding: 0.75rem;
+            border-radius: 4px;
+            margin: 0.5rem 0;
+            border-left: 3px solid #28a745;
+        }
+
+        .technical-detail {
+            background: #fff3cd;
+            padding: 0.75rem;
+            border-radius: 4px;
+            margin: 0.5rem 0;
+            font-size: 0.9rem;
+        }
+
+        .interactive-demo {
+            background: #e8f4fc;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border: 2px solid #61dafb;
+        }
+
+        .demo-instructions {
+            background: #d4edda;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+            border-left: 4px solid #28a745;
+        }
+
+        .challenge-box {
+            background: #fff3cd;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border: 2px solid #ffc107;
+        }
+
+        .solution-toggle {
+            background: #17a2b8;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 0.5rem 0;
+        }
+
+        .jsx-element {
+            border: 2px solid #61dafb;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            background: #f8f9fa;
+        }
+
+        .syntax-highlight {
+            color: #e06c75;
+            font-weight: bold;
+        }
+
+        .live-preview {
+            background: #2c3e50;
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .transformation {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .transformation-item {
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div class="author-section">
+                    <img src="https://media.licdn.com/dms/image/v2/D4D03AQGKY70yUAkNeg/profile-displayphoto-scale_400_400/B4DZoWbkDYGwAk-/0/1761312917906?e=1762992000&v=beta&t=higEye4V5f9zbSmnRTBSuIamwR9MMoaBA6V4NivSiMA"
+                        alt="Habib BEN JABER" class="author-photo" onerror="this.style.display='none'">
+                    <div class="author-name">Habib BEN JABER</div>
+                    <div class="author-title">Enseignant Universitaire</div>
+                </div>
+                <div class="title-section">
+                    <h1>Atelier React - JSX et JavaScript</h1>
+                    <p class="subtitle">Maîtriser la syntaxe JSX et l'intégration de JavaScript dans vos composants
+                        React</p>
+                </div>
+            </div>
+        </header>
+
+        <div class="content">
+            <section class="theory-section">
+                <h2>📚 Partie Théorique - JSX et JavaScript</h2>
+
+                <!-- Introduction au JSX -->
+                <div class="method-explanation">
+                    <div class="method-header">
+                        <div class="method-icon">🎯</div>
+                        <h3>1. Qu'est-ce que le JSX ?</h3>
+                    </div>
+
+                    <p>Le <strong>JSX (JavaScript XML)</strong> est une extension de syntaxe pour JavaScript qui permet
+                        d'écrire du code ressemblant à du HTML directement dans vos fichiers JavaScript. C'est la pierre
+                        angulaire de React (le concept central et essentiel).</p>
+
+                    <div class="concept-grid">
+                        <div class="concept-card">
+                            <h4>Définition Technique</h4>
+                            <p>Le JSX est un <strong>sucre syntaxique (extension)</strong> pour
+                                <code>React.createElement()</code>.
+                                Il est transpilé ("traduit")en JavaScript pur avant d'être exécuté.
+                            </p>
+                        </div>
+                        <div class="concept-card">
+                            <h4>Avantages</h4>
+                            <p>Syntaxe familière (HTML-like), meilleure lisibilité, détection d'erreurs à la
+                                transpilation, et outils de développement améliorés.</p>
+                        </div>
+                    </div>
+
+                    <div class="transformation">
+                        <div class="transformation-item">
+                            <h4>📝 JSX</h4>
+                            <div class="code-example">
+                                const element = &lt;h1 className="title"&gt;Hello World!&lt;/h1&gt;;
+                            </div>
+                        </div>
+                        <div class="transformation-item">
+                            <h4>⚙️ JavaScript Compilé</h4>
+                            <div class="code-example">
+                                const element = React.createElement(<br>
+                                &nbsp;&nbsp;'h1',<br>
+                                &nbsp;&nbsp;{ className: 'title' },<br>
+                                &nbsp;&nbsp;'Hello World!'<br>
+                                );
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Règles de base du JSX -->
+                <div class="method-explanation">
+                    <div class="method-header">
+                        <div class="method-icon">📏</div>
+                        <h3>2. Règles Fondamentales du JSX</h3>
+                    </div>
+
+                    <h4>2.1 Un seul élément parent</h4>
+                    <div class="comparison">
+                        <div class="comparison-item correct">
+                            <h4>✅ Correct</h4>
+                            <div class="code-example">
+                                return (<br>
+                                &nbsp;&nbsp;&lt;div&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;Titre&lt;/h1&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Paragraphe&lt;/p&gt;<br>
+                                &nbsp;&nbsp;&lt;/div&gt;<br>
+                                );
+                            </div>
+                        </div>
+                        <div class="comparison-item incorrect">
+                            <h4>❌ Incorrect</h4>
+                            <div class="code-example">
+                                return (<br>
+                                &nbsp;&nbsp;&lt;h1&gt;Titre&lt;/h1&gt;<br>
+                                &nbsp;&nbsp;&lt;p&gt;Paragraphe&lt;/p&gt;<br>
+                                );
+                            </div>
+                        </div>
+                    </div>
+
+                    <h4>2.2 Toutes les balises doivent être fermées</h4>
+                    <div class="comparison">
+                        <div class="comparison-item correct">
+                            <h4>✅ Correct</h4>
+                            <div class="code-example">
+                                &lt;img src="image.jpg" alt="Description" /&gt;<br>
+                                &lt;input type="text" /&gt;<br>
+                                &lt;br /&gt;
+                            </div>
+                        </div>
+                        <div class="comparison-item incorrect">
+                            <h4>❌ Incorrect</h4>
+                            <div class="code-example">
+                                &lt;img src="image.jpg" alt="Description"&gt;<br>
+                                &lt;input type="text"&gt;<br>
+                                &lt;br&gt;
+                            </div>
+                        </div>
+                    </div>
+
+                    <h4>2.3 className au lieu de class</h4>
+                    <div class="comparison">
+                        <div class="comparison-item correct">
+                            <h4>✅ Correct</h4>
+                            <div class="code-example">
+                                &lt;div className="container"&gt;...&lt;/div&gt;
+                            </div>
+                        </div>
+                        <div class="comparison-item incorrect">
+                            <h4>❌ Incorrect</h4>
+                            <div class="code-example">
+                                &lt;div class="container"&gt;...&lt;/div&gt;
+                            </div>
+                        </div>
+                    </div>
+
+                    <h4>2.4 htmlFor au lieu de for</h4>
+                    <div class="comparison">
+                        <div class="comparison-item correct">
+                            <h4>✅ Correct</h4>
+                            <div class="code-example">
+                                &lt;label htmlFor="email"&gt;Email&lt;/label&gt;
+                            </div>
+                        </div>
+                        <div class="comparison-item incorrect">
+                            <h4>❌ Incorrect</h4>
+                            <div class="code-example">
+                                &lt;label for="email"&gt;Email&lt;/label&gt;
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Intégration JavaScript dans JSX -->
+                <div class="method-explanation">
+                    <div class="method-header">
+                        <div class="method-icon">🔗</div>
+                        <h3>3. Intégration de JavaScript dans le JSX</h3>
+                    </div>
+
+                    <p>Le JSX permet d'<strong>intégrer directement des expressions JavaScript</strong> en utilisant les
+                        accolades <code>{}</code>.</p>
+
+                    <h4>3.1 Variables et expressions simples</h4>
+                    <div class="code-block">
+                        <span class="keyword">function</span> <span class="function">Welcome</span>() {<br>
+                        &nbsp;&nbsp;<span class="keyword">const</span> <span class="variable">name</span> = <span
+                            class="string">"Salem"</span>;<br>
+                        &nbsp;&nbsp;<span class="keyword">const</span> <span class="variable">age</span> = <span
+                            class="variable">25</span>;<br>
+                        &nbsp;&nbsp;<span class="keyword">const</span> <span class="variable">isStudent</span> = <span
+                            class="keyword">true</span>;<br>
+                        <br>
+                        &nbsp;&nbsp;<span class="keyword">return</span> (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">&lt;!-- Affichage de variables
+                            --&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;Bonjour, {<span class="variable">name</span>}
+                        !&lt;/h1&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">&lt;!-- Expressions mathématiques
+                            --&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Vous avez {<span class="variable">age</span>} ans -
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">&lt;!-- Expressions booléennes
+                            --&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Statut: {<span class="variable">isStudent</span> ?
+                        <span class="string">"Étudiant"</span> : <span
+                            class="string">"Professionnel"</span>}&lt;/p&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                        &nbsp;&nbsp;);<br>
+                        }
+                    </div>
+
+                    <h4>3.2 Appels de fonctions</h4>
+                    <div class="code-block">
+                        <span class="keyword">function</span> <span class="function">formatDate</span>(<span
+                            class="variable">date</span>) {<br>
+                        &nbsp;&nbsp;<span class="keyword">return</span> <span class="keyword">new</span> <span
+                            class="function">Date</span>(<span class="variable">date</span>).<span
+                            class="function">toLocaleDateString</span>(<span class="string">'fr-FR'</span>);<br>
+                        }<br>
+                        <br>
+                        <span class="keyword">function</span> <span class="function">DateDisplay</span>() {<br>
+                        &nbsp;&nbsp;<span class="keyword">const</span> <span class="variable">currentDate</span> = <span
+                            class="string">"2024-01-15"</span>;<br>
+                        &nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;<span class="keyword">return</span> (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Date formatée: {<span
+                            class="function">formatDate</span>(<span class="variable">currentDate</span>)}&lt;/p&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Timestamp actuel: {<span
+                            class="function">Date</span>.<span class="function">now</span>()}&lt;/p&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                        &nbsp;&nbsp;);<br>
+                        }
+                    </div>
+
+                    <h4>3.3 Tableaux et .map()</h4>
+                    <div class="code-block">
+                        <span class="keyword">function</span> <span class="function">List</span>() {<br>
+                        &nbsp;&nbsp;<span class="keyword">const</span> <span class="variable">items</span> = [<span
+                            class="string">'Pommes'</span>, <span class="string">'Bananes'</span>, <span
+                            class="string">'Oranges'</span>];<br>
+                        &nbsp;&nbsp;<span class="keyword">const</span> <span class="variable">numbers</span> = [<span
+                            class="variable">1</span>, <span class="variable">2</span>, <span class="variable">3</span>,
+                        <span class="variable">4</span>, <span class="variable">5</span>];<br>
+                        <br>
+                        &nbsp;&nbsp;<span class="keyword">return</span> (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">&lt;!-- Transformation de tableau avec
+                            .map() --&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;ul&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="variable">items</span>.<span
+                            class="function">map</span>((<span class="variable">item</span>, <span
+                            class="variable">index</span>) =&gt; (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li <span
+                            class="prop">key</span>={<span class="variable">index</span>}&gt;{<span
+                            class="variable">item</span>}&lt;/li&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;))}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/ul&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">&lt;!-- Calculs sur tableaux
+                            --&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Somme: {<span class="variable">numbers</span>.<span
+                            class="function">reduce</span>((<span class="variable">a</span>, <span
+                            class="variable">b</span>) =&gt; <span class="variable">a</span> + <span
+                            class="variable">b</span>, <span class="variable">0</span>)}&lt;/p&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Moyenne: {<span
+                            class="variable">numbers</span>.<span class="function">reduce</span>((<span
+                            class="variable">a</span>, <span class="variable">b</span>) =&gt; <span
+                            class="variable">a</span> + <span class="variable">b</span>, <span
+                            class="variable">0</span>) / <span class="variable">numbers</span>.<span
+                            class="prop">length</span>}&lt;/p&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                        &nbsp;&nbsp;);<br>
+                        }
+                    </div>
+                </div>
+
+                <!-- Attributs dynamiques -->
+                <div class="method-explanation">
+                    <div class="method-header">
+                        <div class="method-icon">🎨</div>
+                        <h3>4. Attributs Dynamiques</h3>
+                    </div>
+
+                    <p>Les attributs JSX peuvent également contenir des expressions JavaScript.</p>
+
+                    <h4>4.1 Styles dynamiques</h4>
+                    <div class="code-block">
+                        <span class="keyword">function</span> <span class="function">StyledBox</span>() {<br>
+                        &nbsp;&nbsp;<span class="keyword">const</span> <span class="variable">isActive</span> = <span
+                            class="keyword">true</span>;<br>
+                        &nbsp;&nbsp;<span class="keyword">const</span> <span class="variable">boxSize</span> = <span
+                            class="variable">200</span>;<br>
+                        <br>
+                        &nbsp;&nbsp;<span class="keyword">return</span> (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="prop">style</span>={{<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;width: <span class="variable">boxSize</span> +
+                        <span class="string">'px'</span>,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;height: <span class="variable">boxSize</span> +
+                        <span class="string">'px'</span>,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;backgroundColor: <span
+                            class="variable">isActive</span> ? <span class="string">'#61dafb'</span> : <span
+                            class="string">'#ccc'</span>,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;border: <span class="variable">isActive</span> ?
+                        <span class="string">'2px solid #21a1c4'</span> : <span class="string">'1px solid
+                            #999'</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Boîte {<span class="variable">isActive</span> ? <span
+                            class="string">"active"</span> : <span class="string">"inactive"</span>}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                        &nbsp;&nbsp;);<br>
+                        }
+                    </div>
+
+                    <h4>4.2 Classes conditionnelles</h4>
+                    <div class="code-block">
+                        <span class="keyword">function</span> <span class="function">Button</span>({ <span
+                            class="prop">isPrimary</span>, <span class="prop">isDisabled</span> }) {<br>
+                        &nbsp;&nbsp;<span class="keyword">const</span> <span class="variable">buttonClass</span> = <span
+                            class="string">'btn '</span> + (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="variable">isPrimary</span> ? <span
+                            class="string">'btn-primary '</span> : <span class="string">'btn-secondary '</span><br>
+                        &nbsp;&nbsp;) + (<span class="variable">isDisabled</span> ? <span
+                            class="string">'disabled'</span> : <span class="string">''</span>);<br>
+                        <br>
+                        &nbsp;&nbsp;<span class="keyword">return</span> (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;button <span class="prop">className</span>={<span
+                            class="variable">buttonClass</span>} <span class="prop">disabled</span>={<span
+                            class="variable">isDisabled</span>}&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cliquez-moi<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/button&gt;<br>
+                        &nbsp;&nbsp;);<br>
+                        }
+                    </div>
+
+                    <h4>4.3 Attributs dynamiques avancés</h4>
+                    <div class="code-block">
+                        <span class="keyword">function</span> <span class="function">DynamicImage</span>() {<br>
+                        &nbsp;&nbsp;<span class="keyword">const</span> <span class="variable">imageConfig</span> = {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;src: <span class="string">"https://example.com/image.jpg"</span>,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;alt: <span class="string">"Une image descriptive"</span>,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;width: <span class="variable">300</span>,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;height: <span class="variable">200</span><br>
+                        &nbsp;&nbsp;};<br>
+                        <br>
+                        &nbsp;&nbsp;<span class="keyword">return</span> (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;img<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="prop">src</span>={<span
+                            class="variable">imageConfig</span>.<span class="prop">src</span>}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="prop">alt</span>={<span
+                            class="variable">imageConfig</span>.<span class="prop">alt</span>}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="prop">width</span>={<span
+                            class="variable">imageConfig</span>.<span class="prop">width</span>}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="prop">height</span>={<span
+                            class="variable">imageConfig</span>.<span class="prop">height</span>}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="prop">style</span>={{<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;border: <span class="string">'2px solid '</span>
+                        + (<span class="variable">imageConfig</span>.<span class="prop">width</span> &gt; <span
+                            class="variable">400</span> ? <span class="string">'red'</span> : <span
+                            class="string">'blue'</span>)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;/&gt;<br>
+                        &nbsp;&nbsp;);<br>
+                        }
+                    </div>
+                </div>
+
+                <!-- Bonnes pratiques et pièges -->
+                <div class="method-explanation">
+                    <div class="method-header">
+                        <div class="method-icon">🚨</div>
+                        <h3>5. Pièges Courants et Bonnes Pratiques</h3>
+                    </div>
+
+                    <h4>5.1 Ne pas utiliser d'instructions dans les accolades</h4>
+                    <div class="comparison">
+                        <div class="comparison-item correct">
+                            <h4>✅ Expressions seulement</h4>
+                            <div class="code-example">
+                                {variable}<br>
+                                {array.map()}<br>
+                                {condition ? a : b}<br>
+                                {functionCall()}
+                            </div>
+                        </div>
+                        <div class="comparison-item incorrect">
+                            <h4>❌ Instructions interdites</h4>
+                            <div class="code-example">
+                                {if (condition) {}}<br>
+                                {for (let i=0; i<10; i++) {}}<br>
+                                    {switch (value) {}}<br>
+                                    {variable = value}
+                            </div>
+                        </div>
+                    </div>
+
+                    <h4>5.2 Toujours fournir une key avec .map()</h4>
+                    <div class="comparison">
+                        <div class="comparison-item correct">
+                            <h4>✅ Avec key</h4>
+                            <div class="code-example">
+                                {items.map((item, index) => (<br>
+                                &nbsp;&nbsp;&lt;li key={item.id}&gt;...&lt;/li&gt;<br>
+                                ))}
+                            </div>
+                        </div>
+                        <div class="comparison-item incorrect">
+                            <h4>❌ Sans key</h4>
+                            <div class="code-example">
+                                {items.map(item => (<br>
+                                &nbsp;&nbsp;&lt;li&gt;...&lt;/li&gt;<br>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="important-note">
+                        <h4>💡 Règle d'Or : Les accolades {} ne contiennent que des expressions</h4>
+                        <p>Une expression retourne toujours une valeur. Une instruction effectue une action mais ne
+                            retourne pas de valeur.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="practice-section">
+                <h2>🔬 Partie Pratique Interactive</h2>
+
+                <!-- Démonstration 1 : Bases du JSX -->
+                <div class="interactive-demo">
+                    <div class="method-header">
+                        <div class="method-icon">⚡</div>
+                        <h3>Démonstration 1 : Bases du JSX</h3>
+                    </div>
+
+                    <div class="demo-instructions">
+                        <h4> Objectif Pédagogique</h4>
+                        <p>Comprendre les règles fondamentales du JSX et voir comment le code est transpilé en
+                            JavaScript.</p>
+                    </div>
+
+                    <div id="demo-jsx-basics" class="demo-area">
+                        <!-- Composant React sera rendu ici -->
+                    </div>
+
+                    <div class="code-example">
+                        // Exemple de composant avec différentes règles JSX<br>
+                        function JsxBasics() {<br>
+                        &nbsp;&nbsp;return (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div className="container"&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;Titre Principal&lt;/h1&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Ceci est un paragraphe avec du &lt;strong&gt;texte
+                        important&lt;/strong&gt;.&lt;/p&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;img src="/logo.png" alt="Logo" /&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input type="text" placeholder="Écrivez ici" /&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;br /&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;label htmlFor="email"&gt;Email:&lt;/label&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input id="email" type="email" /&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                        &nbsp;&nbsp;);<br>
+                        }
+                    </div>
+
+                    <div class="challenge-box">
+                        <h4>💪 Défi Étudiant</h4>
+                        <p><strong>Objectif :</strong> Corriger les erreurs JSX dans le code suivant :</p>
+                        <div class="code-example">
+                            function BrokenComponent() {<br>
+                            &nbsp;&nbsp;return (<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="main"&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;Titre&lt;/h1&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Paragraphe 1&lt;/p&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Paragraphe 2&lt;/p&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;img src="image.jpg" alt="test"&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input type="text"&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;br&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;label for="name"&gt;Nom:&lt;/label&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                            &nbsp;&nbsp;);<br>
+                            }
+                        </div>
+                        <button class="solution-toggle" onclick="toggleSolution('solution1')">Voir la solution</button>
+                        <div id="solution1" style="display: none; margin-top: 1rem;">
+                            <div class="code-example">
+                                function FixedComponent() {<br>
+                                &nbsp;&nbsp;return (<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&lt;div className="main"&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;Titre&lt;/h1&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Paragraphe 1&lt;/p&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Paragraphe 2&lt;/p&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;img src="image.jpg" alt="test" /&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input type="text" /&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;br /&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;label htmlFor="name"&gt;Nom:&lt;/label&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                                &nbsp;&nbsp;);<br>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Démonstration 2 : Intégration JavaScript -->
+                <div class="interactive-demo">
+                    <div class="method-header">
+                        <div class="method-icon">🔗</div>
+                        <h3>Démonstration 2 : Intégration JavaScript</h3>
+                    </div>
+
+                    <div class="demo-instructions">
+                        <h4>Objectif Pédagogique</h4>
+                        <p>Maîtriser l'utilisation des accolades {} pour intégrer des expressions JavaScript dans le
+                            JSX.</p>
+                    </div>
+
+                    <div id="demo-js-integration" class="demo-area">
+                        <!-- Composant React sera rendu ici -->
+                    </div>
+
+                    <div class="code-example">
+                        function JavaScriptIntegration() {<br>
+                        &nbsp;&nbsp;const user = {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;name: "Alice",<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;age: 28,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;isOnline: true,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;skills: ["React", "JavaScript", "CSS"]<br>
+                        &nbsp;&nbsp;};<br>
+                        <br>
+                        &nbsp;&nbsp;const currentYear = new Date().getFullYear();<br>
+                        &nbsp;&nbsp;const birthYear = currentYear - user.age;<br>
+                        <br>
+                        &nbsp;&nbsp;return (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div className="user-card"&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h2&gt;Profil de {user.name}&lt;/h2&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Âge: {user.age} ans&lt;/p&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Né(e) en: {birthYear}&lt;/p&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Statut: {user.isOnline ? "🟢 En ligne" : "🔴 Hors
+                        ligne"}&lt;/p&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h3&gt;Compétences:&lt;/h3&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;ul&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{user.skills.map((skill, index)
+                        =&gt; (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li
+                        key={index}&gt;{skill}&lt;/li&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;))}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/ul&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                        &nbsp;&nbsp;);<br>
+                        }
+                    </div>
+                </div>
+
+                <!-- Démonstration 3 : Attributs Dynamiques -->
+                <div class="interactive-demo">
+                    <div class="method-header">
+                        <div class="method-icon">🎨</div>
+                        <h3>Démonstration 3 : Attributs Dynamiques</h3>
+                    </div>
+
+                    <div class="demo-instructions">
+                        <h4>Objectif Pédagogique</h4>
+                        <p>Apprendre à utiliser des expressions JavaScript pour définir dynamiquement les attributs des
+                            éléments.</p>
+                    </div>
+
+                    <div id="demo-dynamic-attributes" class="demo-area">
+                        <!-- Composant React sera rendu ici -->
+                    </div>
+
+                    <div class="code-example">
+                        function DynamicAttributes() {<br>
+                        &nbsp;&nbsp;const [theme, setTheme] = React.useState('light');<br>
+                        &nbsp;&nbsp;const [size, setSize] = React.useState(100);<br>
+                        <br>
+                        &nbsp;&nbsp;const themeStyles = {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;light: {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;background: '#ffffff',<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color: '#333333',<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;border: '2px solid #61dafb'<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;dark: {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;background: '#2c3e50',<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color: '#ecf0f1',<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;border: '2px solid #34495e'<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;};<br>
+                        <br>
+                        &nbsp;&nbsp;return (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div className="controls"&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button onClick={() => setTheme(theme ===
+                        'light' ? 'dark' : 'light')}&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Changer le thème<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/button&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type="range" <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;min="50" <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;max="200" <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value={size}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;onChange={(e) =>
+                        setSize(parseInt(e.target.value))}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;style={{{<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...themeStyles[theme],<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;width: size + 'px',<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;height: size + 'px',<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;padding: '20px',<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;margin: '20px auto',<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textAlign: 'center',<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;borderRadius: '8px'<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}}}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h3&gt;{theme === 'light' ? '☀️ Mode Clair' :
+                        '🌙 Mode Sombre'}&lt;/h3&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Taille: {size}px&lt;/p&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Aire: {size * size}px²&lt;/p&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                        &nbsp;&nbsp;);<br>
+                        }
+                    </div>
+                </div>
+
+                <!-- Démonstration 4 : Expressions Complexes -->
+                <div class="interactive-demo">
+                    <div class="method-header">
+                        <div class="method-icon">🧮</div>
+                        <h3>Démonstration 4 : Expressions Complexes</h3>
+                    </div>
+
+                    <div class="demo-instructions">
+                        <h4>Objectif Pédagogique</h4>
+                        <p>Explorer les limites des expressions JavaScript dans le JSX avec des cas d'usage avancés.</p>
+                    </div>
+
+                    <div id="demo-complex-expressions" class="demo-area">
+                        <!-- Composant React sera rendu ici -->
+                    </div>
+
+                    <div class="code-example">
+                        function ComplexExpressions() {<br>
+                        &nbsp;&nbsp;const products = [<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;{ id: 1, name: "Laptop", price: 999, category: "electronics" },<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;{ id: 2, name: "Book", price: 25, category: "education" },<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;{ id: 3, name: "Headphones", price: 150, category: "electronics" },<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;{ id: 4, name: "Notebook", price: 5, category: "education" }<br>
+                        &nbsp;&nbsp;];<br>
+                        <br>
+                        &nbsp;&nbsp;const [filter, setFilter] = React.useState('all');<br>
+                        <br>
+                        &nbsp;&nbsp;const filteredProducts = products.filter(product =&gt; <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;filter === 'all' || product.category === filter<br>
+                        &nbsp;&nbsp;);<br>
+                        <br>
+                        &nbsp;&nbsp;const totalValue = filteredProducts.reduce(<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;(sum, product) =&gt; sum + product.price, 0<br>
+                        &nbsp;&nbsp;);<br>
+                        <br>
+                        &nbsp;&nbsp;const averagePrice = filteredProducts.length > 0 <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;? totalValue / filteredProducts.length <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;: 0;<br>
+                        <br>
+                        &nbsp;&nbsp;return (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div className="filters"&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{['all', 'electronics',
+                        'education'].map(category =&gt; (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;key={category}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;onClick={() =&gt;
+                        setFilter(category)}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;style={{<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;background:
+                        filter === category ? '#61dafb' : '#f8f9fa'<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{category === 'all' ?
+                        'Tous' : category}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/button&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;))}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div className="stats"&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Nombre de produits:
+                        {filteredProducts.length}&lt;/p&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Valeur totale:
+                        {totalValue} dt &lt;/p&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Prix moyen:
+                        {averagePrice.toFixed(2)} dt &lt;/p&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div className="products"&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{filteredProducts.map(product =&gt; (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div key={product.id}
+                        className="product-card"&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h4&gt;{product.name}&lt;/h4&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Prix:
+                        {product.price} dt&lt;/p&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Catégorie:
+                        {product.category}&lt;/p&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p style={{<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color:
+                        product.price > averagePrice ? '#dc3545' : '#28a745',<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontWeight:
+                        'bold'<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}}&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{product.price
+                        > averagePrice ? 'Au-dessus' : 'En-dessous'} de la moyenne<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/p&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;))}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                        &nbsp;&nbsp;);<br>
+                        }
+                    </div>
+                </div>
+
+                <!-- Exercice Final -->
+                <div class="challenge-box">
+                    <h4>🎓 Exercice Final - Créer un Composant Dynamique</h4>
+                    <p><strong>Scénario :</strong> Développez un composant de profil utilisateur avec des données
+                        dynamiques.</p>
+                    <p><strong>Fonctionnalités requises :</strong></p>
+                    <ul>
+                        <li>Afficher le nom, l'âge et l'email de l'utilisateur</li>
+                        <li>Calculer et afficher l'année de naissance</li>
+                        <li>Afficher une liste de compétences avec .map()</li>
+                        <li>Utiliser des styles conditionnels basés sur l'âge</li>
+                        <li>Ajouter un indicateur de statut en ligne/hors ligne</li>
+                    </ul>
+                    <button class="solution-toggle" onclick="toggleSolution('finalSolution')">Voir la solution
+                        proposée</button>
+                    <div id="finalSolution" style="display: none; margin-top: 1rem;">
+                        <div class="code-example">
+                            function UserProfile() {<br>
+                            &nbsp;&nbsp;const user = {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;name: "Jean Dupont",<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;age: 32,<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;email: "jean.dupont@email.com",<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;isOnline: true,<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;skills: ["JavaScript", "React", "Node.js", "CSS"]<br>
+                            &nbsp;&nbsp;};<br>
+                            <br>
+                            &nbsp;&nbsp;const currentYear = new Date().getFullYear();<br>
+                            &nbsp;&nbsp;const birthYear = currentYear - user.age;<br>
+                            <br>
+                            &nbsp;&nbsp;return (<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;div style={{<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;border: '2px solid #61dafb',<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;borderRadius: '10px',<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;padding: '20px',<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;maxWidth: '400px',<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;margin: '20px auto',<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;background: user.age > 30 ? '#f8f9fa' : '#e8f4fc'<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;}}&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h2&gt;{user.name}&lt;/h2&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Âge: {user.age} ans&lt;/p&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Né en: {birthYear}&lt;/p&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Email: {user.email}&lt;/p&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Statut: {user.isOnline ? '🟢 En ligne' : '🔴
+                            Hors ligne'}<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/p&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h3&gt;Compétences
+                            ({user.skills.length})&lt;/h3&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;ul&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{user.skills.map((skill, index)
+                            =&gt; (<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li
+                            key={index}&gt;{skill}&lt;/li&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;))}<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/ul&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                            &nbsp;&nbsp;);<br>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <footer>
+            <p>Atelier React - JSX et Intégration JavaScript | Conçu par Habib BEN JABER - Enseignant Universitaire</p>
+        </footer>
+    </div>
+
+    <script type="text/babel">
+        // Démonstration 1 : Bases du JSX
+        function JsxBasics() {
+            return (
+                <div className="card">
+                    <h3>Démonstration des Règles JSX</h3>
+
+                    <div className="jsx-element">
+                        <h4>✅ Élément parent unique</h4>
+                        <p>Ce contenu est correctement encapsulé dans une div parente.</p>
+                    </div>
+
+                    <div className="jsx-element">
+                        <h4>✅ Balises auto-fermantes</h4>
+                        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                            <img
+                                src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjUiIGN5PSIyNSIgcj0iMjAiIGZpbGw9IiM2MWRhZmIiLz4KPC9zdmc+"
+                                alt="Placeholder"
+                                style={{ width: '50px', height: '50px' }}
+                            />
+                            <input type="text" placeholder="Input correct" />
+                            <br />
+                        </div>
+                    </div>
+
+                    <div className="jsx-element">
+                        <h4>✅ className et htmlFor</h4>
+                        <div>
+                            <label htmlFor="demoInput" style={{ display: 'block', marginBottom: '0.5rem' }}>
+                                Label avec htmlFor
+                            </label>
+                            <input
+                                id="demoInput"
+                                type="text"
+                                className="demo-class"
+                                placeholder="Input avec className"
+                            />
+                        </div>
+                    </div>
+
+                    <div style={{ marginTop: '1rem', padding: '1rem', background: '#e8f4fc', borderRadius: '4px' }}>
+                        <h4>Points Clés :</h4>
+                        <ul>
+                            <li>Un seul élément parent par composant</li>
+                            <li>Toutes les balises doivent être fermées</li>
+                            <li>Utiliser <code>className</code> au lieu de <code>class</code></li>
+                            <li>Utiliser <code>htmlFor</code> au lieu de <code>for</code></li>
+                        </ul>
+                    </div>
+                </div>
+            );
+        }
+
+        // Démonstration 2 : Intégration JavaScript
+        function JavaScriptIntegration() {
+            const user = {
+                name: "Ali BEN MOHAMED",
+                age: 28,
+                isOnline: true,
+                skills: ["React", "JavaScript", "CSS", "Node.js", "MongoDB"]
+            };
+
+            const currentYear = new Date().getFullYear();
+            const birthYear = currentYear - user.age;
+
+            return (
+                <div className="card">
+                    <h3>Intégration JavaScript dans JSX</h3>
+
+                    <div style={{
+                        border: '2px solid #61dafb',
+                        borderRadius: '8px',
+                        padding: '1.5rem',
+                        margin: '1rem 0'
+                    }}>
+                        <h2>👤 Profil de {user.name}</h2>
+
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginTop: '1rem' }}>
+                            <div>
+                                <p><strong>Âge:</strong> {user.age} ans</p>
+                                <p><strong>Né(e) en:</strong> {birthYear}</p>
+                                <p>
+                                    <strong>Statut:</strong>
+                                    <span style={{
+                                        color: user.isOnline ? '#28a745' : '#dc3545',
+                                        marginLeft: '0.5rem'
+                                    }}>
+                                        {user.isOnline ? '🟢 En ligne' : '🔴 Hors ligne'}
+                                    </span>
+                                </p>
+                            </div>
+
+
+                        </div>
+
+                        <div style={{ marginTop: '1.5rem' }}>
+                            <h4>💼 Compétences ({user.skills.length})</h4>
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginTop: '0.5rem' }}>
+                                {user.skills.map((skill, index) => (
+                                    <span
+                                        key={index}
+                                        style={{
+                                            background: '#61dafb',
+                                            color: 'white',
+                                            padding: '0.25rem 0.75rem',
+                                            borderRadius: '15px',
+                                            fontSize: '0.9rem'
+                                        }}
+                                    >
+                                        {skill}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div style={{
+                            marginTop: '1rem',
+                            padding: '1rem',
+                            background: '#d4edda',
+                            borderRadius: '4px',
+                            fontSize: '0.9rem'
+                        }}>
+                            <p><strong>Démonstration :</strong> Toutes les valeurs entre accolades sont des expressions JavaScript évaluées à l'interprétation ("l'exécution").</p>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Démonstration 3 : Attributs Dynamiques
+        function DynamicAttributes() {
+            const [theme, setTheme] = React.useState('light');
+            const [size, setSize] = React.useState(200);
+
+            const themeStyles = {
+                light: {
+                    background: '#ffffff',
+                    color: '#333333',
+                    border: '2px solid #61dafb'
+                },
+                dark: {
+                    background: '#2c3e50',
+                    color: '#ecf0f1',
+                    border: '2px solid #34495e'
+                }
+            };
+
+            return (
+                <div className="card">
+                    <h3> Attributs Dynamiques</h3>
+
+                    <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
+                        <button
+                            onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+                            style={{
+                                background: theme === 'light' ? '#21a1c4' : '#34495e',
+                                color: 'white'
+                            }}
+                        >
+                            {theme === 'light' ? '🌙 Mode Sombre' : '☀️ Mode Clair'}
+                        </button>
+
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                            <label>Taille:</label>
+                            <input
+                                type="range"
+                                min="50"
+                                max="200"
+                                value={size}
+                                onChange={(e) => setSize(parseInt(e.target.value))}
+                            />
+                            <span>{size}px</span>
+                        </div>
+                    </div>
+
+                    <div
+                        style={{
+                            ...themeStyles[theme],
+                            width: size + 'px',
+                            height: size + 'px',
+                            padding: '20px',
+                            margin: '20px auto',
+                            textAlign: 'center',
+                            borderRadius: '8px',
+                            transition: 'all 0.3s ease',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            alignItems: 'center'
+                        }}
+                    >
+                        <h4 style={{ margin: '0 0 1rem 0' }}>
+                            {theme === 'light' ? '☀️ Mode Clair' : '🌙 Mode Sombre'}
+                        </h4>
+                        <p style={{ margin: '0.25rem 0' }}>Taille: {size}px</p>
+                        <p style={{ margin: '0.25rem 0' }}>Aire: {size * size}px²</p>
+                        <p style={{ margin: '0.25rem 0' }}>
+                            {size > 150 ? 'Grand' : size > 100 ? 'Moyen' : 'Petit'}
+                        </p>
+                    </div>
+
+                    <div style={{
+                        marginTop: '1rem',
+                        padding: '1rem',
+                        background: '#fff3cd',
+                        borderRadius: '4px',
+                        fontSize: '0.9rem'
+                    }}>
+                        <p><strong>💡 Note :</strong> Les styles et classes peuvent être déterminés dynamiquement avec des expressions JavaScript.</p>
+                    </div>
+                </div>
+            );
+        }
+
+        // Démonstration 4 : Expressions Complexes
+        function ComplexExpressions() {
+            const products = [
+                { id: 1, name: "Laptop Gaming", price: 1299, category: "electronics", rating: 4.5 },
+                { id: 2, name: "React pour les Nuls", price: 25, category: "education", rating: 4.2 },
+                { id: 3, name: "Casque Audio", price: 150, category: "electronics", rating: 4.7 },
+                { id: 4, name: "Cahier de Notes", price: 5, category: "education", rating: 4.0 },
+                { id: 5, name: "Smartphone", price: 799, category: "electronics", rating: 4.3 }
+            ];
+
+            const [filter, setFilter] = React.useState('all');
+
+            const filteredProducts = products.filter(product =>
+                filter === 'all' || product.category === filter
+            );
+
+            const totalValue = filteredProducts.reduce(
+                (sum, product) => sum + product.price, 0
+            );
+
+            const averagePrice = filteredProducts.length > 0
+                ? totalValue / filteredProducts.length
+                : 0;
+
+            const averageRating = filteredProducts.length > 0
+                ? filteredProducts.reduce((sum, product) => sum + product.rating, 0) / filteredProducts.length
+                : 0;
+
+            return (
+                <div className="card">
+                    <h3>Expressions Complexes</h3>
+
+                    <div style={{ marginBottom: '1.5rem' }}>
+                        <h4>Filtres</h4>
+                        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                            {['all', 'electronics', 'education'].map(category => (
+                                <button
+                                    key={category}
+                                    onClick={() => setFilter(category)}
+                                    style={{
+                                        background: filter === category ? '#61dafb' : '#f8f9fa',
+                                        color: filter === category ? 'white' : '#333',
+                                        border: '1px solid #dee2e6'
+                                    }}
+                                >
+                                    {category === 'all' ? '📦 Tous' :
+                                        category === 'electronics' ? '💻 Électronique' : '📚 Éducation'}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div style={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                        gap: '1rem',
+                        marginBottom: '1.5rem'
+                    }}>
+                        <div style={{ padding: '1rem', background: '#e8f4fc', borderRadius: '4px' }}>
+                            <h5>📊 Statistiques</h5>
+                            <p>Produits: {filteredProducts.length}</p>
+                            <p>Valeur totale: {totalValue} dt</p>
+                            <p>Prix moyen: {averagePrice.toFixed(2)} dt</p>
+                            <p>Note moyenne: {averageRating.toFixed(1)}/5</p>
+                        </div>
+                    </div>
+
+                    <div style={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
+                        gap: '1rem'
+                    }}>
+                        {filteredProducts.map(product => (
+                            <div
+                                key={product.id}
+                                style={{
+                                    border: '1px solid #dee2e6',
+                                    borderRadius: '8px',
+                                    padding: '1rem',
+                                    background: product.price > averagePrice ? '#fff3cd' : '#f8f9fa'
+                                }}
+                            >
+                                <h4 style={{ margin: '0 0 0.5rem 0' }}>{product.name}</h4>
+                                <p style={{ margin: '0.25rem 0' }}>
+                                    <strong>Prix:</strong> {product.price} dt
+                                </p>
+                                <p style={{ margin: '0.25rem 0' }}>
+                                    <strong>Catégorie:</strong> {product.category}
+                                </p>
+                                <p style={{ margin: '0.25rem 0' }}>
+                                    <strong>Note:</strong> {product.rating}/5
+                                </p>
+                                <p style={{
+                                    margin: '0.25rem 0',
+                                    color: product.price > averagePrice ? '#856404' : '#155724',
+                                    fontWeight: 'bold'
+                                }}>
+                                    {product.price > averagePrice ? '💎 Au-dessus' : '💰 En-dessous'} de la moyenne
+                                </p>
+                            </div>
+                        ))}
+                    </div>
+
+                    {filteredProducts.length === 0 && (
+                        <div style={{
+                            textAlign: 'center',
+                            padding: '2rem',
+                            color: '#6c757d',
+                            fontStyle: 'italic'
+                        }}>
+                            Aucun produit trouvé avec le filtre sélectionné
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        // Rendu des composants
+        ReactDOM.render(<JsxBasics />, document.getElementById('demo-jsx-basics'));
+        ReactDOM.render(<JavaScriptIntegration />, document.getElementById('demo-js-integration'));
+        ReactDOM.render(<DynamicAttributes />, document.getElementById('demo-dynamic-attributes'));
+        ReactDOM.render(<ComplexExpressions />, document.getElementById('demo-complex-expressions'));
+    </script>
+
+    <script>
+        // Fonction pour toggle les solutions
+        function toggleSolution(solutionId) {
+            const solution = document.getElementById(solutionId);
+            solution.style.display = solution.style.display === 'none' ? 'block' : 'none';
+        }
+    </script>
+</body>
+
+</html>

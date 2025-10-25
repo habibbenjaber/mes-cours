@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atelier React - Les États (State)</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #61dafb 0%, #21a1c4 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .theory-section,
+        .practice-section {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        h2 {
+            color: #21a1c4;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        h3 {
+            color: #333;
+            margin: 1.5rem 0 0.5rem 0;
+            background: linear-gradient(90deg, #61dafb, transparent);
+            padding: 0.5rem;
+            border-radius: 4px;
+        }
+
+        h4 {
+            color: #21a1c4;
+            margin: 1rem 0 0.5rem 0;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        ul,
+        ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        .code-block {
+            background-color: #282c34;
+            color: #abb2bf;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .keyword {
+            color: #c678dd;
+        }
+
+        .function {
+            color: #61afef;
+        }
+
+        .string {
+            color: #98c379;
+        }
+
+        .comment {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        .variable {
+            color: #e06c75;
+        }
+
+        .example-container {
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            padding: 1rem;
+            margin: 1rem 0;
+            background-color: #f9f9f9;
+        }
+
+        .exercise {
+            background-color: #e8f4fc;
+            border-left: 4px solid #21a1c4;
+            padding: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .exercise h4 {
+            color: #21a1c4;
+            margin-bottom: 0.5rem;
+        }
+
+        .important-note {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .comparison-item {
+            padding: 1rem;
+            border-radius: 5px;
+        }
+
+        .correct {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+        }
+
+        .incorrect {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+        }
+
+        button {
+            background-color: #61dafb;
+            color: #333;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #21a1c4;
+            color: white;
+        }
+
+        .demo-area {
+            margin-top: 1rem;
+            padding: 1rem;
+            border: 1px dashed #ccc;
+            border-radius: 5px;
+            min-height: 200px;
+        }
+
+        .counter {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .counter-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            min-width: 3rem;
+            text-align: center;
+        }
+
+        .todo-list {
+            margin-top: 1rem;
+        }
+
+        .todo-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .todo-item:last-child {
+            border-bottom: none;
+        }
+
+        .todo-item.completed span {
+            text-decoration: line-through;
+            color: #888;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .concept-card {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 1rem;
+        }
+
+        .concept-card h4 {
+            color: #21a1c4;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Atelier React - Les États (State)</h1>
+            <p class="subtitle">Comprendre et maîtriser la gestion d'état dans les composants React</p>
+        </header>
+
+        <div class="content">
+            <section class="theory-section">
+                <h2>Partie Théorique Détaillée</h2>
+
+                <h3>1. Qu'est-ce que l'état (state) en React ?</h3>
+                <p>L'état est un concept fondamental en React qui représente les données dynamiques d'un composant.
+                    Contrairement aux props qui sont immuables et passées de parent à enfant, l'état est :</p>
+                <ul>
+                    <li><strong>Local au composant</strong> : Géré et modifié à l'intérieur du composant</li>
+                    <li><strong>Mutable</strong> : Peut changer au cours du temps</li>
+                    <li><strong>Déclencheur de rendu</strong> : Toute modification entraîne un nouveau rendu du
+                        composant</li>
+                </ul>
+
+                <div class="concept-grid">
+                    <div class="concept-card">
+                        <h4>État (State)</h4>
+                        <ul>
+                            <li>Données internes au composant</li>
+                            <li>Peut être modifié</li>
+                            <li>Déclenche un re-rendu</li>
+                            <li>Géré avec useState</li>
+                        </ul>
+                    </div>
+                    <div class="concept-card">
+                        <h4>Props</h4>
+                        <ul>
+                            <li>Données passées au composant</li>
+                            <li>Immuables (read-only)</li>
+                            <li>Ne déclenche pas de re-rendu direct</li>
+                            <li>Passées comme attributs</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>2. Le Hook useState</h3>
+                <p><code>useState</code> est un hook React qui permet d'ajouter un état local aux composants
+                    fonctionnels.</p>
+
+                <div class="code-block">
+                    <span class="comment">// Importation du hook</span><br>
+                    <span class="keyword">import</span> React, { <span class="function">useState</span> } <span
+                        class="keyword">from</span> <span class="string">'react'</span>;<br><br>
+
+                    <span class="comment">// Syntaxe de base</span><br>
+                    <span class="keyword">const</span> [state, setState] = <span
+                        class="function">useState</span>(valeurInitiale);<br><br>
+
+                    <span class="comment">// Exemple concret</span><br>
+                    <span class="keyword">const</span> [count, setCount] = <span class="function">useState</span>(0);
+                </div>
+
+                <h4>Décomposition de useState :</h4>
+                <ul>
+                    <li><code class="variable">state</code> : Valeur actuelle de l'état</li>
+                    <li><code class="function">setState</code> : Fonction pour modifier l'état</li>
+                    <li><code>valeurInitiale</code> : Valeur par défaut au premier rendu</li>
+                </ul>
+
+                <h3>3. Règles fondamentales des hooks</h3>
+                <div class="important-note">
+                    <h4>⚠️ Règles importantes :</h4>
+                    <ul>
+                        <li><strong>N'appelez les hooks qu'au niveau racine</strong> - Pas dans des boucles, conditions
+                            ou fonctions imbriquées</li>
+                        <li><strong>Appelez les hooks uniquement dans des composants React</strong> - Ou des hooks
+                            personnalisés</li>
+                        <li><strong>Les noms des hooks commencent toujours par "use"</strong></li>
+                    </ul>
+                </div>
+
+                <h3>4. Mise à jour de l'état</h3>
+                <p>La mise à jour de l'état doit toujours se faire via la fonction setter, jamais par modification
+                    directe.</p>
+
+                <div class="comparison">
+                    <div class="comparison-item incorrect">
+                        <h4>❌ À éviter</h4>
+                        <div class="code-block">
+                            <span class="comment">// Modification directe - INTERDIT !</span><br>
+                            count = 5;<br>
+                            <span class="comment">// Ne déclenche pas de re-rendu</span><br>
+                            <span class="comment">// Corrompt le système de React</span>
+                        </div>
+                    </div>
+                    <div class="comparison-item correct">
+                        <h4>✅ Bonnes pratiques</h4>
+                        <div class="code-block">
+                            <span class="comment">// Mise à jour correcte</span><br>
+                            <span class="function">setCount</span>(5);<br>
+                            <span class="comment">// Déclenche un re-rendu</span><br>
+                            <span class="comment">// Respecte l'immutabilité</span>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>5. Mise à jour basée sur l'état précédent</h3>
+                <p>Quand la nouvelle valeur dépend de l'ancienne, utilisez la forme fonctionnelle.</p>
+
+                <div class="code-block">
+                    <span class="comment">// ❌ Problématique (mises à jour asynchrones)</span><br>
+                    <span class="function">setCount</span>(count + 1);<br>
+                    <span class="function">setCount</span>(count + 1); <span class="comment">// Peut ne pas fonctionner
+                        comme attendu</span><br><br>
+
+                    <span class="comment">// ✅ Solution recommandée</span><br>
+                    <span class="function">setCount</span>(prevCount =&gt; prevCount + 1);<br>
+                    <span class="function">setCount</span>(prevCount =&gt; prevCount + 1); <span class="comment">//
+                        Fonctionne correctement</span>
+                </div>
+
+                <h3>6. États avec objets et tableaux</h3>
+                <p>React compare les références, donc pour les objets et tableaux, créez toujours de nouvelles
+                    références.</p>
+
+                <div class="code-block">
+                    <span class="comment">// État avec un objet</span><br>
+                    <span class="keyword">const</span> [user, setUser] = <span class="function">useState</span>({<br>
+                    &nbsp;&nbsp;name: <span class="string">''</span>,<br>
+                    &nbsp;&nbsp;email: <span class="string">''</span>,<br>
+                    &nbsp;&nbsp;age: 0<br>
+                    });<br><br>
+
+                    <span class="comment">// Mise à jour correcte d'un champ</span><br>
+                    <span class="function">setUser</span>(prevUser =&gt; ({<br>
+                    &nbsp;&nbsp;...prevUser,<br>
+                    &nbsp;&nbsp;name: <span class="string">'Marie'</span><br>
+                    }));<br><br>
+
+                    <span class="comment">// État avec un tableau</span><br>
+                    <span class="keyword">const</span> [items, setItems] = <span
+                        class="function">useState</span>([]);<br><br>
+
+                    <span class="comment">// Ajout d'un élément</span><br>
+                    <span class="function">setItems</span>(prevItems =&gt; [...prevItems, newItem]);<br><br>
+
+                    <span class="comment">// Suppression d'un élément</span><br>
+                    <span class="function">setItems</span>(prevItems =&gt; prevItems.filter(item =&gt; item.id !==
+                    idToRemove));<br><br>
+
+                    <span class="comment">// Modification d'un élément</span><br>
+                    <span class="function">setItems</span>(prevItems =&gt; <br>
+                    &nbsp;&nbsp;prevItems.map(item =&gt; <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;item.id === id ? { ...item, completed: true } : item<br>
+                    &nbsp;&nbsp;)<br>
+                    );
+                </div>
+
+                <h3>7. Bonnes pratiques</h3>
+                <ul>
+                    <li><strong>Minimisez l'état</strong> : Ne stockez que ce qui est nécessaire</li>
+                    <li><strong>Évitez la duplication</strong> : Calculez les valeurs dérivées si possible</li>
+                    <li><strong>Regroupez les états liés</strong> : Utilisez un objet pour les données connexes</li>
+                    <li><strong>Lift state up</strong> : Remontez l'état au plus proche ancêtre commun quand nécessaire
+                    </li>
+                </ul>
+
+                <h3>8. Cycle de vie de l'état</h3>
+                <ol>
+                    <li><strong>Initialisation</strong> : useState(initialValue) définit la valeur initiale</li>
+                    <li><strong>Lecture</strong> : Utilisez la variable state pendant le rendu</li>
+                    <li><strong>Mise à jour</strong> : Appelez setState pour modifier l'état</li>
+                    <li><strong>Re-rendu</strong> : React recalcule le composant avec la nouvelle valeur</li>
+                </ol>
+            </section>
+
+            <section class="practice-section">
+                <h2>Partie Pratique</h2>
+
+                <h3>Exemple 1: Compteur simple</h3>
+                <p>Un compteur basique qui utilise useState pour gérer un nombre.</p>
+
+                <div id="counter-example" class="demo-area">
+                    <!-- Le composant React sera rendu ici -->
+                </div>
+
+                <div class="exercise">
+                    <h4>Exercice 1: Compteur amélioré</h4>
+                    <p>Ajoutez un bouton "Réinitialiser" qui remet le compteur à 0.</p>
+                    <div id="counter-exercise" class="demo-area">
+                        <!-- Le composant React sera rendu ici -->
+                    </div>
+                </div>
+
+                <h3>Exemple 2: Liste de tâches</h3>
+                <p>Une application de liste de tâches qui utilise useState avec un tableau.</p>
+
+                <div id="todo-example" class="demo-area">
+                    <!-- Le composant React sera rendu ici -->
+                </div>
+
+                <div class="exercise">
+                    <h4>Exercice 2: Liste de tâches améliorée</h4>
+                    <p>Ajoutez la possibilité de marquer une tâche comme terminée et de filtrer les tâches (toutes,
+                        actives, terminées).</p>
+                    <div id="todo-exercise" class="demo-area">
+                        <!-- Le composant React sera rendu ici -->
+                    </div>
+                </div>
+
+                <h3>Exemple 3: Gestion d'état complexe</h3>
+                <p>Un exemple combinant plusieurs états et montrant les bonnes pratiques.</p>
+
+                <div id="complex-example" class="demo-area">
+                    <!-- Le composant React sera rendu ici -->
+                </div>
+            </section>
+        </div>
+
+        <footer>
+            <p>Atelier React - Les États (State) | Conçu pour l'enseignement</p>
+        </footer>
+    </div>
+
+    <script type="text/babel">
+        // Exemple 1: Compteur simple
+        function CounterExample() {
+            const [count, setCount] = React.useState(0);
+
+            return (
+                <div>
+                    <p><strong>Valeur actuelle : {count}</strong></p>
+                    <div className="counter">
+                        <button onClick={() => setCount(count - 1)}>-</button>
+                        <div className="counter-value">{count}</div>
+                        <button onClick={() => setCount(count + 1)}>+</button>
+                    </div>
+                    <p>Essayez de cliquer plusieurs fois rapidement sur "+"</p>
+                </div>
+            );
+        }
+
+        // Exercice 1: Compteur amélioré
+        function CounterExercise() {
+            const [count, setCount] = React.useState(0);
+
+            const increment = () => setCount(prev => prev + 1);
+            const decrement = () => setCount(prev => prev - 1);
+            const reset = () => setCount(0);
+
+            return (
+                <div>
+                    <p><strong>Valeur actuelle : {count}</strong></p>
+                    <div className="counter">
+                        <button onClick={decrement}>-</button>
+                        <div className="counter-value">{count}</div>
+                        <button onClick={increment}>+</button>
+                    </div>
+                    <div style={{ marginTop: '1rem' }}>
+                        <button onClick={reset} style={{ marginRight: '0.5rem' }}>
+                            Réinitialiser
+                        </button>
+                        <button onClick={() => setCount(prev => prev + 5)}>
+                            +5
+                        </button>
+                    </div>
+                </div>
+            );
+        }
+
+        // Exemple 2: Liste de tâches
+        function TodoExample() {
+            const [todos, setTodos] = React.useState([]);
+            const [inputValue, setInputValue] = React.useState('');
+
+            const addTodo = () => {
+                if (inputValue.trim() !== '') {
+                    setTodos(prevTodos => [
+                        ...prevTodos,
+                        {
+                            id: Date.now(),
+                            text: inputValue,
+                            completed: false
+                        }
+                    ]);
+                    setInputValue('');
+                }
+            };
+
+            const removeTodo = (id) => {
+                setTodos(prevTodos => prevTodos.filter(todo => todo.id !== id));
+            };
+
+            return (
+                <div>
+                    <div className="input-group">
+                        <input
+                            type="text"
+                            value={inputValue}
+                            onChange={(e) => setInputValue(e.target.value)}
+                            placeholder="Nouvelle tâche..."
+                            onKeyPress={(e) => e.key === 'Enter' && addTodo()}
+                        />
+                        <button onClick={addTodo}>Ajouter</button>
+                    </div>
+
+                    <div className="todo-list">
+                        {todos.length === 0 ? (
+                            <p>Aucune tâche pour le moment</p>
+                        ) : (
+                            todos.map(todo => (
+                                <div key={todo.id} className="todo-item">
+                                    <span>{todo.text}</span>
+                                    <button onClick={() => removeTodo(todo.id)}>Supprimer</button>
+                                </div>
+                            ))
+                        )}
+                    </div>
+                </div>
+            );
+        }
+
+        // Exercice 2: Liste de tâches améliorée
+        function TodoExercise() {
+            const [todos, setTodos] = React.useState([]);
+            const [inputValue, setInputValue] = React.useState('');
+            const [filter, setFilter] = React.useState('all');
+
+            const addTodo = () => {
+                if (inputValue.trim() !== '') {
+                    setTodos(prevTodos => [
+                        ...prevTodos,
+                        {
+                            id: Date.now(),
+                            text: inputValue,
+                            completed: false
+                        }
+                    ]);
+                    setInputValue('');
+                }
+            };
+
+            const removeTodo = (id) => {
+                setTodos(prevTodos => prevTodos.filter(todo => todo.id !== id));
+            };
+
+            const toggleTodo = (id) => {
+                setTodos(prevTodos =>
+                    prevTodos.map(todo =>
+                        todo.id === id ? { ...todo, completed: !todo.completed } : todo
+                    )
+                );
+            };
+
+            const filteredTodos = todos.filter(todo => {
+                if (filter === 'active') return !todo.completed;
+                if (filter === 'completed') return todo.completed;
+                return true;
+            });
+
+            return (
+                <div>
+                    <div className="input-group">
+                        <input
+                            type="text"
+                            value={inputValue}
+                            onChange={(e) => setInputValue(e.target.value)}
+                            placeholder="Nouvelle tâche..."
+                            onKeyPress={(e) => e.key === 'Enter' && addTodo()}
+                        />
+                        <button onClick={addTodo}>Ajouter</button>
+                    </div>
+
+                    <div style={{ marginBottom: '1rem' }}>
+                        <strong>Filtres : </strong>
+                        <button
+                            onClick={() => setFilter('all')}
+                            style={{
+                                margin: '0 0.5rem',
+                                backgroundColor: filter === 'all' ? '#21a1c4' : '#61dafb'
+                            }}
+                        >
+                            Toutes ({todos.length})
+                        </button>
+                        <button
+                            onClick={() => setFilter('active')}
+                            style={{
+                                margin: '0 0.5rem',
+                                backgroundColor: filter === 'active' ? '#21a1c4' : '#61dafb'
+                            }}
+                        >
+                            Actives ({todos.filter(t => !t.completed).length})
+                        </button>
+                        <button
+                            onClick={() => setFilter('completed')}
+                            style={{
+                                margin: '0 0.5rem',
+                                backgroundColor: filter === 'completed' ? '#21a1c4' : '#61dafb'
+                            }}
+                        >
+                            Terminées ({todos.filter(t => t.completed).length})
+                        </button>
+                    </div>
+
+                    <div className="todo-list">
+                        {filteredTodos.length === 0 ? (
+                            <p>Aucune tâche {filter !== 'all' ? filter : ''}</p>
+                        ) : (
+                            filteredTodos.map(todo => (
+                                <div key={todo.id} className={`todo-item ${todo.completed ? 'completed' : ''}`}>
+                                    <span
+                                        onClick={() => toggleTodo(todo.id)}
+                                        style={{ cursor: 'pointer', flex: 1 }}
+                                    >
+                                        {todo.text}
+                                    </span>
+                                    <button onClick={() => removeTodo(todo.id)}>Supprimer</button>
+                                </div>
+                            ))
+                        )}
+                    </div>
+                </div>
+            );
+        }
+
+        // Exemple 3: Gestion d'état complexe
+        function ComplexExample() {
+            const [user, setUser] = React.useState({
+                name: '',
+                age: '',
+                preferences: {
+                    theme: 'light',
+                    notifications: true
+                }
+            });
+
+            const [users, setUsers] = React.useState([]);
+
+            const handleInputChange = (field, value) => {
+                setUser(prev => ({
+                    ...prev,
+                    [field]: value
+                }));
+            };
+
+            const handlePreferenceChange = (preference, value) => {
+                setUser(prev => ({
+                    ...prev,
+                    preferences: {
+                        ...prev.preferences,
+                        [preference]: value
+                    }
+                }));
+            };
+
+            const addUser = () => {
+                if (user.name && user.age) {
+                    setUsers(prev => [...prev, { ...user, id: Date.now() }]);
+                    setUser({
+                        name: '',
+                        age: '',
+                        preferences: {
+                            theme: 'light',
+                            notifications: true
+                        }
+                    });
+                }
+            };
+
+            return (
+                <div>
+                    <h4>Gestion d'utilisateur</h4>
+
+                    <div style={{ marginBottom: '1rem' }}>
+                        <input
+                            type="text"
+                            placeholder="Nom"
+                            value={user.name}
+                            onChange={(e) => handleInputChange('name', e.target.value)}
+                            style={{ marginRight: '0.5rem', padding: '0.5rem' }}
+                        />
+                        <input
+                            type="number"
+                            placeholder="Âge"
+                            value={user.age}
+                            onChange={(e) => handleInputChange('age', e.target.value)}
+                            style={{ marginRight: '0.5rem', padding: '0.5rem' }}
+                        />
+                    </div>
+
+                    <div style={{ marginBottom: '1rem' }}>
+                        <label>
+                            Thème :
+                            <select
+                                value={user.preferences.theme}
+                                onChange={(e) => handlePreferenceChange('theme', e.target.value)}
+                                style={{ marginLeft: '0.5rem', padding: '0.5rem' }}
+                            >
+                                <option value="light">Clair</option>
+                                <option value="dark">Sombre</option>
+                            </select>
+                        </label>
+
+                        <label style={{ marginLeft: '1rem' }}>
+                            Notifications :
+                            <input
+                                type="checkbox"
+                                checked={user.preferences.notifications}
+                                onChange={(e) => handlePreferenceChange('notifications', e.target.checked)}
+                                style={{ marginLeft: '0.5rem' }}
+                            />
+                        </label>
+                    </div>
+
+                    <button onClick={addUser}>Ajouter l'utilisateur</button>
+
+                    <div style={{ marginTop: '1rem' }}>
+                        <h5>Utilisateurs ajoutés :</h5>
+                        {users.length === 0 ? (
+                            <p>Aucun utilisateur</p>
+                        ) : (
+                            <ul>
+                                {users.map(u => (
+                                    <li key={u.id}>
+                                        {u.name} ({u.age} ans) - Thème: {u.preferences.theme},
+                                        Notifications: {u.preferences.notifications ? 'activées' : 'désactivées'}
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </div>
+                </div>
+            );
+        }
+
+        // Rendu des composants
+        ReactDOM.render(<CounterExample />, document.getElementById('counter-example'));
+        ReactDOM.render(<CounterExercise />, document.getElementById('counter-exercise'));
+        ReactDOM.render(<TodoExample />, document.getElementById('todo-example'));
+        ReactDOM.render(<TodoExercise />, document.getElementById('todo-exercise'));
+        ReactDOM.render(<ComplexExample />, document.getElementById('complex-example'));
+    </script>
+</body>
+
+</html>

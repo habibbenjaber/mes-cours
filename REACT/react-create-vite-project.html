@@ -1,0 +1,1544 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atelier React - Vite et Composants</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Styles pour l'en-tête */
+        header {
+            background: linear-gradient(135deg, #61dafb 0%, #21a1c4 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .author-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            flex: 0 0 auto;
+        }
+
+        .author-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            object-fit: cover;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .author-photo:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .author-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .author-title {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .title-section {
+            flex: 1;
+            text-align: center;
+            max-width: 500px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        /* Styles pour la section institution */
+        .institution-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            flex: 0 0 auto;
+        }
+
+        .institution-logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .institution-logo:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .institution-img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            border-radius: 50%;
+            padding: 8px;
+        }
+
+        .institution-info {
+            text-align: center;
+        }
+
+        .institution-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .institution-department {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 1.5rem;
+            }
+
+            .title-section {
+                text-align: center;
+                order: -1;
+            }
+
+            .author-section,
+            .institution-section {
+                flex-direction: row;
+                gap: 1rem;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .author-photo,
+            .institution-logo {
+                width: 100px;
+                height: 100px;
+                margin-bottom: 0;
+            }
+
+            .institution-img {
+                width: 80px;
+                height: 80px;
+            }
+
+            .author-info,
+            .institution-info {
+                text-align: left;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-content {
+                padding: 0 1rem;
+            }
+
+            .author-section,
+            .institution-section {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .author-info,
+            .institution-info {
+                text-align: center;
+            }
+
+            .author-photo,
+            .institution-logo {
+                width: 90px;
+                height: 90px;
+            }
+
+            .institution-img {
+                width: 70px;
+                height: 70px;
+            }
+
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .theory-section,
+        .practice-section {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        h2 {
+            color: #21a1c4;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        h3 {
+            color: #333;
+            margin: 1.5rem 0 0.5rem 0;
+            background: linear-gradient(90deg, #61dafb, transparent);
+            padding: 0.5rem;
+            border-radius: 4px;
+        }
+
+        h4 {
+            color: #21a1c4;
+            margin: 1rem 0 0.5rem 0;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        ul,
+        ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        .code-block {
+            background-color: #282c34;
+            color: #abb2bf;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .keyword {
+            color: #c678dd;
+        }
+
+        .function {
+            color: #61afef;
+        }
+
+        .string {
+            color: #98c379;
+        }
+
+        .comment {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        .variable {
+            color: #e06c75;
+        }
+
+        .prop {
+            color: #d19a66;
+        }
+
+        .example-container {
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            padding: 1rem;
+            margin: 1rem 0;
+            background-color: #f9f9f9;
+        }
+
+        .exercise {
+            background-color: #e8f4fc;
+            border-left: 4px solid #21a1c4;
+            padding: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .exercise h4 {
+            color: #21a1c4;
+            margin-bottom: 0.5rem;
+        }
+
+        .important-note {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .warning-note {
+            background-color: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .success-note {
+            background-color: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .comparison-item {
+            padding: 1rem;
+            border-radius: 5px;
+        }
+
+        .correct {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+        }
+
+        .incorrect {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+        }
+
+        button {
+            background-color: #61dafb;
+            color: #333;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            margin: 0.25rem;
+        }
+
+        button:hover {
+            background-color: #21a1c4;
+            color: white;
+        }
+
+        .demo-area {
+            margin-top: 1rem;
+            padding: 1rem;
+            border: 1px dashed #ccc;
+            border-radius: 5px;
+            min-height: 200px;
+        }
+
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .concept-card {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 1rem;
+        }
+
+        .concept-card h4 {
+            color: #21a1c4;
+            margin-bottom: 0.5rem;
+        }
+
+        .code-example {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 0.5rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            border-left: 3px solid #21a1c4;
+        }
+
+        .method-explanation {
+            background: #e8f4fc;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid #61dafb;
+        }
+
+        .method-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .method-icon {
+            font-size: 1.5rem;
+        }
+
+        .use-case {
+            background: #f8f9fa;
+            padding: 0.75rem;
+            border-radius: 4px;
+            margin: 0.5rem 0;
+            border-left: 3px solid #28a745;
+        }
+
+        .technical-detail {
+            background: #fff3cd;
+            padding: 0.75rem;
+            border-radius: 4px;
+            margin: 0.5rem 0;
+            font-size: 0.9rem;
+        }
+
+        .interactive-demo {
+            background: #e8f4fc;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border: 2px solid #61dafb;
+        }
+
+        .demo-instructions {
+            background: #d4edda;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+            border-left: 4px solid #28a745;
+        }
+
+        .challenge-box {
+            background: #fff3cd;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border: 2px solid #ffc107;
+        }
+
+        .solution-toggle {
+            background: #17a2b8;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 0.5rem 0;
+        }
+
+        .jsx-element {
+            border: 2px solid #61dafb;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            background: #f8f9fa;
+        }
+
+        .syntax-highlight {
+            color: #e06c75;
+            font-weight: bold;
+        }
+
+        .live-preview {
+            background: #2c3e50;
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .transformation {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .transformation-item {
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .feature-item {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #61dafb;
+        }
+
+        .command-box {
+            background: #2c3e50;
+            color: white;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .file-structure {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .file-relation {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .file-card {
+            background: white;
+            border: 2px solid #61dafb;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .file-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #21a1c4;
+        }
+
+        .file-name {
+            font-weight: bold;
+            color: #21a1c4;
+            margin-bottom: 0.5rem;
+        }
+
+        .file-description {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .import-export-demo {
+            background: #e8f4fc;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        /* Styles pour le pied de page */
+        footer {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 2rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-text {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: white;
+            transition: transform 0.3s ease;
+        }
+
+        .social-link:hover {
+            transform: translateY(-5px);
+        }
+
+        .social-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-link:hover .social-icon {
+            color: #61dafb;
+        }
+
+        .social-name {
+            font-size: 0.9rem;
+        }
+
+        .contact-info {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .contact-email {
+            color: #61dafb;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .contact-email:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- L'en-tête sera généré par showHeader() -->
+        <div id="header-container"></div>
+
+        <div class="content">
+            <section class="theory-section">
+                <h2>🚀 Introduction à React avec Vite</h2>
+
+                <!-- Qu'est-ce que Vite -->
+                <div class="method-explanation">
+                    <div class="method-header">
+                        <div class="method-icon">⚡</div>
+                        <h3>1. Qu'est-ce que Vite ?</h3>
+                    </div>
+
+                    <p><strong>Vite</strong> (qui signifie "rapide" en français) est un outil de build moderne qui offre
+                        une expérience de développement extrêmement rapide pour les projets web.</p>
+
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <h4>Serveur de développement rapide</h4>
+                            <p>fournit de riches améliorations de fonctionnalités par rapport aux modules ES natifs</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>HMR Ultra-Rapide</h4>
+                            <p>Hot Module Replacement qui met à jour les modules sans recharger la page</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Build Optimisé</h4>
+                            <p>qui regroupe votre code avec Rollup , préconfiguré pour générer des ressources statiques
+                                hautement optimisées pour la production.</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>Riches de Fonctionnalités</h4>
+                            <p>Support TypeScript, JSX, CSS et plus encore</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Création d'un projet Vite -->
+                <div class="method-explanation">
+                    <div class="method-header">
+                        <div class="method-icon">🛠️</div>
+                        <h3>4. Création d'un Projet React avec Vite</h3>
+                    </div>
+
+                    <h4>Installation et démarrage</h4>
+                    <div class="command-box">
+                        npm create vite@latest mon-projet-react -- --template react<br>
+                        cd mon-projet-react<br>
+                        npm install<br>
+                        npm run dev
+                    </div>
+
+                    <h4>Structure du projet</h4>
+                    <div class="file-structure">
+                        mon-projet-react/<br>
+                        ├── public/<br>
+                        │ └── vite.svg<br>
+                        ├── src/<br>
+                        │ ├── components/<br>
+                        │ ├── App.jsx<br>
+                        │ ├── main.jsx<br>
+                        │ └── index.css<br>
+                        ├── index.html<br>
+                        ├── package.json<br>
+                        └── vite.config.js
+                    </div>
+
+                    <div class="important-note">
+                        <h4>💡 Points Importants</h4>
+                        <p>Vite utilise des extensions <code>.jsx</code> pour les fichiers React et configure
+                            automatiquement tout ce dont vous avez besoin pour développer avec React.</p>
+                    </div>
+                </div>
+                <!-- Structure Vite - Relation entre fichiers -->
+                <div class="method-explanation">
+                    <div class="method-header">
+                        <div class="method-icon">📁</div>
+                        <h3>3. Structure d'un Projet Vite - Relation entre Fichiers</h3>
+                    </div>
+
+                    <p>Dans un projet React avec Vite, trois fichiers principaux travaillent ensemble pour afficher
+                        votre application :</p>
+
+                    <div class="file-relation">
+                        <div class="file-card">
+                            <div class="file-icon">📄</div>
+                            <div class="file-name">index.html</div>
+                            <div class="file-description">
+                                Point d'entrée principal de l'application<br>
+                                Contient la div racine où React sera rendu
+                            </div>
+                        </div>
+                        <div class="file-card">
+                            <div class="file-icon">⚛️</div>
+                            <div class="file-name">main.jsx</div>
+                            <div class="file-description">
+                                Point d'entrée JavaScript<br>
+                                Monte l'application React dans le DOM
+                            </div>
+                        </div>
+                        <div class="file-card">
+                            <div class="file-icon">🧩</div>
+                            <div class="file-name">App.jsx</div>
+                            <div class="file-description">
+                                Composant racine de l'application<br>
+                                Contient la structure principale de l'UI
+                            </div>
+                        </div>
+                    </div>
+
+                    <h4>Relation entre les fichiers :</h4>
+                    <div class="file-structure">
+                        <strong>index.html</strong> → importe <strong>main.jsx</strong><br>
+                        <strong>main.jsx</strong> → importe et rend <strong>App.jsx</strong><br>
+                        <strong>App.jsx</strong> → importe d'autres composants
+                    </div>
+
+                    <h4>Contenu de index.html :</h4>
+                    <div class="code-block">
+                        &lt;!DOCTYPE html&gt;<br>
+                        &lt;html lang="fr"&gt;<br>
+                        &lt;head&gt;<br>
+                        &nbsp;&nbsp;&lt;meta charset="UTF-8" /&gt;<br>
+                        &nbsp;&nbsp;&lt;title&gt;Mon App React&lt;/title&gt;<br>
+                        &lt;/head&gt;<br>
+                        &lt;body&gt;<br>
+                        &nbsp;&nbsp;<span class="comment">&lt;!-- Point de montage pour React --&gt;</span><br>
+                        &nbsp;&nbsp;&lt;div id="root"&gt;&lt;/div&gt;<br>
+                        &nbsp;&nbsp;<span class="comment">&lt;!-- Vite injecte main.jsx ici --&gt;</span><br>
+                        &nbsp;&nbsp;&lt;script type="module" src="/src/main.jsx"&gt;&lt;/script&gt;<br>
+                        &lt;/body&gt;<br>
+                        &lt;/html&gt;
+                    </div>
+
+                    <h4>Contenu de main.jsx :</h4>
+                    <div class="code-block">
+                        <span class="keyword">import</span> React <span class="keyword">from</span> <span
+                            class="string">'react'</span><br>
+                        <span class="keyword">import</span> ReactDOM <span class="keyword">from</span> <span
+                            class="string">'react-dom/client'</span><br>
+                        <span class="keyword">import</span> App <span class="keyword">from</span> <span
+                            class="string">'./App.jsx'</span><br>
+                        <span class="keyword">import</span> <span class="string">'./index.css'</span><br>
+                        <br>
+                        ReactDOM.createRoot(document.getElementById(<span class="string">'root'</span>)).render(<br>
+                        &nbsp;&nbsp;&lt;React.StrictMode&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;App /&gt;<br>
+                        &nbsp;&nbsp;&lt;/React.StrictMode&gt;,<br>
+                        )
+                    </div>
+
+                    <h4>Contenu de App.jsx :</h4>
+                    <div class="code-block">
+                        <span class="keyword">import</span> Header <span class="keyword">from</span> <span
+                            class="string">'./components/Header.jsx'</span><br>
+                        <span class="keyword">import</span> Main <span class="keyword">from</span> <span
+                            class="string">'./components/Main.jsx'</span><br>
+                        <span class="keyword">import</span> Footer <span class="keyword">from</span> <span
+                            class="string">'./components/Footer.jsx'</span><br>
+                        <br>
+                        <span class="keyword">function</span> <span class="function">App</span>() {<br>
+                        &nbsp;&nbsp;<span class="keyword">return</span> (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div className="app"&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Header /&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Main /&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Footer /&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                        &nbsp;&nbsp;)<br>
+                        }<br>
+                        <br>
+                        <span class="keyword">export</span> <span class="keyword">default</span> App;
+                    </div>
+                </div>
+
+                <!-- Import/Export des composants -->
+                <div class="method-explanation">
+                    <div class="method-header">
+                        <div class="method-icon">🔄</div>
+                        <h3>4. Import et Export des Composants</h3>
+                    </div>
+
+                    <p>Pour utiliser un composant dans un autre composant, vous devez l'exporter depuis son fichier et
+                        l'importer dans le fichier où vous souhaitez l'utiliser.</p>
+
+                    <div class="import-export-demo">
+                        <h4>📤 Exporter un composant :</h4>
+                        <div class="code-block">
+                            <span class="comment">// Dans Header.jsx</span><br>
+                            <span class="keyword">function</span> <span class="function">Header</span>() {<br>
+                            &nbsp;&nbsp;<span class="keyword">return</span> &lt;header&gt;&lt;h1&gt;Mon
+                            Site&lt;/h1&gt;&lt;/header&gt;<br>
+                            }<br>
+                            <br>
+                            <span class="comment">// Export par défaut</span><br>
+                            <span class="keyword">export</span> <span class="keyword">default</span> Header;<br>
+                            <br>
+                            <span class="comment">// Ou export nommé</span><br>
+                            <span class="keyword">export</span> { Header };
+                        </div>
+
+                        <h4>📥 Importer un composant :</h4>
+                        <div class="code-block">
+                            <span class="comment">// Dans App.jsx</span><br>
+                            <span class="comment">// Import par défaut</span><br>
+                            <span class="keyword">import</span> Header <span class="keyword">from</span> <span
+                                class="string">'./components/Header.jsx'</span>;<br>
+                            <br>
+                            <span class="comment">// Import nommé</span><br>
+                            <span class="keyword">import</span> { Header } <span class="keyword">from</span> <span
+                                class="string">'./components/Header.jsx'</span>;<br>
+                            <br>
+                            <span class="keyword">function</span> <span class="function">App</span>() {<br>
+                            &nbsp;&nbsp;<span class="keyword">return</span> (<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">&lt;!-- Utilisation du composant
+                                importé --&gt;</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Header /&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                            &nbsp;&nbsp;)<br>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="success-note">
+                        <h4>✅ Bonne Pratique</h4>
+                        <p>Utilisez l'export par défaut pour les composants principaux et l'export nommé pour les
+                            composants utilitaires ou les exports multiples depuis un même fichier.</p>
+                    </div>
+                </div>
+
+
+
+                <!-- Introduction aux composants -->
+                <div class="method-explanation">
+                    <div class="method-header">
+                        <div class="method-icon">🧩</div>
+                        <h3>5. Les Composants React - Les Bases</h3>
+                    </div>
+
+                    <p>Un <strong>composant React</strong> est une fonction JavaScript qui retourne du JSX (JavaScript
+                        XML) pour décrire ce qui doit être affiché à l'écran.</p>
+
+                    <h4>Composant Fonctionnel Simple</h4>
+                    <div class="code-block">
+                        <span class="keyword">function</span> <span class="function">Bienvenue</span>() {<br>
+                        &nbsp;&nbsp;<span class="keyword">return</span> (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;Bonjour le monde !&lt;/h1&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Ceci est mon premier composant React.&lt;/p&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                        &nbsp;&nbsp;);<br>
+                        }
+                    </div>
+
+                    <h4>Composant avec Syntaxe Arrow Function</h4>
+                    <div class="code-block">
+                        <span class="keyword">const</span> <span class="function">Titre</span> = () =&gt; {<br>
+                        &nbsp;&nbsp;<span class="keyword">return</span> &lt;h2&gt;Mon Application React&lt;/h2&gt;;<br>
+                        };
+                    </div>
+
+                    <div class="concept-grid">
+                        <div class="concept-card">
+                            <h4>🧱 Bâtir avec des Composants</h4>
+                            <p>Les applications React sont construites en assemblant des composants réutilisables, comme
+                                des blocs de construction.</p>
+                        </div>
+                        <div class="concept-card">
+                            <h4>🎯 Un Rôle Unique</h4>
+                            <p>Chaque composant a une responsabilité spécifique dans l'interface utilisateur.</p>
+                        </div>
+                        <div class="concept-card">
+                            <h4>♻️ Réutilisabilité</h4>
+                            <p>Un même composant peut être utilisé plusieurs fois dans différentes parties de
+                                l'application.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Composition de composants -->
+                <div class="method-explanation">
+                    <div class="method-header">
+                        <div class="method-icon">🔗</div>
+                        <h3>6. Composition de Composants</h3>
+                    </div>
+
+                    <p>Les composants peuvent utiliser d'autres composants pour créer des interfaces complexes.</p>
+
+                    <h4>Exemple de Composition avec Import/Export</h4>
+                    <div class="code-block">
+                        <span class="comment">// Composant En-tête (Header.jsx)</span><br>
+                        <span class="keyword">function</span> <span class="function">Header</span>() {<br>
+                        &nbsp;&nbsp;<span class="keyword">return</span> &lt;header&gt;&lt;h1&gt;Mon
+                        Site&lt;/h1&gt;&lt;/header&gt;;<br>
+                        }<br>
+                        <span class="keyword">export</span> <span class="keyword">default</span> Header;<br>
+                        <br>
+                        <span class="comment">// Composant Principal (Main.jsx)</span><br>
+                        <span class="keyword">function</span> <span class="function">Main</span>() {<br>
+                        &nbsp;&nbsp;<span class="keyword">return</span> (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;main&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Contenu principal de l'application&lt;/p&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/main&gt;<br>
+                        &nbsp;&nbsp;);<br>
+                        }<br>
+                        <span class="keyword">export</span> <span class="keyword">default</span> Main;<br>
+                        <br>
+                        <span class="comment">// Composant Application (App.jsx)</span><br>
+                        <span class="keyword">import</span> Header <span class="keyword">from</span> <span
+                            class="string">'./Header.jsx'</span>;<br>
+                        <span class="keyword">import</span> Main <span class="keyword">from</span> <span
+                            class="string">'./Main.jsx'</span>;<br>
+                        <br>
+                        <span class="keyword">function</span> <span class="function">App</span>() {<br>
+                        &nbsp;&nbsp;<span class="keyword">return</span> (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Header /&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Main /&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                        &nbsp;&nbsp;);<br>
+                        }<br>
+                        <span class="keyword">export</span> <span class="keyword">default</span> App;
+                    </div>
+
+                    <div class="success-note">
+                        <h4>✅ Bonne Pratique</h4>
+                        <p>Divisez votre interface en petits composants réutilisables. Chaque composant devrait avoir
+                            une responsabilité unique et claire.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="practice-section">
+                <h2>🔬 Partie Pratique - Création de Composants</h2>
+
+                <!-- Démonstration 1 : Premier composant -->
+                <div class="interactive-demo">
+                    <div class="method-header">
+                        <div class="method-icon">🎯</div>
+                        <h3>Démonstration 1 : Premier Composant</h3>
+                    </div>
+
+                    <div class="demo-instructions">
+                        <h4>Objectif Pédagogique</h4>
+                        <p>Comprendre la structure de base d'un composant React et comment le rendre dans le DOM.</p>
+                    </div>
+
+                    <div id="demo-first-component" class="demo-area">
+                        <!-- Composant React sera rendu ici -->
+                    </div>
+
+                    <div class="code-example">
+                        // Fichier: src/App.jsx<br>
+                        function App() {<br>
+                        &nbsp;&nbsp;return (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div className="app"&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;Ma Première Application React&lt;/h1&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Félicitations ! Vous avez créé votre premier
+                        composant.&lt;/p&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                        &nbsp;&nbsp;);<br>
+                        }<br>
+                        <br>
+                        export default App;
+                    </div>
+                </div>
+
+                <!-- Démonstration 2 : Import/Export -->
+                <div class="interactive-demo">
+                    <div class="method-header">
+                        <div class="method-icon">🔄</div>
+                        <h3>Démonstration 2 : Import et Export de Composants</h3>
+                    </div>
+
+                    <div class="demo-instructions">
+                        <h4>Objectif Pédagogique</h4>
+                        <p>Apprendre à organiser les composants dans différents fichiers et les importer correctement.
+                        </p>
+                    </div>
+
+                    <div id="demo-import-export" class="demo-area">
+                        <!-- Composant React sera rendu ici -->
+                    </div>
+
+                    <div class="code-example">
+                        // Fichier: src/components/Button.jsx<br>
+                        function Button({ children }) {<br>
+                        &nbsp;&nbsp;return &lt;button className="btn"&gt;{children}&lt;/button&gt;;<br>
+                        }<br>
+                        export default Button;<br>
+                        <br>
+                        // Fichier: src/App.jsx<br>
+                        import Button from './components/Button.jsx';<br>
+                        <br>
+                        function App() {<br>
+                        &nbsp;&nbsp;return (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Button&gt;Cliquez-moi&lt;/Button&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Button&gt;Un autre bouton&lt;/Button&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                        &nbsp;&nbsp;);<br>
+                        }
+                    </div>
+                </div>
+
+                <!-- Démonstration 3 : Composition -->
+                <div class="interactive-demo">
+                    <div class="method-header">
+                        <div class="method-icon">🧩</div>
+                        <h3>Démonstration 3 : Composition de Composants</h3>
+                    </div>
+
+                    <div class="demo-instructions">
+                        <h4>Objectif Pédagogique</h4>
+                        <p>Apprendre à créer plusieurs composants et les assembler pour former une interface complète.
+                        </p>
+                    </div>
+
+                    <div id="demo-composition" class="demo-area">
+                        <!-- Composant React sera rendu ici -->
+                    </div>
+
+                    <div class="code-example">
+                        // Composant Carte<br>
+                        function Card({ title, content }) {<br>
+                        &nbsp;&nbsp;return (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div className="card"&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h3&gt;{title}&lt;/h3&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;{content}&lt;/p&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                        &nbsp;&nbsp;);<br>
+                        }<br>
+                        <br>
+                        // Composant principal qui utilise Card<br>
+                        function App() {<br>
+                        &nbsp;&nbsp;return (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Card title="React" content="Bibliothèque JavaScript"
+                        /&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Card title="Vite" content="Outil de build rapide"
+                        /&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                        &nbsp;&nbsp;);<br>
+                        }
+                    </div>
+                </div>
+
+                <!-- Démonstration 4 : Liste de composants -->
+                <div class="interactive-demo">
+                    <div class="method-header">
+                        <div class="method-icon">📋</div>
+                        <h3>Démonstration 4 : Listes de Composants</h3>
+                    </div>
+
+                    <div class="demo-instructions">
+                        <h4>Objectif Pédagogique</h4>
+                        <p>Comprendre comment afficher des listes de composants de manière dynamique.</p>
+                    </div>
+
+                    <div id="demo-list-components" class="demo-area">
+                        <!-- Composant React sera rendu ici -->
+                    </div>
+
+                    <div class="code-example">
+                        function TodoList() {<br>
+                        &nbsp;&nbsp;const todos = [<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;"Apprendre React",<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;"Créer un projet avec Vite",<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;"Comprendre les composants"<br>
+                        &nbsp;&nbsp;];<br>
+                        <br>
+                        &nbsp;&nbsp;return (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h3&gt;Ma Liste de Tâches&lt;/h3&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;ul&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{todos.map((todo, index) =&gt; (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li
+                        key={index}&gt;{todo}&lt;/li&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;))}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/ul&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                        &nbsp;&nbsp;);<br>
+                        }
+                    </div>
+                </div>
+
+                <!-- Exercice Final -->
+                <div class="challenge-box">
+                    <h4>🎓 Exercice Final - Application avec Import/Export</h4>
+                    <p><strong>Scénario :</strong> Créez une application avec plusieurs composants organisés dans
+                        différents fichiers.</p>
+                    <p><strong>Structure à créer :</strong></p>
+                    <ul>
+                        <li><code>Header.jsx</code> - En-tête de l'application</li>
+                        <li><code>Navigation.jsx</code> - Barre de navigation</li>
+                        <li><code>MainContent.jsx</code> - Contenu principal</li>
+                        <li><code>Footer.jsx</code> - Pied de page</li>
+                        <li><code>App.jsx</code> - Composant principal qui importe tous les autres</li>
+                    </ul>
+                    <button class="solution-toggle" onclick="toggleSolution('importExportSolution')">Voir la solution
+                        proposée</button>
+                    <div id="importExportSolution" style="display: none; margin-top: 1rem;">
+                        <div class="code-example">
+                            // Header.jsx<br>
+                            function Header() {<br>
+                            &nbsp;&nbsp;return &lt;header&gt;&lt;h1&gt;Mon Application&lt;/h1&gt;&lt;/header&gt;;<br>
+                            }<br>
+                            export default Header;<br>
+                            <br>
+                            // Navigation.jsx<br>
+                            function Navigation() {<br>
+                            &nbsp;&nbsp;return (<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;nav&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;a href="#home"&gt;Accueil&lt;/a&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;a href="#about"&gt;À propos&lt;/a&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/nav&gt;<br>
+                            &nbsp;&nbsp;);<br>
+                            }<br>
+                            export default Navigation;<br>
+                            <br>
+                            // App.jsx<br>
+                            import Header from './Header.jsx';<br>
+                            import Navigation from './Navigation.jsx';<br>
+                            import MainContent from './MainContent.jsx';<br>
+                            import Footer from './Footer.jsx';<br>
+                            <br>
+                            function App() {<br>
+                            &nbsp;&nbsp;return (<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Header /&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Navigation /&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;MainContent /&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Footer /&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                            &nbsp;&nbsp;);<br>
+                            }<br>
+                            export default App;
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Le pied de page sera généré par showFooter() -->
+        <div id="footer-container"></div>
+    </div>
+
+    <script type="text/babel">
+        // Démonstration 1 : Premier composant
+        function FirstComponent() {
+            return (
+                <div className="card" style={{ textAlign: 'center', padding: '2rem' }}>
+                    <h1 style={{ color: '#61dafb', marginBottom: '1rem' }}>🎉 Mon Premier Composant React</h1>
+                    <p style={{ fontSize: '1.1rem', marginBottom: '1rem' }}>
+                        Félicitations ! Vous venez de créer votre premier composant React fonctionnel.
+                    </p>
+                    <div style={{
+                        background: '#e8f4fc',
+                        padding: '1rem',
+                        borderRadius: '8px',
+                        marginTop: '1rem'
+                    }}>
+                        <p><strong>Ce composant démontre :</strong></p>
+                        <ul style={{ textAlign: 'left', display: 'inline-block' }}>
+                            <li>Une fonction qui retourne du JSX</li>
+                            <li>L'utilisation de balises HTML</li>
+                            <li>L'application de styles inline</li>
+                        </ul>
+                    </div>
+                </div>
+            );
+        }
+
+        // Démonstration 2 : Import/Export
+        function ImportExportDemo() {
+            // Composant Button simulé
+            const Button = ({ children }) => (
+                <button style={{
+                    background: '#61dafb',
+                    color: 'white',
+                    border: 'none',
+                    padding: '0.75rem 1.5rem',
+                    borderRadius: '5px',
+                    margin: '0.5rem',
+                    cursor: 'pointer',
+                    fontWeight: 'bold'
+                }}>
+                    {children}
+                </button>
+            );
+
+            return (
+                <div className="card">
+                    <h2 style={{ textAlign: 'center', marginBottom: '2rem', color: '#333' }}>
+                        🔄 Import et Export de Composants
+                    </h2>
+                    <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+                        <Button>Bouton Importé</Button>
+                        <Button>Autre Bouton</Button>
+                    </div>
+                    <div style={{
+                        background: '#e8f4fc',
+                        padding: '1rem',
+                        borderRadius: '8px'
+                    }}>
+                        <p><strong>Fonctionnalités démontrées :</strong></p>
+                        <ul>
+                            <li>Export d'un composant depuis un fichier séparé</li>
+                            <li>Import du composant dans un autre fichier</li>
+                            <li>Réutilisation du même composant</li>
+                        </ul>
+                    </div>
+                </div>
+            );
+        }
+
+        // Démonstration 3 : Composition
+        function CompositionDemo() {
+            // Sous-composant Carte
+            const Card = ({ title, description, icon }) => (
+                <div style={{
+                    border: '2px solid #61dafb',
+                    borderRadius: '10px',
+                    padding: '1.5rem',
+                    margin: '1rem',
+                    background: 'white',
+                    boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+                    textAlign: 'center',
+                    minWidth: '200px'
+                }}>
+                    <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>{icon}</div>
+                    <h3 style={{ color: '#21a1c4', marginBottom: '0.5rem' }}>{title}</h3>
+                    <p style={{ color: '#666' }}>{description}</p>
+                </div>
+            );
+
+            return (
+                <div className="card">
+                    <h2 style={{ textAlign: 'center', marginBottom: '2rem', color: '#333' }}>
+                        Composition de Composants
+                    </h2>
+                    <div style={{
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        justifyContent: 'center',
+                        gap: '1rem'
+                    }}>
+                        <Card
+                            title="React"
+                            description="Bibliothèque JavaScript pour construire des interfaces utilisateur"
+                            icon="⚛️"
+                        />
+                        <Card
+                            title="Vite"
+                            description="Outil de build rapide pour le développement web moderne"
+                            icon="⚡"
+                        />
+                        <Card
+                            title="Composants"
+                            description="Briques réutilisables pour construire des applications"
+                            icon="🧩"
+                        />
+                    </div>
+                    <div style={{
+                        marginTop: '2rem',
+                        padding: '1rem',
+                        background: '#d4edda',
+                        borderRadius: '8px',
+                        textAlign: 'center'
+                    }}>
+                        <p><strong>💡 Note :</strong> Chaque carte est le même composant réutilisé avec des données différentes.</p>
+                    </div>
+                </div>
+            );
+        }
+
+        // Démonstration 4 : Liste de composants
+        function ListComponentsDemo() {
+            const TodoItem = ({ task, completed }) => (
+                <li style={{
+                    padding: '0.75rem',
+                    margin: '0.5rem 0',
+                    background: completed ? '#d4edda' : '#fff3cd',
+                    border: `2px solid ${completed ? '#28a745' : '#ffc107'}`,
+                    borderRadius: '5px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem'
+                }}>
+                    <span style={{ fontSize: '1.2rem' }}>
+                        {completed ? '✅' : '⏳'}
+                    </span>
+                    <span style={{
+                        textDecoration: completed ? 'line-through' : 'none',
+                        color: completed ? '#6c757d' : '#333'
+                    }}>
+                        {task}
+                    </span>
+                </li>
+            );
+
+            const todos = [
+                { id: 1, task: "Apprendre les bases de React", completed: true },
+                { id: 2, task: "Créer un projet avec Vite", completed: true },
+                { id: 3, task: "Comprendre la composition des composants", completed: false },
+                { id: 4, task: "Pratiquer avec des exercices", completed: false }
+            ];
+
+            return (
+                <div className="card">
+                    <h2 style={{ textAlign: 'center', marginBottom: '1rem', color: '#333' }}>
+                        📋 Liste de Tâches
+                    </h2>
+                    <p style={{ textAlign: 'center', marginBottom: '2rem', color: '#666' }}>
+                        Exemple d'affichage d'une liste de composants
+                    </p>
+
+                    <ul style={{ listStyle: 'none', padding: 0 }}>
+                        {todos.map(todo => (
+                            <TodoItem
+                                key={todo.id}
+                                task={todo.task}
+                                completed={todo.completed}
+                            />
+                        ))}
+                    </ul>
+
+                    <div style={{
+                        marginTop: '1rem',
+                        padding: '1rem',
+                        background: '#e8f4fc',
+                        borderRadius: '8px'
+                    }}>
+                        <p><strong>Fonctionnalités démontrées :</strong></p>
+                        <ul>
+                            <li>Rendu de liste avec <code>.map()</code></li>
+                            <li>Composant réutilisable <code>TodoItem</code></li>
+                            <li>Styles conditionnels basés sur les données</li>
+                            <li>Attribut <code>key</code> pour l'optimisation</li>
+                        </ul>
+                    </div>
+                </div>
+            );
+        }
+
+        // Rendu des composants
+        ReactDOM.render(<FirstComponent />, document.getElementById('demo-first-component'));
+        ReactDOM.render(<ImportExportDemo />, document.getElementById('demo-import-export'));
+        ReactDOM.render(<CompositionDemo />, document.getElementById('demo-composition'));
+        ReactDOM.render(<ListComponentsDemo />, document.getElementById('demo-list-components'));
+    </script>
+
+    <script>
+        // Fonction pour afficher l'en-tête
+        function showHeader() {
+            const headerContainer = document.getElementById('header-container');
+            headerContainer.innerHTML = `
+                <header>
+                    <div class="header-content">
+                        <div class="author-section">
+                            <img src="https://media.licdn.com/dms/image/v2/D4D03AQGKY70yUAkNeg/profile-displayphoto-scale_400_400/B4DZoWbkDYGwAk-/0/1761312917906?e=1762992000&v=beta&t=higEye4V5f9zbSmnRTBSuIamwR9MMoaBA6V4NivSiMA"
+                                alt="Habib BEN JABER" class="author-photo" onerror="this.style.display='none'">
+                            <div class="author-name">Habib BEN JABER</div>
+                            <div class="author-title">Enseignant Universitaire</div>
+                        </div>
+                        <div class="title-section">
+                            <h1>Atelier React - Vite et Composants</h1>
+                            <p class="subtitle">Découvrir React avec Vite et maîtriser les composants</p>
+                        </div>
+                        <div class="institution-section">
+                            <div class="institution-logo">
+                                <img src="https://scontent.ftun15-1.fna.fbcdn.net/v/t39.30808-6/553958284_1319824946823373_6578193734617387013_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=r9nP-bO5mBsQ7kNvwHNbIFa&_nc_oc=AdleYthoxZJIPltpgNNmndVU1gzLjNzkLk-yri55jkOJYWRBgYvBDptiIetf_Ckj3-g&_nc_zt=23&_nc_ht=scontent.ftun15-1.fna&_nc_gid=QMU00NnZksK_PzoWkNB95A&oh=00_Afe6AEXmI614k8ZMWqGiI7-J3wZpHOamndDrMVUiHJzcRw&oe=6902C56B" alt="ISET Kebili" class="institution-img">
+                            </div>
+                            <div class="institution-info">
+                                <div class="institution-name">ISET Kebili</div>
+                                <div class="institution-department">Département TI</div>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+            `;
+        }
+
+        // Fonction pour afficher le pied de page
+        function showFooter() {
+            const footerContainer = document.getElementById('footer-container');
+            footerContainer.innerHTML = `
+                <footer>
+                    <div class="footer-content">
+                        <div class="footer-text">
+                            <p>Atelier React - Vite et Composants | Conçu par Habib BEN JABER - Enseignant Universitaire</p>
+                        </div>
+                        
+                        <div class="social-links">
+                            <a href="https://facebook.com" class="social-link" target="_blank">
+                                <i class="fab fa-facebook social-icon"></i>
+                                <span class="social-name">Facebook</span>
+                            </a>
+                            <a href="https://linkedin.com" class="social-link" target="_blank">
+                                <i class="fab fa-linkedin social-icon"></i>
+                                <span class="social-name">LinkedIn</span>
+                            </a>
+                            <a href="https://youtube.com" class="social-link" target="_blank">
+                                <i class="fab fa-youtube social-icon"></i>
+                                <span class="social-name">YouTube</span>
+                            </a>
+                            <a href="https://github.com" class="social-link" target="_blank">
+                                <i class="fab fa-github social-icon"></i>
+                                <span class="social-name">GitHub</span>
+                            </a>
+                        </div>
+                        
+                        <div class="contact-info">
+                            <p>Contact : <a href="mailto:habib.jaber@gmail.com" class="contact-email">habib.jaber@gmail.com</a></p>
+                        </div>
+                    </div>
+                </footer>
+            `;
+        }
+
+        // Fonction pour toggle les solutions
+        function toggleSolution(solutionId) {
+            const solution = document.getElementById(solutionId);
+            solution.style.display = solution.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Appeler les fonctions pour afficher l'en-tête et le pied de page
+        document.addEventListener('DOMContentLoaded', function () {
+            showHeader();
+            showFooter();
+        });
+    </script>
+</body>
+
+</html>

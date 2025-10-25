@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atelier React - Les Props (Propriétés)</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #61dafb 0%, #21a1c4 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .theory-section,
+        .practice-section {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        h2 {
+            color: #21a1c4;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        h3 {
+            color: #333;
+            margin: 1.5rem 0 0.5rem 0;
+            background: linear-gradient(90deg, #61dafb, transparent);
+            padding: 0.5rem;
+            border-radius: 4px;
+        }
+
+        h4 {
+            color: #21a1c4;
+            margin: 1rem 0 0.5rem 0;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        ul,
+        ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        .code-block {
+            background-color: #282c34;
+            color: #abb2bf;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .keyword {
+            color: #c678dd;
+        }
+
+        .function {
+            color: #61afef;
+        }
+
+        .string {
+            color: #98c379;
+        }
+
+        .comment {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        .variable {
+            color: #e06c75;
+        }
+
+        .prop {
+            color: #d19a66;
+        }
+
+        .example-container {
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            padding: 1rem;
+            margin: 1rem 0;
+            background-color: #f9f9f9;
+        }
+
+        .exercise {
+            background-color: #e8f4fc;
+            border-left: 4px solid #21a1c4;
+            padding: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .exercise h4 {
+            color: #21a1c4;
+            margin-bottom: 0.5rem;
+        }
+
+        .important-note {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .comparison-item {
+            padding: 1rem;
+            border-radius: 5px;
+        }
+
+        .correct {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+        }
+
+        .incorrect {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+        }
+
+        button {
+            background-color: #61dafb;
+            color: #333;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #21a1c4;
+            color: white;
+        }
+
+        .demo-area {
+            margin-top: 1rem;
+            padding: 1rem;
+            border: 1px dashed #ccc;
+            border-radius: 5px;
+            min-height: 200px;
+        }
+
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h4 {
+            margin-top: 0;
+            color: #21a1c4;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin: 0.5rem 0;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #61dafb, #21a1c4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .product-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .product-card h4 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #21a1c4;
+            margin: 0.5rem 0;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .concept-card {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 1rem;
+        }
+
+        .concept-card h4 {
+            color: #21a1c4;
+            margin-bottom: 0.5rem;
+        }
+
+        .props-flow {
+            text-align: center;
+            margin: 2rem 0;
+            padding: 1rem;
+            background: linear-gradient(90deg, #f8f9fa, #e9ecef, #f8f9fa);
+            border-radius: 8px;
+        }
+
+        .props-flow-arrow {
+            font-size: 2rem;
+            color: #21a1c4;
+            margin: 0 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Atelier React - Les Props (Propriétés)</h1>
+            <p class="subtitle">Comprendre et maîtriser la communication entre composants React</p>
+        </header>
+
+        <div class="content">
+            <section class="theory-section">
+                <h2>Partie Théorique Détaillée</h2>
+
+                <h3>1. Qu'est-ce que les props en React ?</h3>
+                <p>Les props (abréviation de "properties") sont le mécanisme de React pour passer des données d'un
+                    composant parent à un composant enfant. Elles sont :</p>
+                <ul>
+                    <li><strong>Immuables (read-only)</strong> : Le composant enfant ne peut pas modifier ses props</li>
+                    <li><strong>Unidirectionnelles</strong> : Les données vont toujours du parent vers l'enfant</li>
+                    <li><strong>Similaires aux attributs HTML</strong> : Syntaxe similaire aux attributs des balises
+                        HTML</li>
+                </ul>
+
+                <div class="props-flow">
+                    <div style="display: flex; align-items: center; justify-content: center;">
+                        <div class="card">
+                            <h4>Composant Parent</h4>
+                            <p>Passe les données vers le bas</p>
+                        </div>
+                        <span class="props-flow-arrow">↓</span>
+                        <div class="card">
+                            <h4>Composant Enfant</h4>
+                            <p>Reçoit les données en lecture seule</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-grid">
+                    <div class="concept-card">
+                        <h4>Props (Propriétés)</h4>
+                        <ul>
+                            <li>Données passées au composant</li>
+                            <li>Immuables (read-only)</li>
+                            <li>Communication parent → enfant</li>
+                            <li>Similaires aux paramètres de fonction</li>
+                        </ul>
+                    </div>
+                    <div class="concept-card">
+                        <h4>State (État)</h4>
+                        <ul>
+                            <li>Données internes au composant</li>
+                            <li>Mutable (peut être modifié)</li>
+                            <li>Géré localement avec useState</li>
+                            <li>Déclenche des re-rendus</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>2. Syntaxe de base des props</h3>
+                <p>Les props sont passées comme attributs dans le JSX et reçues comme paramètre dans le composant.</p>
+
+                <div class="code-block">
+                    <span class="comment">// Composant enfant qui reçoit des props</span><br>
+                    <span class="keyword">function</span> <span class="function">Bienvenue</span>(<span
+                        class="variable">props</span>) {<br>
+                    &nbsp;&nbsp;<span class="keyword">return</span> &lt;h1&gt;Bonjour, {<span
+                        class="variable">props</span>.<span class="prop">nom</span>} !&lt;/h1&gt;;<br>
+                    }<br><br>
+
+                    <span class="comment">// Utilisation avec les props</span><br>
+                    <span class="keyword">function</span> <span class="function">App</span>() {<br>
+                    &nbsp;&nbsp;<span class="keyword">return</span> (<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">&lt;!-- Passage des props comme attributs
+                        --&gt;</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="function">Bienvenue</span> nom=<span
+                        class="string">"Marie"</span> /&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="function">Bienvenue</span> nom=<span
+                        class="string">"Pierre"</span> /&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                    &nbsp;&nbsp;);<br>
+                    }
+                </div>
+
+                <h3>3. Destructuration des props</h3>
+                <p>La destructuration permet d'extraire directement les props dans les paramètres.</p>
+
+                <div class="code-block">
+                    <span class="comment">// Sans destructuration</span><br>
+                    <span class="keyword">function</span> <span class="function">Utilisateur</span>(<span
+                        class="variable">props</span>) {<br>
+                    &nbsp;&nbsp;<span class="keyword">return</span> (<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h2&gt;{<span class="variable">props</span>.<span
+                        class="prop">nom</span>}&lt;/h2&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Âge : {<span class="variable">props</span>.<span
+                        class="prop">age</span>}&lt;/p&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                    &nbsp;&nbsp;);<br>
+                    }<br><br>
+
+                    <span class="comment">// Avec destructuration</span><br>
+                    <span class="keyword">function</span> <span class="function">Utilisateur</span>({ <span
+                        class="variable">nom</span>, <span class="variable">age</span> }) {<br>
+                    &nbsp;&nbsp;<span class="keyword">return</span> (<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h2&gt;{<span class="variable">nom</span>}&lt;/h2&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Âge : {<span class="variable">age</span>}&lt;/p&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                    &nbsp;&nbsp;);<br>
+                    }
+                </div>
+
+                <h3>4. Types de données qu'on peut passer en props</h3>
+                <ul>
+                    <li><strong>Strings</strong> : nom="Marie"</li>
+                    <li><strong>Numbers</strong> : age={25}</li>
+                    <li><strong>Booleans</strong> : isAdmin={true}</li>
+                    <li><strong>Arrays</strong> : items={["a", "b", "c"]}</li>
+                    <li><strong>Objects</strong> : user={{name: "Jean", age: 30}}</li>
+                    <li><strong>Functions</strong> : onClick={handleClick}</li>
+                    <li><strong>JSX/Components</strong> : children={"..."}</li>
+                </ul>
+
+                <h3>5. La prop spéciale "children"</h3>
+                <p>La prop <code>children</code> permet de passer du contenu JSX entre les balises d'un composant.</p>
+
+                <div class="code-block">
+                    <span class="comment">// Composant avec children</span><br>
+                    <span class="keyword">function</span> <span class="function">Card</span>({ <span
+                        class="variable">children</span>, <span class="variable">title</span> }) {<br>
+                    &nbsp;&nbsp;<span class="keyword">return</span> (<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;div className=<span class="string">"card"</span>&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="variable">title</span> && &lt;h3&gt;{<span
+                        class="variable">title</span>}&lt;/h3&gt;}<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="variable">children</span>}<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                    &nbsp;&nbsp;);<br>
+                    }<br><br>
+
+                    <span class="comment">// Utilisation</span><br>
+                    &lt;<span class="function">Card</span> title=<span class="string">"Mon Titre"</span>&gt;<br>
+                    &nbsp;&nbsp;&lt;p&gt;Ce contenu est passé via children&lt;/p&gt;<br>
+                    &nbsp;&nbsp;&lt;button&gt;Cliquez ici&lt;/button&gt;<br>
+                    &lt;/<span class="function">Card</span>&gt;
+                </div>
+
+                <h3>6. Props par défaut avec defaultProps</h3>
+                <p>Vous pouvez définir des valeurs par défaut pour les props.</p>
+
+                <div class="code-block">
+                    <span class="comment">// Avec la syntaxe moderne</span><br>
+                    <span class="keyword">function</span> <span class="function">Bouton</span>({ <span
+                        class="variable">text</span> = <span class="string">"Cliquez-moi"</span>, <span
+                        class="variable">color</span> = <span class="string">"blue"</span> }) {<br>
+                    &nbsp;&nbsp;<span class="keyword">return</span> (<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;button style={{ backgroundColor: <span class="variable">color</span>
+                    }}&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="variable">text</span>}<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;/button&gt;<br>
+                    &nbsp;&nbsp;);<br>
+                    }<br><br>
+
+                    <span class="comment">// Utilisation avec valeurs par défaut</span><br>
+                    &lt;<span class="function">Bouton</span> /&gt; <span class="comment">// Utilise les valeurs par
+                        défaut</span><br>
+                    &lt;<span class="function">Bouton</span> text=<span class="string">"Valider"</span> color=<span
+                        class="string">"green"</span> /&gt;
+                </div>
+
+                <h3>7. Passage de fonctions en props</h3>
+                <p>Les fonctions peuvent être passées en props pour permettre la communication enfant → parent.</p>
+
+                <div class="code-block">
+                    <span class="comment">// Composant parent</span><br>
+                    <span class="keyword">function</span> <span class="function">Parent</span>() {<br>
+                    &nbsp;&nbsp;<span class="keyword">const</span> handleChildClick = (<span
+                        class="variable">message</span>) =&gt; {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;console.<span class="function">log</span>(<span class="string">"Message de
+                        l'enfant:"</span>, <span class="variable">message</span>);<br>
+                    &nbsp;&nbsp;};<br><br>
+
+                    &nbsp;&nbsp;<span class="keyword">return</span> (<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="function">Enfant</span> onButtonClick={<span
+                        class="variable">handleChildClick</span>} /&gt;<br>
+                    &nbsp;&nbsp;);<br>
+                    }<br><br>
+
+                    <span class="comment">// Composant enfant</span><br>
+                    <span class="keyword">function</span> <span class="function">Enfant</span>({ <span
+                        class="variable">onButtonClick</span> }) {<br>
+                    &nbsp;&nbsp;<span class="keyword">return</span> (<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;button onClick={() =&gt; <span
+                        class="variable">onButtonClick</span>(<span class="string">"Bonjour Parent!"</span>)}&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cliquez pour envoyer un message<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;/button&gt;<br>
+                    &nbsp;&nbsp;);<br>
+                    }
+                </div>
+
+                <div class="important-note">
+                    <h4>⚠️ Règles importantes des props :</h4>
+                    <ul>
+                        <li><strong>Les props sont en lecture seule</strong> - Ne jamais les modifier directement</li>
+                        <li><strong>Utilisez la destructuration</strong> pour un code plus lisible</li>
+                        <li><strong>Nommez les props clairement</strong> - Utilisez des noms descriptifs</li>
+                        <li><strong>Props vs State</strong> - Les props viennent de l'extérieur, le state est interne
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="practice-section">
+                <h2>Partie Pratique</h2>
+
+                <h3>Exemple 1: Composant utilisateur simple</h3>
+                <p>Un composant qui affiche des informations utilisateur via les props.</p>
+
+                <div id="user-example" class="demo-area">
+                    <!-- Le composant React sera rendu ici -->
+                </div>
+
+                <div class="exercise">
+                    <h4>Exercice 1: Composant produit</h4>
+                    <p>Créez un composant Product qui affiche un produit avec son nom, prix et description.</p>
+                    <div id="product-exercise" class="demo-area">
+                        <!-- Le composant React sera rendu ici -->
+                    </div>
+                </div>
+
+                <h3>Exemple 2: Composant avec children</h3>
+                <p>Un composant Card qui utilise la prop children pour accepter du contenu flexible.</p>
+
+                <div id="card-example" class="demo-area">
+                    <!-- Le composant React sera rendu ici -->
+                </div>
+
+                <div class="exercise">
+                    <h4>Exercice 2: Alert personnalisée</h4>
+                    <p>Créez un composant Alert qui accepte type ("success", "warning", "error") et children.</p>
+                    <div id="alert-exercise" class="demo-area">
+                        <!-- Le composant React sera rendu ici -->
+                    </div>
+                </div>
+
+                <h3>Exemple 3: Communication Parent-Enfant</h3>
+                <p>Un exemple montrant comment les enfants peuvent communiquer avec le parent via les props.</p>
+
+                <div id="communication-example" class="demo-area">
+                    <!-- Le composant React sera rendu ici -->
+                </div>
+            </section>
+        </div>
+
+        <footer>
+            <p>Atelier React - Les Props (Propriétés) | Conçu pour l'enseignement</p>
+        </footer>
+    </div>
+
+    <script type="text/babel">
+        // Exemple 1: Composant utilisateur simple
+        function UserProfile({ name, age, email, isOnline }) {
+            return (
+                <div className="user-profile">
+                    <div className="user-avatar">
+                        {name.charAt(0)}
+                    </div>
+                    <div>
+                        <h4>{name} {isOnline && "🟢"}</h4>
+                        <p>Âge: {age} ans</p>
+                        <p>Email: {email}</p>
+                    </div>
+                </div>
+            );
+        }
+
+        function UserExample() {
+            return (
+                <div>
+                    <UserProfile
+                        name="Marie Dupont"
+                        age={28}
+                        email="marie@example.com"
+                        isOnline={true}
+                    />
+                    <UserProfile
+                        name="Pierre Martin"
+                        age={32}
+                        email="pierre@example.com"
+                        isOnline={false}
+                    />
+                </div>
+            );
+        }
+
+        // Exercice 1: Composant produit
+        function Product({ name, price, description, inStock }) {
+            return (
+                <div className="product-card">
+                    <h4>{name}</h4>
+                    <p>{description}</p>
+                    <div className="price">{price}€</div>
+                    <button disabled={!inStock}>
+                        {inStock ? "Ajouter au panier" : "Rupture de stock"}
+                    </button>
+                </div>
+            );
+        }
+
+        function ProductExercise() {
+            return (
+                <div className="product-grid">
+                    <Product
+                        name="Ordinateur Portable"
+                        price={899}
+                        description="PC portable haute performance"
+                        inStock={true}
+                    />
+                    <Product
+                        name="Souris Gaming"
+                        price={45}
+                        description="Souris RGB 16000 DPI"
+                        inStock={false}
+                    />
+                    <Product
+                        name="Clavier Mécanique"
+                        price={120}
+                        description="Clavier mécanique rétroéclairé"
+                        inStock={true}
+                    />
+                </div>
+            );
+        }
+
+        // Exemple 2: Composant avec children
+        function Card({ title, children, footer }) {
+            return (
+                <div className="card">
+                    {title && <h4>{title}</h4>}
+                    <div>{children}</div>
+                    {footer && <div style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid #ddd' }}>
+                        {footer}
+                    </div>}
+                </div>
+            );
+        }
+
+        function CardExample() {
+            return (
+                <div>
+                    <Card title="Carte Simple">
+                        <p>Ceci est le contenu principal de la carte.</p>
+                        <p>Il peut contenir n'importe quel élément JSX.</p>
+                    </Card>
+
+                    <Card
+                        title="Carte avec Actions"
+                        footer={
+                            <div>
+                                <button>Action 1</button>
+                                <button>Action 2</button>
+                            </div>
+                        }
+                    >
+                        <p>Cette carte a un footer avec des actions.</p>
+                    </Card>
+                </div>
+            );
+        }
+
+        // Exercice 2: Alert personnalisée
+        function Alert({ type = "info", children }) {
+            const styles = {
+                info: { backgroundColor: '#d1ecf1', borderColor: '#bee5eb', color: '#0c5460' },
+                success: { backgroundColor: '#d4edda', borderColor: '#c3e6cb', color: '#155724' },
+                warning: { backgroundColor: '#fff3cd', borderColor: '#ffeaa7', color: '#856404' },
+                error: { backgroundColor: '#f8d7da', borderColor: '#f5c6cb', color: '#721c24' }
+            };
+
+            return (
+                <div style={{
+                    padding: '1rem',
+                    margin: '1rem 0',
+                    border: '1px solid',
+                    borderRadius: '4px',
+                    ...styles[type]
+                }}>
+                    {children}
+                </div>
+            );
+        }
+
+        function AlertExercise() {
+            return (
+                <div>
+                    <Alert type="success">
+                        ✅ Opération réussie ! Votre compte a été créé.
+                    </Alert>
+                    <Alert type="warning">
+                        ⚠️ Attention : Votre session expire bientôt.
+                    </Alert>
+                    <Alert type="error">
+                        ❌ Erreur : Impossible de se connecter au serveur.
+                    </Alert>
+                    <Alert>
+                        ℹ️ Ceci est un message d'information par défaut.
+                    </Alert>
+                </div>
+            );
+        }
+
+        // Exemple 3: Communication Parent-Enfant
+        function Counter({ count, onIncrement, onDecrement, onReset }) {
+            return (
+                <div style={{ textAlign: 'center', padding: '1rem' }}>
+                    <h3>Compteur: {count}</h3>
+                    <div>
+                        <button onClick={onDecrement}>-</button>
+                        <button onClick={onReset} style={{ margin: '0 1rem' }}>Reset</button>
+                        <button onClick={onIncrement}>+</button>
+                    </div>
+                </div>
+            );
+        }
+
+        function CounterList() {
+            const [counters, setCounters] = React.useState([0, 0, 0]);
+
+            const updateCounter = (index, newValue) => {
+                setCounters(prev => prev.map((count, i) => i === index ? newValue : count));
+            };
+
+            const resetAll = () => {
+                setCounters([0, 0, 0]);
+            };
+
+            return (
+                <div>
+                    <div style={{ marginBottom: '1rem' }}>
+                        <button onClick={resetAll}>Réinitialiser tous les compteurs</button>
+                    </div>
+                    {counters.map((count, index) => (
+                        <Counter
+                            key={index}
+                            count={count}
+                            onIncrement={() => updateCounter(index, count + 1)}
+                            onDecrement={() => updateCounter(index, count - 1)}
+                            onReset={() => updateCounter(index, 0)}
+                        />
+                    ))}
+                    <div style={{ marginTop: '1rem', padding: '1rem', backgroundColor: '#f8f9fa' }}>
+                        <strong>Total général : {counters.reduce((a, b) => a + b, 0)}</strong>
+                    </div>
+                </div>
+            );
+        }
+
+        // Rendu des composants
+        ReactDOM.render(<UserExample />, document.getElementById('user-example'));
+        ReactDOM.render(<ProductExercise />, document.getElementById('product-exercise'));
+        ReactDOM.render(<CardExample />, document.getElementById('card-example'));
+        ReactDOM.render(<AlertExercise />, document.getElementById('alert-exercise'));
+        ReactDOM.render(<CounterList />, document.getElementById('communication-example'));
+    </script>
+</body>
+
+</html>
