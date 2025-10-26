@@ -25,6 +25,7 @@
         }
 
         .container {
+            max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
         }
@@ -559,6 +560,53 @@
             color: #21a1c4;
             margin-bottom: 0.5rem;
         }
+
+        /* Styles pour les sections de code source */
+        .code-source {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 1rem;
+            margin: 1rem 0;
+            position: relative;
+        }
+
+        .code-source-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .code-source-title {
+            font-weight: bold;
+            color: #21a1c4;
+        }
+
+        .toggle-button {
+            background: #61dafb;
+            border: none;
+            padding: 0.25rem 0.75rem;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .toggle-button:hover {
+            background: #21a1c4;
+            color: white;
+        }
+
+        .code-content {
+            display: none;
+            margin-top: 0.5rem;
+        }
+
+        .code-content.show {
+            display: block;
+        }
     </style>
 </head>
 
@@ -568,220 +616,706 @@
         <div id="header-container"></div>
 
         <!-- Contenu principal de la page actuelle -->
-        <div class="main-content">
-            <div class="content">
-                <section class="theory-section">
-                    <h2>Partie Théorique Détaillée</h2>
+        <div class="content">
+            <section class="theory-section">
+                <h2>Partie Théorique Détaillée</h2>
 
-                    <h3>1. Qu'est-ce que l'état (state) en React ?</h3>
-                    <p>L'état est un concept fondamental en React qui représente les données dynamiques d'un composant.
-                        Contrairement aux props qui sont immuables et passées de parent à enfant, l'état est :</p>
-                    <ul>
-                        <li><strong>Local au composant</strong> : Géré et modifié à l'intérieur du composant</li>
-                        <li><strong>Mutable</strong> : Peut changer au cours du temps</li>
-                        <li><strong>Déclencheur de rendu</strong> : Toute modification entraîne un nouveau rendu du
-                            composant</li>
-                    </ul>
+                <h3>1. Qu'est-ce que l'état (state) en React ?</h3>
+                <p>L'état est un concept fondamental en React qui représente les données dynamiques d'un composant.
+                    Contrairement aux props qui sont immuables et passées de parent à enfant, l'état est :</p>
+                <ul>
+                    <li><strong>Local au composant</strong> : Géré et modifié à l'intérieur du composant</li>
+                    <li><strong>Mutable</strong> : Peut changer au cours du temps</li>
+                    <li><strong>Déclencheur de rendu</strong> : Toute modification entraîne un nouveau rendu du
+                        composant</li>
+                </ul>
 
-                    <div class="concept-grid">
-                        <div class="concept-card">
-                            <h4>État (State)</h4>
-                            <ul>
-                                <li>Données internes au composant</li>
-                                <li>Peut être modifié</li>
-                                <li>Déclenche un re-rendu</li>
-                                <li>Géré avec useState</li>
-                            </ul>
-                        </div>
-                        <div class="concept-card">
-                            <h4>Props</h4>
-                            <ul>
-                                <li>Données passées au composant</li>
-                                <li>Immuables (read-only)</li>
-                                <li>Ne déclenche pas de re-rendu direct</li>
-                                <li>Passées comme attributs</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <h3>2. Le Hook useState</h3>
-                    <p><code>useState</code> est un hook React qui permet d'ajouter un état local aux composants
-                        fonctionnels.</p>
-
-                    <div class="code-block">
-                        <span class="comment">// Importation du hook</span><br>
-                        <span class="keyword">import</span> React, { <span class="function">useState</span> } <span
-                            class="keyword">from</span> <span class="string">'react'</span>;<br><br>
-
-                        <span class="comment">// Syntaxe de base</span><br>
-                        <span class="keyword">const</span> [state, setState] = <span
-                            class="function">useState</span>(valeurInitiale);<br><br>
-
-                        <span class="comment">// Exemple concret</span><br>
-                        <span class="keyword">const</span> [count, setCount] = <span
-                            class="function">useState</span>(0);
-                    </div>
-
-                    <h4>Décomposition de useState :</h4>
-                    <ul>
-                        <li><code class="variable">state</code> : Valeur actuelle de l'état</li>
-                        <li><code class="function">setState</code> : Fonction pour modifier l'état</li>
-                        <li><code>valeurInitiale</code> : Valeur par défaut au premier rendu</li>
-                    </ul>
-
-                    <h3>3. Règles fondamentales des hooks</h3>
-                    <div class="important-note">
-                        <h4>⚠️ Règles importantes :</h4>
+                <div class="concept-grid">
+                    <div class="concept-card">
+                        <h4>État (State)</h4>
                         <ul>
-                            <li><strong>N'appelez les hooks qu'au niveau racine</strong> - Pas dans des boucles,
-                                conditions
-                                ou fonctions imbriquées</li>
-                            <li><strong>Appelez les hooks uniquement dans des composants React</strong> - Ou des hooks
-                                personnalisés</li>
-                            <li><strong>Les noms des hooks commencent toujours par "use"</strong></li>
+                            <li>Données internes au composant</li>
+                            <li>Peut être modifié</li>
+                            <li>Déclenche un re-rendu</li>
+                            <li>Géré avec useState</li>
                         </ul>
                     </div>
-
-                    <h3>4. Mise à jour de l'état</h3>
-                    <p>La mise à jour de l'état doit toujours se faire via la fonction setter, jamais par modification
-                        directe.</p>
-
-                    <div class="comparison">
-                        <div class="comparison-item incorrect">
-                            <h4>❌ À éviter</h4>
-                            <div class="code-block">
-                                <span class="comment">// Modification directe - INTERDIT !</span><br>
-                                count = 5;<br>
-                                <span class="comment">// Ne déclenche pas de re-rendu</span><br>
-                                <span class="comment">// Corrompt le système de React</span>
-                            </div>
-                        </div>
-                        <div class="comparison-item correct">
-                            <h4>✅ Bonnes pratiques</h4>
-                            <div class="code-block">
-                                <span class="comment">// Mise à jour correcte</span><br>
-                                <span class="function">setCount</span>(5);<br>
-                                <span class="comment">// Déclenche un re-rendu</span><br>
-                                <span class="comment">// Respecte l'immutabilité</span>
-                            </div>
-                        </div>
+                    <div class="concept-card">
+                        <h4>Props</h4>
+                        <ul>
+                            <li>Données passées au composant</li>
+                            <li>Immuables (read-only)</li>
+                            <li>Ne déclenche pas de re-rendu direct</li>
+                            <li>Passées comme attributs</li>
+                        </ul>
                     </div>
+                </div>
 
-                    <h3>5. Mise à jour basée sur l'état précédent</h3>
-                    <p>Quand la nouvelle valeur dépend de l'ancienne, utilisez la forme fonctionnelle.</p>
+                <h3>2. Le Hook useState</h3>
+                <p><code>useState</code> est un hook React qui permet d'ajouter un état local aux composants
+                    fonctionnels.</p>
 
-                    <div class="code-block">
-                        <span class="comment">// ❌ Problématique (mises à jour asynchrones)</span><br>
-                        <span class="function">setCount</span>(count + 1);<br>
-                        <span class="function">setCount</span>(count + 1); <span class="comment">// Peut ne pas
-                            fonctionner
-                            comme attendu</span><br><br>
+                <div class="code-block">
+                    <span class="comment">// Importation du hook</span><br>
+                    <span class="keyword">import</span> React, { <span class="function">useState</span> } <span
+                        class="keyword">from</span> <span class="string">'react'</span>;<br><br>
 
-                        <span class="comment">// ✅ Solution recommandée</span><br>
-                        <span class="function">setCount</span>(prevCount =&gt; prevCount + 1);<br>
-                        <span class="function">setCount</span>(prevCount =&gt; prevCount + 1); <span class="comment">//
-                            Fonctionne correctement</span>
-                    </div>
+                    <span class="comment">// Syntaxe de base</span><br>
+                    <span class="keyword">const</span> [state, setState] = <span
+                        class="function">useState</span>(valeurInitiale);<br><br>
 
-                    <h3>6. États avec objets et tableaux</h3>
-                    <p>React compare les références, donc pour les objets et tableaux, créez toujours de nouvelles
-                        références.</p>
+                    <span class="comment">// Exemple concret</span><br>
+                    <span class="keyword">const</span> [count, setCount] = <span class="function">useState</span>(0);
+                </div>
 
-                    <div class="code-block">
-                        <span class="comment">// État avec un objet</span><br>
-                        <span class="keyword">const</span> [user, setUser] = <span
-                            class="function">useState</span>({<br>
-                        &nbsp;&nbsp;name: <span class="string">''</span>,<br>
-                        &nbsp;&nbsp;email: <span class="string">''</span>,<br>
-                        &nbsp;&nbsp;age: 0<br>
-                        });<br><br>
+                <h4>Décomposition de useState :</h4>
+                <ul>
+                    <li><code class="variable">state</code> : Valeur actuelle de l'état</li>
+                    <li><code class="function">setState</code> : Fonction pour modifier l'état</li>
+                    <li><code>valeurInitiale</code> : Valeur par défaut au premier rendu</li>
+                </ul>
 
-                        <span class="comment">// Mise à jour correcte d'un champ</span><br>
-                        <span class="function">setUser</span>(prevUser =&gt; ({<br>
-                        &nbsp;&nbsp;...prevUser,<br>
-                        &nbsp;&nbsp;name: <span class="string">'Marie'</span><br>
-                        }));<br><br>
-
-                        <span class="comment">// État avec un tableau</span><br>
-                        <span class="keyword">const</span> [items, setItems] = <span
-                            class="function">useState</span>([]);<br><br>
-
-                        <span class="comment">// Ajout d'un élément</span><br>
-                        <span class="function">setItems</span>(prevItems =&gt; [...prevItems, newItem]);<br><br>
-
-                        <span class="comment">// Suppression d'un élément</span><br>
-                        <span class="function">setItems</span>(prevItems =&gt; prevItems.filter(item =&gt; item.id !==
-                        idToRemove));<br><br>
-
-                        <span class="comment">// Modification d'un élément</span><br>
-                        <span class="function">setItems</span>(prevItems =&gt; <br>
-                        &nbsp;&nbsp;prevItems.map(item =&gt; <br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;item.id === id ? { ...item, completed: true } : item<br>
-                        &nbsp;&nbsp;)<br>
-                        );
-                    </div>
-
-                    <h3>7. Bonnes pratiques</h3>
+                <h3>3. Règles fondamentales des hooks</h3>
+                <div class="important-note">
+                    <h4>⚠️ Règles importantes :</h4>
                     <ul>
-                        <li><strong>Minimisez l'état</strong> : Ne stockez que ce qui est nécessaire</li>
-                        <li><strong>Évitez la duplication</strong> : Calculez les valeurs dérivées si possible</li>
-                        <li><strong>Regroupez les états liés</strong> : Utilisez un objet pour les données connexes</li>
-                        <li><strong>Lift state up</strong> : Remontez l'état au plus proche ancêtre commun quand
-                            nécessaire
-                        </li>
+                        <li><strong>N'appelez les hooks qu'au niveau racine</strong> - Pas dans des boucles,
+                            conditions
+                            ou fonctions imbriquées</li>
+                        <li><strong>Appelez les hooks uniquement dans des composants React</strong> - Ou des hooks
+                            personnalisés</li>
+                        <li><strong>Les noms des hooks commencent toujours par "use"</strong></li>
                     </ul>
+                </div>
 
-                    <h3>8. Cycle de vie de l'état</h3>
-                    <ol>
-                        <li><strong>Initialisation</strong> : useState(initialValue) définit la valeur initiale</li>
-                        <li><strong>Lecture</strong> : Utilisez la variable state pendant le rendu</li>
-                        <li><strong>Mise à jour</strong> : Appelez setState pour modifier l'état</li>
-                        <li><strong>Re-rendu</strong> : React recalcule le composant avec la nouvelle valeur</li>
-                    </ol>
-                </section>
+                <h3>4. Mise à jour de l'état</h3>
+                <p>La mise à jour de l'état doit toujours se faire via la fonction setter, jamais par modification
+                    directe.</p>
 
-                <section class="practice-section">
-                    <h2>Partie Pratique</h2>
-
-                    <h3>Exemple 1: Compteur simple</h3>
-                    <p>Un compteur basique qui utilise useState pour gérer un nombre.</p>
-
-                    <div id="counter-example" class="demo-area">
-                        <!-- Le composant React sera rendu ici -->
-                    </div>
-
-                    <div class="exercise">
-                        <h4>Exercice 1: Compteur amélioré</h4>
-                        <p>Ajoutez un bouton "Réinitialiser" qui remet le compteur à 0.</p>
-                        <div id="counter-exercise" class="demo-area">
-                            <!-- Le composant React sera rendu ici -->
+                <div class="comparison">
+                    <div class="comparison-item incorrect">
+                        <h4>❌ À éviter</h4>
+                        <div class="code-block">
+                            <span class="comment">// Modification directe - INTERDIT !</span><br>
+                            count = 5;<br>
+                            <span class="comment">// Ne déclenche pas de re-rendu</span><br>
+                            <span class="comment">// Corrompt le système de React</span>
                         </div>
                     </div>
-
-                    <h3>Exemple 2: Liste de tâches</h3>
-                    <p>Une application de liste de tâches qui utilise useState avec un tableau.</p>
-
-                    <div id="todo-example" class="demo-area">
-                        <!-- Le composant React sera rendu ici -->
-                    </div>
-
-                    <div class="exercise">
-                        <h4>Exercice 2: Liste de tâches améliorée</h4>
-                        <p>Ajoutez la possibilité de marquer une tâche comme terminée et de filtrer les tâches (toutes,
-                            actives, terminées).</p>
-                        <div id="todo-exercise" class="demo-area">
-                            <!-- Le composant React sera rendu ici -->
+                    <div class="comparison-item correct">
+                        <h4>✅ Bonnes pratiques</h4>
+                        <div class="code-block">
+                            <span class="comment">// Mise à jour correcte</span><br>
+                            <span class="function">setCount</span>(5);<br>
+                            <span class="comment">// Déclenche un re-rendu</span><br>
+                            <span class="comment">// Respecte l'immutabilité</span>
                         </div>
                     </div>
+                </div>
 
-                    <h3>Exemple 3: Gestion d'état complexe</h3>
-                    <p>Un exemple combinant plusieurs états et montrant les bonnes pratiques.</p>
+                <h3>5. Mise à jour basée sur l'état précédent</h3>
+                <p>Quand la nouvelle valeur dépend de l'ancienne, utilisez la forme fonctionnelle.</p>
 
-                    <div id="complex-example" class="demo-area">
+                <div class="code-block">
+                    <span class="comment">// ❌ Problématique (mises à jour asynchrones)</span><br>
+                    <span class="function">setCount</span>(count + 1);<br>
+                    <span class="function">setCount</span>(count + 1); <span class="comment">// Peut ne pas
+                        fonctionner
+                        comme attendu</span><br><br>
+
+                    <span class="comment">// ✅ Solution recommandée</span><br>
+                    <span class="function">setCount</span>(prevCount =&gt; prevCount + 1);<br>
+                    <span class="function">setCount</span>(prevCount =&gt; prevCount + 1); <span class="comment">//
+                        Fonctionne correctement</span>
+                </div>
+
+                <h3>6. États avec objets et tableaux</h3>
+                <p>React compare les références, donc pour les objets et tableaux, créez toujours de nouvelles
+                    références.</p>
+
+                <div class="code-block">
+                    <span class="comment">// État avec un objet</span><br>
+                    <span class="keyword">const</span> [user, setUser] = <span class="function">useState</span>({<br>
+                    &nbsp;&nbsp;name: <span class="string">''</span>,<br>
+                    &nbsp;&nbsp;email: <span class="string">''</span>,<br>
+                    &nbsp;&nbsp;age: 0<br>
+                    });<br><br>
+
+                    <span class="comment">// Mise à jour correcte d'un champ</span><br>
+                    <span class="function">setUser</span>(prevUser =&gt; ({<br>
+                    &nbsp;&nbsp;...prevUser,<br>
+                    &nbsp;&nbsp;name: <span class="string">'Marie'</span><br>
+                    }));<br><br>
+
+                    <span class="comment">// État avec un tableau</span><br>
+                    <span class="keyword">const</span> [items, setItems] = <span
+                        class="function">useState</span>([]);<br><br>
+
+                    <span class="comment">// Ajout d'un élément</span><br>
+                    <span class="function">setItems</span>(prevItems =&gt; [...prevItems, newItem]);<br><br>
+
+                    <span class="comment">// Suppression d'un élément</span><br>
+                    <span class="function">setItems</span>(prevItems =&gt; prevItems.filter(item =&gt; item.id !==
+                    idToRemove));<br><br>
+
+                    <span class="comment">// Modification d'un élément</span><br>
+                    <span class="function">setItems</span>(prevItems =&gt; <br>
+                    &nbsp;&nbsp;prevItems.map(item =&gt; <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;item.id === id ? { ...item, completed: true } : item<br>
+                    &nbsp;&nbsp;)<br>
+                    );
+                </div>
+
+                <h3>7. Bonnes pratiques</h3>
+                <ul>
+                    <li><strong>Minimisez l'état</strong> : Ne stockez que ce qui est nécessaire</li>
+                    <li><strong>Évitez la duplication</strong> : Calculez les valeurs dérivées si possible</li>
+                    <li><strong>Regroupez les états liés</strong> : Utilisez un objet pour les données connexes</li>
+                    <li><strong>Lift state up</strong> : Remontez l'état au plus proche ancêtre commun quand
+                        nécessaire
+                    </li>
+                </ul>
+
+                <h3>8. Cycle de vie de l'état</h3>
+                <ol>
+                    <li><strong>Initialisation</strong> : useState(initialValue) définit la valeur initiale</li>
+                    <li><strong>Lecture</strong> : Utilisez la variable state pendant le rendu</li>
+                    <li><strong>Mise à jour</strong> : Appelez setState pour modifier l'état</li>
+                    <li><strong>Re-rendu</strong> : React recalcule le composant avec la nouvelle valeur</li>
+                </ol>
+            </section>
+
+            <section class="practice-section">
+                <h2>Partie Pratique</h2>
+
+                <h3>Exemple 1: Compteur simple</h3>
+                <p>Un compteur basique qui utilise useState pour gérer un nombre.</p>
+
+                <div id="counter-example" class="demo-area">
+                    <!-- Le composant React sera rendu ici -->
+                </div>
+
+                <div class="code-source">
+                    <div class="code-source-header">
+                        <div class="code-source-title">Code Source - Compteur Simple</div>
+                        <button class="toggle-button" onclick="toggleCode('counter-code')">Afficher le code</button>
+                    </div>
+                    <div id="counter-code" class="code-content">
+                        <div class="code-block">
+                            <span class="comment">// Composant CounterExample</span><br>
+                            <span class="keyword">function</span> <span class="function">CounterExample</span>() {<br>
+                            &nbsp;&nbsp;<span class="keyword">const</span> [count, setCount] =
+                            React.useState(0);<br><br>
+
+                            &nbsp;&nbsp;<span class="keyword">return</span> (<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;&lt;strong&gt;Valeur actuelle : {<span
+                                class="variable">count</span>}&lt;/strong&gt;&lt;/p&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div className=<span
+                                class="string">"counter"</span>&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button onClick={() =&gt; <span
+                                class="function">setCount</span>(<span class="variable">count</span> -
+                            1)}&gt;-&lt;/button&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div className=<span
+                                class="string">"counter-value"</span>&gt;{<span
+                                class="variable">count</span>}&lt;/div&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button onClick={() =&gt; <span
+                                class="function">setCount</span>(<span class="variable">count</span> +
+                            1)}&gt;+&lt;/button&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Essayez de cliquer plusieurs fois rapidement
+                            sur "+"&lt;/p&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                            &nbsp;&nbsp;);<br>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="exercise">
+                    <h4>Exercice 1: Compteur amélioré</h4>
+                    <p>Ajoutez un bouton "Réinitialiser" qui remet le compteur à 0.</p>
+                    <div id="counter-exercise" class="demo-area">
                         <!-- Le composant React sera rendu ici -->
                     </div>
-                </section>
-            </div>
+
+                    <div class="code-source">
+                        <div class="code-source-header">
+                            <div class="code-source-title">Solution - Compteur Amélioré</div>
+                            <button class="toggle-button" onclick="toggleCode('counter-exercise-code')">Afficher la
+                                solution</button>
+                        </div>
+                        <div id="counter-exercise-code" class="code-content">
+                            <div class="code-block">
+                                <span class="comment">// Composant CounterExercise</span><br>
+                                <span class="keyword">function</span> <span class="function">CounterExercise</span>()
+                                {<br>
+                                &nbsp;&nbsp;<span class="keyword">const</span> [count, setCount] =
+                                React.useState(0);<br><br>
+
+                                &nbsp;&nbsp;<span class="keyword">const</span> increment = () =&gt; <span
+                                    class="function">setCount</span>(prev =&gt; prev + 1);<br>
+                                &nbsp;&nbsp;<span class="keyword">const</span> decrement = () =&gt; <span
+                                    class="function">setCount</span>(prev =&gt; prev - 1);<br>
+                                &nbsp;&nbsp;<span class="keyword">const</span> reset = () =&gt; <span
+                                    class="function">setCount</span>(0);<br><br>
+
+                                &nbsp;&nbsp;<span class="keyword">return</span> (<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;&lt;strong&gt;Valeur actuelle : {<span
+                                    class="variable">count</span>}&lt;/strong&gt;&lt;/p&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div className=<span
+                                    class="string">"counter"</span>&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button onClick={<span
+                                    class="variable">decrement</span>}&gt;-&lt;/button&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div className=<span
+                                    class="string">"counter-value"</span>&gt;{<span
+                                    class="variable">count</span>}&lt;/div&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button onClick={<span
+                                    class="variable">increment</span>}&gt;+&lt;/button&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div style={{ marginTop: <span
+                                    class="string">'1rem'</span> }}&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button onClick={<span
+                                    class="variable">reset</span>} style={{ marginRight: <span
+                                    class="string">'0.5rem'</span> }}&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Réinitialiser<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/button&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button onClick={() =&gt; <span
+                                    class="function">setCount</span>(prev =&gt; prev + 5)}&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+5<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/button&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                                &nbsp;&nbsp;);<br>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Exemple 2: Liste de tâches</h3>
+                <p>Une application de liste de tâches qui utilise useState avec un tableau.</p>
+
+                <div id="todo-example" class="demo-area">
+                    <!-- Le composant React sera rendu ici -->
+                </div>
+
+                <div class="code-source">
+                    <div class="code-source-header">
+                        <div class="code-source-title">Code Source - Liste de Tâches</div>
+                        <button class="toggle-button" onclick="toggleCode('todo-code')">Afficher le code</button>
+                    </div>
+                    <div id="todo-code" class="code-content">
+                        <div class="code-block">
+                            <span class="comment">// Composant TodoExample</span><br>
+                            <span class="keyword">function</span> <span class="function">TodoExample</span>() {<br>
+                            &nbsp;&nbsp;<span class="keyword">const</span> [todos, setTodos] = React.useState([]);<br>
+                            &nbsp;&nbsp;<span class="keyword">const</span> [inputValue, setInputValue] =
+                            React.useState(<span class="string">''</span>);<br><br>
+
+                            &nbsp;&nbsp;<span class="keyword">const</span> addTodo = () =&gt; {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (inputValue.trim() !== <span
+                                class="string">''</span>) {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="function">setTodos</span>(prevTodos =&gt;
+                            [<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...prevTodos,<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;id: Date.now(),<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text: inputValue,<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;completed: false<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]);<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="function">setInputValue</span>(<span
+                                class="string">''</span>);<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                            &nbsp;&nbsp;};<br><br>
+
+                            &nbsp;&nbsp;<span class="keyword">const</span> removeTodo = (id) =&gt; {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="function">setTodos</span>(prevTodos =&gt;
+                            prevTodos.filter(todo =&gt; todo.id !== id));<br>
+                            &nbsp;&nbsp;};<br><br>
+
+                            &nbsp;&nbsp;<span class="keyword">return</span> (<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div className=<span
+                                class="string">"input-group"</span>&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type=<span
+                                class="string">"text"</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value={<span
+                                class="variable">inputValue</span>}<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;onChange={(e) =&gt; <span
+                                class="function">setInputValue</span>(e.target.value)}<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;placeholder=<span
+                                class="string">"Nouvelle tâche..."</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;onKeyPress={(e) =&gt; e.key ===
+                            <span class="string">'Enter'</span> && <span class="variable">addTodo</span>()}<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button onClick={<span
+                                class="variable">addTodo</span>}&gt;Ajouter&lt;/button&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br><br>
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div className=<span
+                                class="string">"todo-list"</span>&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{todos.length === 0 ? (<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Aucune tâche pour le
+                            moment&lt;/p&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) : (<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;todos.map(todo =&gt; (<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div
+                            key={todo.id} className=<span class="string">"todo-item"</span>&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;span&gt;{todo.text}&lt;/span&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button
+                            onClick={() =&gt; <span
+                                class="variable">removeTodo</span>(todo.id)}&gt;Supprimer&lt;/button&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;))<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)}<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                            &nbsp;&nbsp;);<br>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="exercise">
+                    <h4>Exercice 2: Liste de tâches améliorée</h4>
+                    <p>Ajoutez la possibilité de marquer une tâche comme terminée et de filtrer les tâches (toutes,
+                        actives, terminées).</p>
+                    <div id="todo-exercise" class="demo-area">
+                        <!-- Le composant React sera rendu ici -->
+                    </div>
+
+                    <div class="code-source">
+                        <div class="code-source-header">
+                            <div class="code-source-title">Solution - Liste de Tâches Améliorée</div>
+                            <button class="toggle-button" onclick="toggleCode('todo-exercise-code')">Afficher la
+                                solution</button>
+                        </div>
+                        <div id="todo-exercise-code" class="code-content">
+                            <div class="code-block">
+                                <span class="comment">// Composant TodoExercise</span><br>
+                                <span class="keyword">function</span> <span class="function">TodoExercise</span>() {<br>
+                                &nbsp;&nbsp;<span class="keyword">const</span> [todos, setTodos] =
+                                React.useState([]);<br>
+                                &nbsp;&nbsp;<span class="keyword">const</span> [inputValue, setInputValue] =
+                                React.useState(<span class="string">''</span>);<br>
+                                &nbsp;&nbsp;<span class="keyword">const</span> [filter, setFilter] =
+                                React.useState(<span class="string">'all'</span>);<br><br>
+
+                                &nbsp;&nbsp;<span class="keyword">const</span> addTodo = () =&gt; {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (inputValue.trim() !== <span
+                                    class="string">''</span>) {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="function">setTodos</span>(prevTodos
+                                =&gt; [<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...prevTodos,<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;id: Date.now(),<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text: inputValue,<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;completed: false<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="function">setInputValue</span>(<span
+                                    class="string">''</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                                &nbsp;&nbsp;};<br><br>
+
+                                &nbsp;&nbsp;<span class="keyword">const</span> removeTodo = (id) =&gt; {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="function">setTodos</span>(prevTodos =&gt;
+                                prevTodos.filter(todo =&gt; todo.id !== id));<br>
+                                &nbsp;&nbsp;};<br><br>
+
+                                &nbsp;&nbsp;<span class="keyword">const</span> toggleTodo = (id) =&gt; {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="function">setTodos</span>(prevTodos =&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prevTodos.map(todo =&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;todo.id === id ? { ...todo, completed:
+                                !todo.completed } : todo<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;);<br>
+                                &nbsp;&nbsp;};<br><br>
+
+                                &nbsp;&nbsp;<span class="keyword">const</span> filteredTodos = todos.filter(todo =&gt;
+                                {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (filter === <span
+                                    class="string">'active'</span>) <span class="keyword">return</span>
+                                !todo.completed;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (filter === <span
+                                    class="string">'completed'</span>) <span class="keyword">return</span>
+                                todo.completed;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> true;<br>
+                                &nbsp;&nbsp;});<br><br>
+
+                                &nbsp;&nbsp;<span class="keyword">return</span> (<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div className=<span
+                                    class="string">"input-group"</span>&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type=<span
+                                    class="string">"text"</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value={<span
+                                    class="variable">inputValue</span>}<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;onChange={(e) =&gt; <span
+                                    class="function">setInputValue</span>(e.target.value)}<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;placeholder=<span
+                                    class="string">"Nouvelle tâche..."</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;onKeyPress={(e) =&gt; e.key
+                                === <span class="string">'Enter'</span> && <span class="variable">addTodo</span>()}<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button onClick={<span
+                                    class="variable">addTodo</span>}&gt;Ajouter&lt;/button&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br><br>
+
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div style={{ marginBottom: <span
+                                    class="string">'1rem'</span> }}&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;strong&gt;Filtres :
+                                &lt;/strong&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;onClick={() =&gt; <span
+                                    class="function">setFilter</span>(<span class="string">'all'</span>)}<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;style={{<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;margin: <span
+                                    class="string">'0 0.5rem'</span>,<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;backgroundColor:
+                                filter === <span class="string">'all'</span> ? <span class="string">'#21a1c4'</span> :
+                                <span class="string">'#61dafb'</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}}<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Toutes ({todos.length})<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/button&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;onClick={() =&gt; <span
+                                    class="function">setFilter</span>(<span class="string">'active'</span>)}<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;style={{<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;margin: <span
+                                    class="string">'0 0.5rem'</span>,<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;backgroundColor:
+                                filter === <span class="string">'active'</span> ? <span class="string">'#21a1c4'</span>
+                                : <span class="string">'#61dafb'</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}}<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Actives ({todos.filter(t
+                                =&gt; !t.completed).length})<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/button&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;onClick={() =&gt; <span
+                                    class="function">setFilter</span>(<span class="string">'completed'</span>)}<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;style={{<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;margin: <span
+                                    class="string">'0 0.5rem'</span>,<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;backgroundColor:
+                                filter === <span class="string">'completed'</span> ? <span
+                                    class="string">'#21a1c4'</span> : <span class="string">'#61dafb'</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}}<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Terminées ({todos.filter(t
+                                =&gt; t.completed).length})<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/button&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br><br>
+
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div className=<span
+                                    class="string">"todo-list"</span>&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{filteredTodos.length === 0 ? (<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Aucune tâche
+                                {filter !== <span class="string">'all'</span> ? filter : <span
+                                    class="string">''</span>}&lt;/p&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) : (<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;filteredTodos.map(todo =&gt;
+                                (<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div
+                                key={todo.id} className={`todo-item ${todo.completed ? <span
+                                    class="string">'completed'</span> : <span class="string">''</span>}`}&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;span<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;onClick={()
+                                =&gt; <span class="variable">toggleTodo</span>(todo.id)}<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;style={{
+                                cursor: <span class="string">'pointer'</span>, flex: 1 }}<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{todo.text}<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/span&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button
+                                onClick={() =&gt; <span
+                                    class="variable">removeTodo</span>(todo.id)}&gt;Supprimer&lt;/button&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;))<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)}<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                                &nbsp;&nbsp;);<br>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Exemple 3: Gestion d'état complexe</h3>
+                <p>Un exemple combinant plusieurs états et montrant les bonnes pratiques.</p>
+
+                <div id="complex-example" class="demo-area">
+                    <!-- Le composant React sera rendu ici -->
+                </div>
+
+                <div class="code-source">
+                    <div class="code-source-header">
+                        <div class="code-source-title">Code Source - Gestion d'État Complexe</div>
+                        <button class="toggle-button" onclick="toggleCode('complex-code')">Afficher le code</button>
+                    </div>
+                    <div id="complex-code" class="code-content">
+                        <div class="code-block">
+                            <span class="comment">// Composant ComplexExample</span><br>
+                            <span class="keyword">function</span> <span class="function">ComplexExample</span>() {<br>
+                            &nbsp;&nbsp;<span class="keyword">const</span> [user, setUser] = React.useState({<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;name: <span class="string">''</span>,<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;age: <span class="string">''</span>,<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;preferences: {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theme: <span class="string">'light'</span>,<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;notifications: true<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                            &nbsp;&nbsp;});<br><br>
+
+                            &nbsp;&nbsp;<span class="keyword">const</span> [users, setUsers] =
+                            React.useState([]);<br><br>
+
+                            &nbsp;&nbsp;<span class="keyword">const</span> handleInputChange = (field, value) =&gt;
+                            {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="function">setUser</span>(prev =&gt; ({<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...prev,<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[field]: value<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;}));<br>
+                            &nbsp;&nbsp;};<br><br>
+
+                            &nbsp;&nbsp;<span class="keyword">const</span> handlePreferenceChange = (preference, value)
+                            =&gt; {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="function">setUser</span>(prev =&gt; ({<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...prev,<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;preferences: {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...prev.preferences,<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[preference]: value<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;}));<br>
+                            &nbsp;&nbsp;};<br><br>
+
+                            &nbsp;&nbsp;<span class="keyword">const</span> addUser = () =&gt; {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (user.name && user.age) {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="function">setUsers</span>(prev =&gt;
+                            [...prev, { ...user, id: Date.now() }]);<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="function">setUser</span>({<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name: <span class="string">''</span>,<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;age: <span class="string">''</span>,<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;preferences: {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theme: <span
+                                class="string">'light'</span>,<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;notifications: true<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                            &nbsp;&nbsp;};<br><br>
+
+                            &nbsp;&nbsp;<span class="keyword">return</span> (<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h4&gt;Gestion d'utilisateur&lt;/h4&gt;<br><br>
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div style={{ marginBottom: <span
+                                class="string">'1rem'</span> }}&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type=<span
+                                class="string">"text"</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;placeholder=<span
+                                class="string">"Nom"</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value={<span
+                                class="variable">user</span>.name}<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;onChange={(e) =&gt; <span
+                                class="variable">handleInputChange</span>(<span class="string">'name'</span>,
+                            e.target.value)}<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;style={{ marginRight: <span
+                                class="string">'0.5rem'</span>, padding: <span class="string">'0.5rem'</span> }}<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type=<span
+                                class="string">"number"</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;placeholder=<span
+                                class="string">"Âge"</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value={<span
+                                class="variable">user</span>.age}<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;onChange={(e) =&gt; <span
+                                class="variable">handleInputChange</span>(<span class="string">'age'</span>,
+                            e.target.value)}<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;style={{ marginRight: <span
+                                class="string">'0.5rem'</span>, padding: <span class="string">'0.5rem'</span> }}<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br><br>
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div style={{ marginBottom: <span
+                                class="string">'1rem'</span> }}&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;label&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Thème :<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;select<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value={<span
+                                class="variable">user</span>.preferences.theme}<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;onChange={(e) =&gt;
+                            <span class="variable">handlePreferenceChange</span>(<span class="string">'theme'</span>,
+                            e.target.value)}<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;style={{ marginLeft:
+                            <span class="string">'0.5rem'</span>, padding: <span class="string">'0.5rem'</span> }}<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;option
+                            value=<span class="string">"light"</span>&gt;Clair&lt;/option&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;option
+                            value=<span class="string">"dark"</span>&gt;Sombre&lt;/option&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/select&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/label&gt;<br><br>
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;label style={{ marginLeft: <span
+                                class="string">'1rem'</span> }}&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Notifications :<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type=<span
+                                class="string">"checkbox"</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;checked={<span
+                                class="variable">user</span>.preferences.notifications}<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;onChange={(e) =&gt;
+                            <span class="variable">handlePreferenceChange</span>(<span
+                                class="string">'notifications'</span>, e.target.checked)}<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;style={{ marginLeft:
+                            <span class="string">'0.5rem'</span> }}<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/label&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br><br>
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button onClick={<span
+                                class="variable">addUser</span>}&gt;Ajouter l'utilisateur&lt;/button&gt;<br><br>
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div style={{ marginTop: <span
+                                class="string">'1rem'</span> }}&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h5&gt;Utilisateurs ajoutés
+                            :&lt;/h5&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{users.length === 0 ? (<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Aucun
+                            utilisateur&lt;/p&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) : (<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;ul&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{users.map(u =&gt;
+                            (<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li
+                            key={u.id}&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{u.name}
+                            ({u.age} ans) - Thème: {u.preferences.theme},<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Notifications:
+                            {u.preferences.notifications ? <span class="string">'activées'</span> : <span
+                                class="string">'désactivées'</span>}<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/li&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;))}<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/ul&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)}<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                            &nbsp;&nbsp;);<br>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
 
         <!-- Pied de page de la page 1 -->
@@ -854,6 +1388,20 @@
                     </div>
                 </footer>
             `;
+        }
+
+        // Fonction pour afficher/masquer le code source
+        function toggleCode(elementId) {
+            const element = document.getElementById(elementId);
+            const button = element.previousElementSibling.querySelector('.toggle-button');
+
+            if (element.classList.contains('show')) {
+                element.classList.remove('show');
+                button.textContent = 'Afficher le code';
+            } else {
+                element.classList.add('show');
+                button.textContent = 'Masquer le code';
+            }
         }
 
         // Initialiser la page

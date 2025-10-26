@@ -25,6 +25,7 @@
         }
 
         .container {
+            max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
         }
@@ -653,6 +654,53 @@
         input:checked+.toggle-slider:before {
             transform: translateX(26px);
         }
+
+        /* Styles pour les sections de code source */
+        .code-source {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 1rem;
+            margin: 1rem 0;
+            position: relative;
+        }
+
+        .code-source-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .code-source-title {
+            font-weight: bold;
+            color: #21a1c4;
+        }
+
+        .toggle-button {
+            background: #61dafb;
+            border: none;
+            padding: 0.25rem 0.75rem;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .toggle-button:hover {
+            background: #21a1c4;
+            color: white;
+        }
+
+        .code-content {
+            display: none;
+            margin-top: 0.5rem;
+        }
+
+        .code-content.show {
+            display: block;
+        }
     </style>
 </head>
 
@@ -662,243 +710,875 @@
         <div id="header-container"></div>
 
         <!-- Contenu principal de la page 2 -->
-        <div class="main-content">
-            <div class="content">
-                <section class="theory-section">
-                    <h2>Partie Théorique Détaillée</h2>
+        <div class="content">
+            <section class="theory-section">
+                <h2>Partie Théorique Détaillée</h2>
 
-                    <h3>1. Qu'est-ce que le rendu conditionnel ?</h3>
-                    <p>Le rendu conditionnel en React permet d'afficher différents éléments ou composants en fonction de
-                        certaines conditions. C'est comme les instructions <code>if/else</code> en JavaScript, mais
-                        adapté
-                        au JSX.</p>
+                <h3>1. Qu'est-ce que le rendu conditionnel ?</h3>
+                <p>Le rendu conditionnel en React permet d'afficher différents éléments ou composants en fonction de
+                    certaines conditions. C'est comme les instructions <code>if/else</code> en JavaScript, mais
+                    adapté
+                    au JSX.</p>
 
-                    <div class="concept-grid">
-                        <div class="concept-card">
-                            <h4>Pourquoi utiliser le rendu conditionnel ?</h4>
-                            <ul>
-                                <li>Afficher/masquer des éléments</li>
-                                <li>Montrer des états de chargement</li>
-                                <li>Gérer les erreurs</li>
-                                <li>Adapter l'interface aux permissions</li>
-                                <li>Créer des interfaces dynamiques</li>
-                            </ul>
-                        </div>
-                        <div class="concept-card">
-                            <h4>Cas d'utilisation courants</h4>
-                            <ul>
-                                <li>Boutons login/logout</li>
-                                <li>Messages d'erreur</li>
-                                <li>Indicateurs de chargement</li>
-                                <li>Contenu premium</li>
-                                <li>États vides</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <h3>2. Méthode 1 : Opérateur && (ET logique)</h3>
-                    <p>Idéal pour afficher un élément uniquement si une condition est vraie.</p>
-
-                    <div class="code-block">
-                        <span class="keyword">function</span> <span class="function">Notification</span>({ <span
-                            class="variable">message</span>, <span class="variable">show</span> }) {<br>
-                        &nbsp;&nbsp;<span class="keyword">return</span> (<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="variable">show</span> && &lt;div
-                        className=<span class="string">"notification"</span>&gt;{<span
-                            class="variable">message</span>}&lt;/div&gt;}<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
-                        &nbsp;&nbsp;);<br>
-                        }<br><br>
-
-                        <span class="comment">// Utilisation</span><br>
-                        &lt;<span class="function">Notification</span> message=<span class="string">"Nouveau
-                            message!"</span> show={<span class="variable">true</span>} /&gt;
-                    </div>
-
-                    <div class="important-note">
-                        <h4>⚠️ Attention aux valeurs falsy !</h4>
-                        <p>L'opérateur <code>&&</code> retourne la deuxième valeur si la première est truthy. Mais si
-                            vous
-                            utilisez <code>0</code> comme condition, React affichera <code>0</code> dans le DOM !</p>
-                    </div>
-
-                    <h3>3. Méthode 2 : Opérateur ternaire ? :</h3>
-                    <p>Parfait pour choisir entre deux alternatives.</p>
-
-                    <div class="code-block">
-                        <span class="keyword">function</span> <span class="function">LoginButton</span>({ <span
-                            class="variable">isLoggedIn</span> }) {<br>
-                        &nbsp;&nbsp;<span class="keyword">return</span> (<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="variable">isLoggedIn</span> ? (<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button&gt;Déconnexion&lt;/button&gt;<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) : (<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button&gt;Connexion&lt;/button&gt;<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)}<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
-                        &nbsp;&nbsp;);<br>
-                        }
-                    </div>
-
-                    <h3>4. Méthode 3 : Variables conditionnelles</h3>
-                    <p>Stockez des éléments JSX dans des variables avant de les retourner.</p>
-
-                    <div class="code-block">
-                        <span class="keyword">function</span> <span class="function">Greeting</span>({ <span
-                            class="variable">user</span> }) {<br>
-                        &nbsp;&nbsp;<span class="keyword">let</span> greeting;<br>
-                        &nbsp;&nbsp;<span class="keyword">if</span> (<span class="variable">user</span>) {<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;greeting = &lt;h1&gt;Bonjour, {<span class="variable">user</span>.<span
-                            class="prop">name</span>} !&lt;/h1&gt;;<br>
-                        &nbsp;&nbsp;} <span class="keyword">else</span> {<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;greeting = &lt;h1&gt;Bonjour, invité !&lt;/h1&gt;;<br>
-                        &nbsp;&nbsp;}<br>
-                        &nbsp;&nbsp;<span class="keyword">return</span> &lt;div&gt;{greeting}&lt;/div&gt;;<br>
-                        }
-                    </div>
-
-                    <h3>5. Méthode 4 : Fonctions de rendu conditionnel</h3>
-                    <p>Extrayez la logique conditionnelle dans des fonctions séparées.</p>
-
-                    <div class="code-block">
-                        <span class="keyword">function</span> <span class="function">UserDashboard</span>({ <span
-                            class="variable">user</span> }) {<br>
-                        &nbsp;&nbsp;<span class="keyword">const</span> renderContent = () =&gt; {<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (!<span class="variable">user</span>)
-                        {<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> &lt;p&gt;Veuillez vous
-                        connecter&lt;/p&gt;;<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (<span
-                            class="variable">user</span>.<span class="prop">role</span> === <span
-                            class="string">'admin'</span>) {<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> &lt;<span
-                            class="function">AdminPanel</span> /&gt;;<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> &lt;<span
-                            class="function">UserPanel</span> /&gt;;<br>
-                        &nbsp;&nbsp;};<br><br>
-
-                        &nbsp;&nbsp;<span class="keyword">return</span> (<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="function">renderContent</span>()}<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
-                        &nbsp;&nbsp;);<br>
-                        }
-                    </div>
-
-                    <h3>6. Méthode 5 : Retour conditionnel early return</h3>
-                    <p>Retournez différents JSX en fonction de conditions au début de la fonction.</p>
-
-                    <div class="code-block">
-                        <span class="keyword">function</span> <span class="function">Page</span>({ <span
-                            class="variable">isLoading</span>, <span class="variable">error</span>, <span
-                            class="variable">data</span> }) {<br>
-                        &nbsp;&nbsp;<span class="keyword">if</span> (<span class="variable">isLoading</span>) {<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>
-                        &lt;div&gt;Chargement...&lt;/div&gt;;<br>
-                        &nbsp;&nbsp;}<br><br>
-
-                        &nbsp;&nbsp;<span class="keyword">if</span> (<span class="variable">error</span>) {<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> &lt;div&gt;Erreur : {<span
-                            class="variable">error</span>.<span class="prop">message</span>}&lt;/div&gt;;<br>
-                        &nbsp;&nbsp;}<br><br>
-
-                        &nbsp;&nbsp;<span class="keyword">return</span> (<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;{<span class="variable">data</span>.<span
-                            class="prop">title</span>}&lt;/h1&gt;<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;{<span class="variable">data</span>.<span
-                            class="prop">content</span>}&lt;/p&gt;<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
-                        &nbsp;&nbsp;);<br>
-                        }
-                    </div>
-
-                    <h3>7. Méthode 6 : Pattern avec Enums</h3>
-                    <p>Utilisez des objets pour gérer plusieurs états de manière organisée.</p>
-
-                    <div class="code-block">
-                        <span class="keyword">const</span> <span class="variable">STATES</span> = {<br>
-                        &nbsp;&nbsp;LOADING: <span class="string">'loading'</span>,<br>
-                        &nbsp;&nbsp;SUCCESS: <span class="string">'success'</span>,<br>
-                        &nbsp;&nbsp;ERROR: <span class="string">'error'</span><br>
-                        };<br><br>
-
-                        <span class="keyword">function</span> <span class="function">DataComponent</span>({ <span
-                            class="variable">state</span>, <span class="variable">data</span>, <span
-                            class="variable">error</span> }) {<br>
-                        &nbsp;&nbsp;<span class="keyword">const</span> stateComponents = {<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;[<span class="variable">STATES</span>.<span
-                            class="prop">LOADING</span>]:
-                        &lt;div&gt;Chargement...&lt;/div&gt;,<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;[<span class="variable">STATES</span>.<span
-                            class="prop">SUCCESS</span>]:
-                        &lt;div&gt;Données : {<span class="variable">data</span>}&lt;/div&gt;,<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;[<span class="variable">STATES</span>.<span class="prop">ERROR</span>]:
-                        &lt;div&gt;Erreur : {<span class="variable">error</span>}&lt;/div&gt;<br>
-                        &nbsp;&nbsp;};<br><br>
-
-                        &nbsp;&nbsp;<span class="keyword">return</span> stateComponents[<span
-                            class="variable">state</span>]
-                        || &lt;div&gt;État inconnu&lt;/div&gt;;<br>
-                        }
-                    </div>
-
-                    <div class="important-note">
-                        <h4>💡 Bonnes pratiques</h4>
+                <div class="concept-grid">
+                    <div class="concept-card">
+                        <h4>Pourquoi utiliser le rendu conditionnel ?</h4>
                         <ul>
-                            <li><strong>Évitez la complexité</strong> : Gardez les conditions simples et lisibles</li>
-                            <li><strong>Extrayez la logique complexe</strong> : Utilisez des fonctions helper</li>
-                            <li><strong>Utilisez des variables</strong> : Pour les conditions complexes</li>
-                            <li><strong>Testez les cas limites</strong> : États vides, erreurs, chargement</li>
-                            <li><strong>Priorisez la lisibilité</strong> : Choisissez la méthode la plus claire</li>
+                            <li>Afficher/masquer des éléments</li>
+                            <li>Montrer des états de chargement</li>
+                            <li>Gérer les erreurs</li>
+                            <li>Adapter l'interface aux permissions</li>
+                            <li>Créer des interfaces dynamiques</li>
                         </ul>
                     </div>
-                </section>
-
-                <section class="practice-section">
-                    <h2>Partie Pratique</h2>
-
-                    <h3>Exemple 1 : Affichage conditionnel simple</h3>
-                    <p>Utilisation des opérateurs && et ternaire pour afficher/masquer du contenu.</p>
-
-                    <div id="simple-conditional" class="demo-area">
-                        <!-- Le composant React sera rendu ici -->
+                    <div class="concept-card">
+                        <h4>Cas d'utilisation courants</h4>
+                        <ul>
+                            <li>Boutons login/logout</li>
+                            <li>Messages d'erreur</li>
+                            <li>Indicateurs de chargement</li>
+                            <li>Contenu premium</li>
+                            <li>États vides</li>
+                        </ul>
                     </div>
+                </div>
 
-                    <div class="exercise">
-                        <h4>Exercice 1 : Panier d'achat</h4>
-                        <p>Créez un composant Cart qui affiche soit le panier vide, soit la liste des articles.</p>
-                        <div id="cart-exercise" class="demo-area">
-                            <!-- Le composant React sera rendu ici -->
+                <h3>2. Méthode 1 : Opérateur && (ET logique)</h3>
+                <p>Idéal pour afficher un élément uniquement si une condition est vraie.</p>
+
+                <div class="code-block">
+                    <span class="keyword">function</span> <span class="function">Notification</span>({ <span
+                        class="variable">message</span>, <span class="variable">show</span> }) {<br>
+                    &nbsp;&nbsp;<span class="keyword">return</span> (<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="variable">show</span> && &lt;div
+                    className=<span class="string">"notification"</span>&gt;{<span
+                        class="variable">message</span>}&lt;/div&gt;}<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                    &nbsp;&nbsp;);<br>
+                    }<br><br>
+
+                    <span class="comment">// Utilisation</span><br>
+                    &lt;<span class="function">Notification</span> message=<span class="string">"Nouveau
+                        message!"</span> show={<span class="variable">true</span>} /&gt;
+                </div>
+
+                <div class="important-note">
+                    <h4>⚠️ Attention aux valeurs falsy !</h4>
+                    <p>L'opérateur <code>&&</code> retourne la deuxième valeur si la première est truthy. Mais si
+                        vous
+                        utilisez <code>0</code> comme condition, React affichera <code>0</code> dans le DOM !</p>
+                </div>
+
+                <h3>3. Méthode 2 : Opérateur ternaire ? :</h3>
+                <p>Parfait pour choisir entre deux alternatives.</p>
+
+                <div class="code-block">
+                    <span class="keyword">function</span> <span class="function">LoginButton</span>({ <span
+                        class="variable">isLoggedIn</span> }) {<br>
+                    &nbsp;&nbsp;<span class="keyword">return</span> (<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="variable">isLoggedIn</span> ? (<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button&gt;Déconnexion&lt;/button&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) : (<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button&gt;Connexion&lt;/button&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)}<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                    &nbsp;&nbsp;);<br>
+                    }
+                </div>
+
+                <h3>4. Méthode 3 : Variables conditionnelles</h3>
+                <p>Stockez des éléments JSX dans des variables avant de les retourner.</p>
+
+                <div class="code-block">
+                    <span class="keyword">function</span> <span class="function">Greeting</span>({ <span
+                        class="variable">user</span> }) {<br>
+                    &nbsp;&nbsp;<span class="keyword">let</span> greeting;<br>
+                    &nbsp;&nbsp;<span class="keyword">if</span> (<span class="variable">user</span>) {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;greeting = &lt;h1&gt;Bonjour, {<span class="variable">user</span>.<span
+                        class="prop">name</span>} !&lt;/h1&gt;;<br>
+                    &nbsp;&nbsp;} <span class="keyword">else</span> {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;greeting = &lt;h1&gt;Bonjour, invité !&lt;/h1&gt;;<br>
+                    &nbsp;&nbsp;}<br>
+                    &nbsp;&nbsp;<span class="keyword">return</span> &lt;div&gt;{greeting}&lt;/div&gt;;<br>
+                    }
+                </div>
+
+                <h3>5. Méthode 4 : Fonctions de rendu conditionnel</h3>
+                <p>Extrayez la logique conditionnelle dans des fonctions séparées.</p>
+
+                <div class="code-block">
+                    <span class="keyword">function</span> <span class="function">UserDashboard</span>({ <span
+                        class="variable">user</span> }) {<br>
+                    &nbsp;&nbsp;<span class="keyword">const</span> renderContent = () =&gt; {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (!<span class="variable">user</span>)
+                    {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> &lt;p&gt;Veuillez vous
+                    connecter&lt;/p&gt;;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (<span class="variable">user</span>.<span
+                        class="prop">role</span> === <span class="string">'admin'</span>) {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> &lt;<span
+                        class="function">AdminPanel</span> /&gt;;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> &lt;<span
+                        class="function">UserPanel</span> /&gt;;<br>
+                    &nbsp;&nbsp;};<br><br>
+
+                    &nbsp;&nbsp;<span class="keyword">return</span> (<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="function">renderContent</span>()}<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                    &nbsp;&nbsp;);<br>
+                    }
+                </div>
+
+                <h3>6. Méthode 5 : Retour conditionnel early return</h3>
+                <p>Retournez différents JSX en fonction de conditions au début de la fonction.</p>
+
+                <div class="code-block">
+                    <span class="keyword">function</span> <span class="function">Page</span>({ <span
+                        class="variable">isLoading</span>, <span class="variable">error</span>, <span
+                        class="variable">data</span> }) {<br>
+                    &nbsp;&nbsp;<span class="keyword">if</span> (<span class="variable">isLoading</span>) {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>
+                    &lt;div&gt;Chargement...&lt;/div&gt;;<br>
+                    &nbsp;&nbsp;}<br><br>
+
+                    &nbsp;&nbsp;<span class="keyword">if</span> (<span class="variable">error</span>) {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> &lt;div&gt;Erreur : {<span
+                        class="variable">error</span>.<span class="prop">message</span>}&lt;/div&gt;;<br>
+                    &nbsp;&nbsp;}<br><br>
+
+                    &nbsp;&nbsp;<span class="keyword">return</span> (<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;{<span class="variable">data</span>.<span
+                        class="prop">title</span>}&lt;/h1&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;{<span class="variable">data</span>.<span
+                        class="prop">content</span>}&lt;/p&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                    &nbsp;&nbsp;);<br>
+                    }
+                </div>
+
+                <h3>7. Méthode 6 : Pattern avec Enums</h3>
+                <p>Utilisez des objets pour gérer plusieurs états de manière organisée.</p>
+
+                <div class="code-block">
+                    <span class="keyword">const</span> <span class="variable">STATES</span> = {<br>
+                    &nbsp;&nbsp;LOADING: <span class="string">'loading'</span>,<br>
+                    &nbsp;&nbsp;SUCCESS: <span class="string">'success'</span>,<br>
+                    &nbsp;&nbsp;ERROR: <span class="string">'error'</span><br>
+                    };<br><br>
+
+                    <span class="keyword">function</span> <span class="function">DataComponent</span>({ <span
+                        class="variable">state</span>, <span class="variable">data</span>, <span
+                        class="variable">error</span> }) {<br>
+                    &nbsp;&nbsp;<span class="keyword">const</span> stateComponents = {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;[<span class="variable">STATES</span>.<span class="prop">LOADING</span>]:
+                    &lt;div&gt;Chargement...&lt;/div&gt;,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;[<span class="variable">STATES</span>.<span class="prop">SUCCESS</span>]:
+                    &lt;div&gt;Données : {<span class="variable">data</span>}&lt;/div&gt;,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;[<span class="variable">STATES</span>.<span class="prop">ERROR</span>]:
+                    &lt;div&gt;Erreur : {<span class="variable">error</span>}&lt;/div&gt;<br>
+                    &nbsp;&nbsp;};<br><br>
+
+                    &nbsp;&nbsp;<span class="keyword">return</span> stateComponents[<span class="variable">state</span>]
+                    || &lt;div&gt;État inconnu&lt;/div&gt;;<br>
+                    }
+                </div>
+
+                <div class="important-note">
+                    <h4>💡 Bonnes pratiques</h4>
+                    <ul>
+                        <li><strong>Évitez la complexité</strong> : Gardez les conditions simples et lisibles</li>
+                        <li><strong>Extrayez la logique complexe</strong> : Utilisez des fonctions helper</li>
+                        <li><strong>Utilisez des variables</strong> : Pour les conditions complexes</li>
+                        <li><strong>Testez les cas limites</strong> : États vides, erreurs, chargement</li>
+                        <li><strong>Priorisez la lisibilité</strong> : Choisissez la méthode la plus claire</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="practice-section">
+                <h2>Partie Pratique</h2>
+
+                <h3>Exemple 1 : Affichage conditionnel simple</h3>
+                <p>Utilisation des opérateurs && et ternaire pour afficher/masquer du contenu.</p>
+
+                <div id="simple-conditional" class="demo-area">
+                    <!-- Le composant React sera rendu ici -->
+                </div>
+
+                <div class="code-source">
+                    <div class="code-source-header">
+                        <div class="code-source-title">Code Source - Affichage Conditionnel Simple</div>
+                        <button class="toggle-button" onclick="toggleCode('simple-conditional-code')">Afficher le
+                            code</button>
+                    </div>
+                    <div id="simple-conditional-code" class="code-content">
+                        <div class="code-block">
+                            <span class="comment">// Composant SimpleConditional</span><br>
+                            <span class="keyword">function</span> <span class="function">SimpleConditional</span>()
+                            {<br>
+                            &nbsp;&nbsp;<span class="keyword">const</span> [showMessage, setShowMessage] =
+                            React.useState(false);<br>
+                            &nbsp;&nbsp;<span class="keyword">const</span> [isPremium, setIsPremium] =
+                            React.useState(false);<br><br>
+
+                            &nbsp;&nbsp;<span class="keyword">return</span> (<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div className=<span
+                                class="string">"toggle-container"</span>&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;label&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type=<span
+                                class="string">"checkbox"</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;checked={<span
+                                class="variable">showMessage</span>}<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;onChange={(e) =&gt;
+                            <span class="function">setShowMessage</span>(e.target.checked)}<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Afficher le message<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/label&gt;<br><br>
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;label&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type=<span
+                                class="string">"checkbox"</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;checked={<span
+                                class="variable">isPremium</span>}<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;onChange={(e) =&gt;
+                            <span class="function">setIsPremium</span>(e.target.checked)}<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Utilisateur Premium<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/label&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br><br>
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Opérateur &&</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="variable">showMessage</span> && (<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div className=<span
+                                class="string">"card"</span> style={{ backgroundColor: <span
+                                class="string">'#d4edda'</span> }}&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;✅ Message important affiché
+                            !<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)}<br><br>
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Opérateur ternaire</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div className=<span
+                                class="string">"card"</span>&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h4&gt;Statut : {<span
+                                class="variable">isPremium</span> ? <span class="string">"⭐ Premium"</span> : <span
+                                class="string">"🔹 Standard"</span>}&lt;/h4&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="variable">isPremium</span> ?
+                            (<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Merci d'être un membre
+                            premium ! Voici du contenu exclusif.&lt;/p&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) : (<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Passez premium pour
+                            débloquer du contenu exclusif.&lt;/p&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)}<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br><br>
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Condition avec
+                                variable</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{(() =&gt; {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">let</span>
+                            statusMessage;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (<span
+                                class="variable">showMessage</span> && <span class="variable">isPremium</span>) {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;statusMessage = <span
+                                class="string">"Message premium affiché !"</span>;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">else if</span>
+                            (<span class="variable">showMessage</span>) {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;statusMessage = <span
+                                class="string">"Message standard affiché"</span>;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">else</span> {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;statusMessage = <span
+                                class="string">"Aucun message affiché"</span>;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>
+                            &lt;p&gt;&lt;strong&gt;{statusMessage}&lt;/strong&gt;&lt;/p&gt;;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})()}<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                            &nbsp;&nbsp;);<br>
+                            }
                         </div>
                     </div>
+                </div>
 
-                    <h3>Exemple 2 : États multiples avec early return</h3>
-                    <p>Gestion de différents états (chargement, succès, erreur) avec retour conditionnel.</p>
-
-                    <div id="multiple-states" class="demo-area">
+                <div class="exercise">
+                    <h4>Exercice 1 : Panier d'achat</h4>
+                    <p>Créez un composant Cart qui affiche soit le panier vide, soit la liste des articles.</p>
+                    <div id="cart-exercise" class="demo-area">
                         <!-- Le composant React sera rendu ici -->
                     </div>
 
-                    <div class="exercise">
-                        <h4>Exercice 2 : Système de notation</h4>
-                        <p>Créez un composant qui affiche différentes icônes selon la note.</p>
-                        <div id="rating-exercise" class="demo-area">
-                            <!-- Le composant React sera rendu ici -->
+                    <div class="code-source">
+                        <div class="code-source-header">
+                            <div class="code-source-title">Solution - Panier d'Achat</div>
+                            <button class="toggle-button" onclick="toggleCode('cart-exercise-code')">Afficher la
+                                solution</button>
+                        </div>
+                        <div id="cart-exercise-code" class="code-content">
+                            <div class="code-block">
+                                <span class="comment">// Composant CartExercise</span><br>
+                                <span class="keyword">function</span> <span class="function">CartExercise</span>() {<br>
+                                &nbsp;&nbsp;<span class="keyword">const</span> [cartItems, setCartItems] =
+                                React.useState([]);<br>
+                                &nbsp;&nbsp;<span class="keyword">const</span> [newItem, setNewItem] =
+                                React.useState(<span class="string">''</span>);<br><br>
+
+                                &nbsp;&nbsp;<span class="keyword">const</span> addItem = () =&gt; {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (newItem.trim()) {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                                    class="function">setCartItems</span>([...cartItems, { id: Date.now(), name: newItem
+                                }]);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="function">setNewItem</span>(<span
+                                    class="string">''</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                                &nbsp;&nbsp;};<br><br>
+
+                                &nbsp;&nbsp;<span class="keyword">const</span> removeItem = (id) =&gt; {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="function">setCartItems</span>(cartItems.filter(item
+                                =&gt; item.id !== id));<br>
+                                &nbsp;&nbsp;};<br><br>
+
+                                &nbsp;&nbsp;<span class="keyword">const</span> clearCart = () =&gt; {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="function">setCartItems</span>([]);<br>
+                                &nbsp;&nbsp;};<br><br>
+
+                                &nbsp;&nbsp;<span class="keyword">return</span> (<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div className=<span
+                                    class="string">"input-group"</span>&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type=<span
+                                    class="string">"text"</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value={<span
+                                    class="variable">newItem</span>}<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;onChange={(e) =&gt; <span
+                                    class="function">setNewItem</span>(e.target.value)}<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;placeholder=<span
+                                    class="string">"Nom de l'article"</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;onKeyPress={(e) =&gt; e.key
+                                === <span class="string">'Enter'</span> && <span class="variable">addItem</span>()}<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button onClick={<span
+                                    class="variable">addItem</span>}&gt;Ajouter&lt;/button&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br><br>
+
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Early return pour panier
+                                    vide</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{cartItems.length === 0 ? (<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div className=<span
+                                    class="string">"card"</span> style={{ textAlign: <span
+                                    class="string">'center'</span>, color: <span class="string">'#666'</span> }}&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h3&gt;🛒 Votre panier
+                                est vide&lt;/h3&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Ajoutez des
+                                articles pour commencer vos achats&lt;/p&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) : (<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div className=<span
+                                    class="string">"card"</span>&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h4&gt;Panier
+                                ({cartItems.length} articles)&lt;/h4&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{cartItems.map(item
+                                =&gt; (<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div
+                                key={item.id} className=<span class="string">"user-profile"</span>&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;span&gt;{item.name}&lt;/span&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button
+                                onClick={() =&gt; <span
+                                    class="variable">removeItem</span>(item.id)}&gt;Retirer&lt;/button&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;))}<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br><br>
+
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//
+                                    Affichage conditionnel du total</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{cartItems.length > 0 &&
+                                (<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div
+                                className=<span class="string">"card"</span> style={{ backgroundColor: <span
+                                    class="string">'#e8f4fc'</span> }}&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h4&gt;Résumé
+                                de la commande&lt;/h4&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Nombre
+                                d'articles : {cartItems.length}&lt;/p&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{cartItems.length
+                                > 3 && (<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p
+                                style={{ color: <span class="string">'#21a1c4'</span> }}&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⭐
+                                Vous bénéficiez de la livraison gratuite !<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/p&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)}<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button
+                                onClick={<span class="variable">clearCart</span>}&gt;Vider le panier&lt;/button&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)}<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)}<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                                &nbsp;&nbsp;);<br>
+                                }
+                            </div>
                         </div>
                     </div>
+                </div>
 
-                    <h3>Exemple 3 : Interface utilisateur conditionnelle</h3>
-                    <p>Interface qui change selon le rôle de l'utilisateur et ses préférences.</p>
+                <h3>Exemple 2 : États multiples avec early return</h3>
+                <p>Gestion de différents états (chargement, succès, erreur) avec retour conditionnel.</p>
 
-                    <div id="user-interface" class="demo-area">
+                <div id="multiple-states" class="demo-area">
+                    <!-- Le composant React sera rendu ici -->
+                </div>
+
+                <div class="code-source">
+                    <div class="code-source-header">
+                        <div class="code-source-title">Code Source - États Multiples</div>
+                        <button class="toggle-button" onclick="toggleCode('multiple-states-code')">Afficher le
+                            code</button>
+                    </div>
+                    <div id="multiple-states-code" class="code-content">
+                        <div class="code-block">
+                            <span class="comment">// Composant MultipleStates</span><br>
+                            <span class="keyword">function</span> <span class="function">MultipleStates</span>() {<br>
+                            &nbsp;&nbsp;<span class="keyword">const</span> [state, setState] = React.useState(<span
+                                class="string">'idle'</span>); <span class="comment">// idle, loading, success,
+                                error</span><br>
+                            &nbsp;&nbsp;<span class="keyword">const</span> [data, setData] =
+                            React.useState(null);<br><br>
+
+                            &nbsp;&nbsp;<span class="keyword">const</span> simulateApiCall = () =&gt; {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="function">setState</span>(<span
+                                class="string">'loading'</span>);<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;setTimeout(() =&gt; {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (Math.random() > 0.3)
+                            {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="function">setData</span>([<span
+                                class="string">'Article 1'</span>, <span class="string">'Article 2'</span>, <span
+                                class="string">'Article 3'</span>]);<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="function">setState</span>(<span
+                                class="string">'success'</span>);<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">else</span> {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="function">setState</span>(<span
+                                class="string">'error'</span>);<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;}, 1500);<br>
+                            &nbsp;&nbsp;};<br><br>
+
+                            &nbsp;&nbsp;<span class="keyword">const</span> reset = () =&gt; {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="function">setState</span>(<span
+                                class="string">'idle'</span>);<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="function">setData</span>(null);<br>
+                            &nbsp;&nbsp;};<br><br>
+
+                            &nbsp;&nbsp;<span class="comment">// Early return pour chaque état</span><br>
+                            &nbsp;&nbsp;<span class="keyword">if</span> (state === <span
+                                class="string">'loading'</span>) {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> (<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div className=<span class="string">"card"</span>
+                            style={{ textAlign: <span class="string">'center'</span> }}&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h3&gt;⏳ Chargement en
+                            cours...&lt;/h3&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Veuillez patienter&lt;/p&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div style={{ marginTop: <span
+                                class="string">'1rem'</span> }}&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button onClick={<span
+                                class="variable">reset</span>}&gt;Annuler&lt;/button&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;);<br>
+                            &nbsp;&nbsp;}<br><br>
+
+                            &nbsp;&nbsp;<span class="keyword">if</span> (state === <span class="string">'error'</span>)
+                            {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> (<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div className=<span class="string">"card"</span>
+                            style={{ backgroundColor: <span class="string">'#f8d7da'</span>, color: <span
+                                class="string">'#721c24'</span> }}&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h3&gt;❌ Erreur de
+                            chargement&lt;/h3&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Impossible de charger les données.
+                            Veuillez réessayer.&lt;/p&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button onClick={<span
+                                class="variable">simulateApiCall</span>}&gt;Réessayer&lt;/button&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button onClick={<span
+                                class="variable">reset</span>} style={{ marginLeft: <span class="string">'0.5rem'</span>
+                            }}&gt;Retour&lt;/button&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;);<br>
+                            &nbsp;&nbsp;}<br><br>
+
+                            &nbsp;&nbsp;<span class="keyword">if</span> (state === <span
+                                class="string">'success'</span>) {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> (<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div className=<span class="string">"card"</span>
+                            style={{ backgroundColor: <span class="string">'#d4edda'</span>, color: <span
+                                class="string">'#155724'</span> }}&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h3&gt;✅ Données chargées avec succès
+                            !&lt;/h3&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;ul&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{data.map((item, index) =&gt;
+                            (<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li
+                            key={index}&gt;{item}&lt;/li&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;))}<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/ul&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button onClick={<span
+                                class="variable">reset</span>}&gt;Charger de nouvelles données&lt;/button&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;);<br>
+                            &nbsp;&nbsp;}<br><br>
+
+                            &nbsp;&nbsp;<span class="comment">// État idle (par défaut)</span><br>
+                            &nbsp;&nbsp;<span class="keyword">return</span> (<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;div className=<span class="string">"card"</span> style={{
+                            textAlign: <span class="string">'center'</span> }}&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h3&gt;Bienvenue !&lt;/h3&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Cliquez sur le bouton pour charger des
+                            données&lt;/p&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button onClick={<span
+                                class="variable">simulateApiCall</span>}&gt;Charger les données&lt;/button&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                            &nbsp;&nbsp;);<br>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="exercise">
+                    <h4>Exercice 2 : Système de notation</h4>
+                    <p>Créez un composant qui affiche différentes icônes selon la note.</p>
+                    <div id="rating-exercise" class="demo-area">
                         <!-- Le composant React sera rendu ici -->
                     </div>
-                </section>
-            </div>
+
+                    <div class="code-source">
+                        <div class="code-source-header">
+                            <div class="code-source-title">Solution - Système de Notation</div>
+                            <button class="toggle-button" onclick="toggleCode('rating-exercise-code')">Afficher la
+                                solution</button>
+                        </div>
+                        <div id="rating-exercise-code" class="code-content">
+                            <div class="code-block">
+                                <span class="comment">// Composant RatingExercise</span><br>
+                                <span class="keyword">function</span> <span class="function">RatingExercise</span>()
+                                {<br>
+                                &nbsp;&nbsp;<span class="keyword">const</span> [rating, setRating] =
+                                React.useState(0);<br><br>
+
+                                &nbsp;&nbsp;<span class="keyword">const</span> renderStars = () =&gt; {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> [...Array(5)].map((_, index)
+                                =&gt; (<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;key={index}<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;onClick={() =&gt; <span
+                                    class="function">setRating</span>(index + 1)}<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;style={{<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontSize: <span
+                                    class="string">'2rem'</span>,<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;background: <span
+                                    class="string">'none'</span>,<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;border: <span
+                                    class="string">'none'</span>,<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cursor: <span
+                                    class="string">'pointer'</span>,<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color: index < rating ?
+                                    <span class="string">'#ffc107'</span> : <span class="string">'#ccc'</span><br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}}<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt;<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{index < rating ? <span
+                                        class="string">'★'</span> : <span class="string">'☆'</span>}<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/button&gt;<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;));<br>
+                                        &nbsp;&nbsp;};<br><br>
+
+                                        &nbsp;&nbsp;<span class="keyword">const</span> getRatingMessage = () =&gt; {<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (rating === 0) {<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> <span
+                                            class="string">"Aucune note"</span>;<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">else if</span> (rating <= 2)
+                                            {<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>
+                                            <span class="string">"❌ Insuffisant"</span>;<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">else if</span> (rating ===
+                                            3) {<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>
+                                            <span class="string">"⚠️ Moyen"</span>;<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">else if</span> (rating ===
+                                            4) {<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>
+                                            <span class="string">"✅ Bon"</span>;<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">else</span> {<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>
+                                            <span class="string">"⭐ Excellent !"</span>;<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                                            &nbsp;&nbsp;};<br><br>
+
+                                            &nbsp;&nbsp;<span class="keyword">const</span> getRatingColor = () =&gt;
+                                            {<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (rating === 0) <span
+                                                class="keyword">return</span> <span class="string">'#666'</span>;<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (rating <= 2) <span
+                                                class="keyword">return</span> <span class="string">'#dc3545'</span>;<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (rating === 3)
+                                                <span class="keyword">return</span> <span
+                                                    class="string">'#ffc107'</span>;<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (rating === 4)
+                                                <span class="keyword">return</span> <span
+                                                    class="string">'#28a745'</span>;<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> <span
+                                                    class="string">'#007bff'</span>;<br>
+                                                &nbsp;&nbsp;};<br><br>
+
+                                                &nbsp;&nbsp;<span class="keyword">return</span> (<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&lt;div className=<span
+                                                    class="string">"card"</span> style={{ textAlign: <span
+                                                    class="string">'center'</span> }}&gt;<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h3&gt;Évaluez ce
+                                                produit&lt;/h3&gt;<br><br>
+
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div style={{ margin: <span
+                                                    class="string">'1rem 0'</span> }}&gt;<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span
+                                                    class="variable">renderStars</span>()}<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br><br>
+
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Affichage
+                                                    conditionnel du message</span><br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{rating > 0 && (<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div style={{<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;padding:
+                                                <span class="string">'1rem'</span>,<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;margin:
+                                                <span class="string">'1rem 0'</span>,<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;backgroundColor:
+                                                <span class="variable">getRatingColor</span>(),<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color: <span
+                                                    class="string">'white'</span>,<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;borderRadius:
+                                                <span class="string">'8px'</span>,<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontWeight:
+                                                <span class="string">'bold'</span><br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}}&gt;<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span
+                                                    class="variable">getRatingMessage</span>()} ({rating}/5)<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)}<br><br>
+
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Message
+                                                    différent selon la note</span><br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{rating >= 4 ? (<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Merci
+                                                pour votre excellente note ! 🎉&lt;/p&gt;<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) : rating >= 3 ? (<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Merci
+                                                pour votre retour !&lt;/p&gt;<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) : rating > 0 ? (<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Nous
+                                                regrettons que votre expérience ne soit pas satisfaisante.&lt;/p&gt;<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) : (<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Sélectionnez
+                                                une note pour évaluer ce produit.&lt;/p&gt;<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)}<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                                                &nbsp;&nbsp;);<br>
+                                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Exemple 3 : Interface utilisateur conditionnelle</h3>
+                <p>Interface qui change selon le rôle de l'utilisateur et ses préférences.</p>
+
+                <div id="user-interface" class="demo-area">
+                    <!-- Le composant React sera rendu ici -->
+                </div>
+
+                <div class="code-source">
+                    <div class="code-source-header">
+                        <div class="code-source-title">Code Source - Interface Utilisateur Conditionnelle</div>
+                        <button class="toggle-button" onclick="toggleCode('user-interface-code')">Afficher le
+                            code</button>
+                    </div>
+                    <div id="user-interface-code" class="code-content">
+                        <div class="code-block">
+                            <span class="comment">// Composant UserInterface</span><br>
+                            <span class="keyword">function</span> <span class="function">UserInterface</span>() {<br>
+                            &nbsp;&nbsp;<span class="keyword">const</span> [user, setUser] = React.useState(null);<br>
+                            &nbsp;&nbsp;<span class="keyword">const</span> [darkMode, setDarkMode] =
+                            React.useState(false);<br><br>
+
+                            &nbsp;&nbsp;<span class="keyword">const</span> loginAsUser = () =&gt; {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="function">setUser</span>({ name: <span
+                                class="string">"Marie"</span>, role: <span class="string">"user"</span>, isActive: true
+                            });<br>
+                            &nbsp;&nbsp;};<br><br>
+
+                            &nbsp;&nbsp;<span class="keyword">const</span> loginAsAdmin = () =&gt; {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="function">setUser</span>({ name: <span
+                                class="string">"Admin"</span>, role: <span class="string">"admin"</span>, isActive: true
+                            });<br>
+                            &nbsp;&nbsp;};<br><br>
+
+                            &nbsp;&nbsp;<span class="keyword">const</span> logout = () =&gt; {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="function">setUser</span>(null);<br>
+                            &nbsp;&nbsp;};<br><br>
+
+                            &nbsp;&nbsp;<span class="keyword">const</span> renderDashboard = () =&gt; {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (!user) {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> (<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div className=<span
+                                class="string">"card"</span> style={{ textAlign: <span class="string">'center'</span>
+                            }}&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h3&gt;🔐 Connexion
+                            requise&lt;/h3&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Veuillez vous connecter
+                            pour accéder au tableau de bord&lt;/p&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div style={{ marginTop:
+                            <span class="string">'1rem'</span> }}&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button
+                            onClick={<span class="variable">loginAsUser</span>}&gt;Connexion
+                            Utilisateur&lt;/button&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button
+                            onClick={<span class="variable">loginAsAdmin</span>}&gt;Connexion Admin&lt;/button&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> (<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div className={`card ${darkMode ? <span
+                                class="string">'dark-mode'</span> : <span class="string">''</span>}`}<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;style={{<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;backgroundColor: darkMode ?
+                            <span class="string">'#333'</span> : <span class="string">'white'</span>,<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color: darkMode ? <span
+                                class="string">'white'</span> : <span class="string">'inherit'</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}}&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div style={{ display: <span
+                                class="string">'flex'</span>, justifyContent: <span
+                                class="string">'space-between'</span>, alignItems: <span class="string">'center'</span>
+                            }}&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h3&gt;Tableau de
+                            bord&lt;/h3&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div className=<span
+                                class="string">"toggle-container"</span>&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;label&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type=<span
+                                class="string">"checkbox"</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;checked={<span
+                                class="variable">darkMode</span>}<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;onChange={(e)
+                            =&gt; <span class="function">setDarkMode</span>(e.target.checked)}<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mode
+                            sombre<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/label&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button
+                            onClick={<span class="variable">logout</span>}&gt;Déconnexion&lt;/button&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br><br>
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Contenu différent
+                                selon le rôle</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div className=<span
+                                class="string">"user-profile"</span>&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div className=<span
+                                class="string">"user-avatar"</span>&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{user.name.charAt(0)}<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h4&gt;{user.name}&lt;/h4&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;span
+                            className={`status-indicator ${user.isActive ? <span class="string">'status-online'</span> :
+                            <span class="string">'status-offline'</span>}`}&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{user.isActive
+                            ? <span class="string">'En ligne'</span> : <span class="string">'Hors ligne'</span>}<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/span&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Rôle :
+                            {user.role}&lt;/p&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br><br>
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Contenu spécifique
+                                au rôle</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{user.role === <span
+                                class="string">'admin'</span> ? (<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h4&gt;🔧 Panneau
+                            d'administration&lt;/h4&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div
+                            className=<span class="string">"product-grid"</span>&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div
+                            className=<span class="string">"product-card"</span>&gt;Gestion utilisateurs&lt;/div&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div
+                            className=<span class="string">"product-card"</span>&gt;Statistiques&lt;/div&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div
+                            className=<span class="string">"product-card"</span>&gt;Paramètres système&lt;/div&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p style={{
+                            color: darkMode ? <span class="string">'#61dafb'</span> : <span
+                                class="string">'#21a1c4'</span>, marginTop: <span class="string">'1rem'</span>
+                            }}&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⚠️ Vous
+                            avez accès aux fonctionnalités administrateur<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/p&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) : (<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h4&gt;👤 Espace
+                            utilisateur&lt;/h4&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div
+                            className=<span class="string">"product-grid"</span>&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div
+                            className=<span class="string">"product-card"</span>&gt;Mon profil&lt;/div&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div
+                            className=<span class="string">"product-card"</span>&gt;Mes commandes&lt;/div&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div
+                            className=<span class="string">"product-card"</span>&gt;Paramètres&lt;/div&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)}<br><br>
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Contenu commun avec
+                                variations</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div style={{ marginTop: <span
+                                class="string">'1rem'</span>, paddingTop: <span class="string">'1rem'</span>, borderTop:
+                            `1px solid ${darkMode ? <span class="string">'#555'</span> : <span
+                                class="string">'#ddd'</span>}` }}&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h4&gt;Notifications&lt;/h4&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{user.role === <span
+                                class="string">'admin'</span> ? (<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;📋 5
+                            rapports en attente de validation&lt;/p&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) : (<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;📧 Vous
+                            avez 3 nouveaux messages&lt;/p&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)}<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;);<br>
+                            &nbsp;&nbsp;};<br><br>
+
+                            &nbsp;&nbsp;<span class="keyword">return</span> <span
+                                class="variable">renderDashboard</span>();<br>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
 
         <!-- Pied de page de la page 1 -->
@@ -971,6 +1651,20 @@
                     </div>
                 </footer>
             `;
+        }
+
+        // Fonction pour afficher/masquer le code source
+        function toggleCode(elementId) {
+            const element = document.getElementById(elementId);
+            const button = element.previousElementSibling.querySelector('.toggle-button');
+
+            if (element.classList.contains('show')) {
+                element.classList.remove('show');
+                button.textContent = 'Afficher le code';
+            } else {
+                element.classList.add('show');
+                button.textContent = 'Masquer le code';
+            }
         }
 
         // Initialiser la page

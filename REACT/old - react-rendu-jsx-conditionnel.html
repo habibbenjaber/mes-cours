@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atelier React - Rendu JSX Conditionnel</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Styles de l'en-tête et pied de page de la page 1 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Styles pour l'en-tête */
+        header {
+            background: linear-gradient(135deg, #61dafb 0%, #21a1c4 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .author-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            flex: 0 0 auto;
+        }
+
+        .author-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            object-fit: cover;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .author-photo:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .author-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .author-title {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .title-section {
+            flex: 1;
+            text-align: center;
+            max-width: 900px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        /* Styles pour la section institution */
+        .institution-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            flex: 0 0 auto;
+        }
+
+        .institution-logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .institution-logo:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .institution-img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            border-radius: 50%;
+            padding: 8px;
+        }
+
+        .institution-info {
+            text-align: center;
+        }
+
+        .institution-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .institution-department {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 1.5rem;
+            }
+
+            .title-section {
+                text-align: center;
+                order: -1;
+            }
+
+            .author-section,
+            .institution-section {
+                flex-direction: row;
+                gap: 1rem;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .author-photo,
+            .institution-logo {
+                width: 100px;
+                height: 100px;
+                margin-bottom: 0;
+            }
+
+            .institution-img {
+                width: 80px;
+                height: 80px;
+            }
+
+            .author-info,
+            .institution-info {
+                text-align: left;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-content {
+                padding: 0 1rem;
+            }
+
+            .author-section,
+            .institution-section {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .author-info,
+            .institution-info {
+                text-align: center;
+            }
+
+            .author-photo,
+            .institution-logo {
+                width: 90px;
+                height: 90px;
+            }
+
+            .institution-img {
+                width: 70px;
+                height: 70px;
+            }
+
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+        }
+
+        /* Styles pour le contenu principal */
+        .main-content {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            text-align: center;
+            color: #21a1c4;
+            margin-bottom: 2rem;
+            font-size: 2.2rem;
+        }
+
+        /* Styles pour le pied de page */
+        footer {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 2rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-text {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: white;
+            transition: transform 0.3s ease;
+        }
+
+        .social-link:hover {
+            transform: translateY(-5px);
+        }
+
+        .social-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-link:hover .social-icon {
+            color: #61dafb;
+        }
+
+        .social-name {
+            font-size: 0.9rem;
+        }
+
+        .contact-info {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .contact-email {
+            color: #61dafb;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .contact-email:hover {
+            text-decoration: underline;
+        }
+
+        /* Styles de la page 2 (contenu principal) */
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .theory-section,
+        .practice-section {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        h2 {
+            color: #21a1c4;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        h3 {
+            color: #333;
+            margin: 1.5rem 0 0.5rem 0;
+            background: linear-gradient(90deg, #61dafb, transparent);
+            padding: 0.5rem;
+            border-radius: 4px;
+        }
+
+        h4 {
+            color: #21a1c4;
+            margin: 1rem 0 0.5rem 0;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        ul,
+        ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        .code-block {
+            background-color: #282c34;
+            color: #abb2bf;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .keyword {
+            color: #c678dd;
+        }
+
+        .function {
+            color: #61afef;
+        }
+
+        .string {
+            color: #98c379;
+        }
+
+        .comment {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        .variable {
+            color: #e06c75;
+        }
+
+        .prop {
+            color: #d19a66;
+        }
+
+        .example-container {
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            padding: 1rem;
+            margin: 1rem 0;
+            background-color: #f9f9f9;
+        }
+
+        .exercise {
+            background-color: #e8f4fc;
+            border-left: 4px solid #21a1c4;
+            padding: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .exercise h4 {
+            color: #21a1c4;
+            margin-bottom: 0.5rem;
+        }
+
+        .important-note {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .comparison-item {
+            padding: 1rem;
+            border-radius: 5px;
+        }
+
+        .correct {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+        }
+
+        .incorrect {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+        }
+
+        button {
+            background-color: #61dafb;
+            color: #333;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            margin: 0.25rem;
+        }
+
+        button:hover {
+            background-color: #21a1c4;
+            color: white;
+        }
+
+        .demo-area {
+            margin-top: 1rem;
+            padding: 1rem;
+            border: 1px dashed #ccc;
+            border-radius: 5px;
+            min-height: 200px;
+        }
+
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin: 0.5rem 0;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #61dafb, #21a1c4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .product-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-left: 0.5rem;
+        }
+
+        .status-online {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status-offline {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .status-away {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .concept-card {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 1rem;
+        }
+
+        .concept-card h4 {
+            color: #21a1c4;
+            margin-bottom: 0.5rem;
+        }
+
+        .conditional-example {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+        }
+
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked+.toggle-slider {
+            background-color: #21a1c4;
+        }
+
+        input:checked+.toggle-slider:before {
+            transform: translateX(26px);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- En-tête de la page 1 -->
+        <div id="header-container"></div>
+
+        <!-- Contenu principal de la page 2 -->
+        <div class="content">
+            <section class="theory-section">
+                <h2>Partie Théorique Détaillée</h2>
+
+                <h3>1. Qu'est-ce que le rendu conditionnel ?</h3>
+                <p>Le rendu conditionnel en React permet d'afficher différents éléments ou composants en fonction de
+                    certaines conditions. C'est comme les instructions <code>if/else</code> en JavaScript, mais
+                    adapté
+                    au JSX.</p>
+
+                <div class="concept-grid">
+                    <div class="concept-card">
+                        <h4>Pourquoi utiliser le rendu conditionnel ?</h4>
+                        <ul>
+                            <li>Afficher/masquer des éléments</li>
+                            <li>Montrer des états de chargement</li>
+                            <li>Gérer les erreurs</li>
+                            <li>Adapter l'interface aux permissions</li>
+                            <li>Créer des interfaces dynamiques</li>
+                        </ul>
+                    </div>
+                    <div class="concept-card">
+                        <h4>Cas d'utilisation courants</h4>
+                        <ul>
+                            <li>Boutons login/logout</li>
+                            <li>Messages d'erreur</li>
+                            <li>Indicateurs de chargement</li>
+                            <li>Contenu premium</li>
+                            <li>États vides</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>2. Méthode 1 : Opérateur && (ET logique)</h3>
+                <p>Idéal pour afficher un élément uniquement si une condition est vraie.</p>
+
+                <div class="code-block">
+                    <span class="keyword">function</span> <span class="function">Notification</span>({ <span
+                        class="variable">message</span>, <span class="variable">show</span> }) {<br>
+                    &nbsp;&nbsp;<span class="keyword">return</span> (<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="variable">show</span> && &lt;div
+                    className=<span class="string">"notification"</span>&gt;{<span
+                        class="variable">message</span>}&lt;/div&gt;}<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                    &nbsp;&nbsp;);<br>
+                    }<br><br>
+
+                    <span class="comment">// Utilisation</span><br>
+                    &lt;<span class="function">Notification</span> message=<span class="string">"Nouveau
+                        message!"</span> show={<span class="variable">true</span>} /&gt;
+                </div>
+
+                <div class="important-note">
+                    <h4>⚠️ Attention aux valeurs falsy !</h4>
+                    <p>L'opérateur <code>&&</code> retourne la deuxième valeur si la première est truthy. Mais si
+                        vous
+                        utilisez <code>0</code> comme condition, React affichera <code>0</code> dans le DOM !</p>
+                </div>
+
+                <h3>3. Méthode 2 : Opérateur ternaire ? :</h3>
+                <p>Parfait pour choisir entre deux alternatives.</p>
+
+                <div class="code-block">
+                    <span class="keyword">function</span> <span class="function">LoginButton</span>({ <span
+                        class="variable">isLoggedIn</span> }) {<br>
+                    &nbsp;&nbsp;<span class="keyword">return</span> (<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="variable">isLoggedIn</span> ? (<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button&gt;Déconnexion&lt;/button&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) : (<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button&gt;Connexion&lt;/button&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)}<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                    &nbsp;&nbsp;);<br>
+                    }
+                </div>
+
+                <h3>4. Méthode 3 : Variables conditionnelles</h3>
+                <p>Stockez des éléments JSX dans des variables avant de les retourner.</p>
+
+                <div class="code-block">
+                    <span class="keyword">function</span> <span class="function">Greeting</span>({ <span
+                        class="variable">user</span> }) {<br>
+                    &nbsp;&nbsp;<span class="keyword">let</span> greeting;<br>
+                    &nbsp;&nbsp;<span class="keyword">if</span> (<span class="variable">user</span>) {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;greeting = &lt;h1&gt;Bonjour, {<span class="variable">user</span>.<span
+                        class="prop">name</span>} !&lt;/h1&gt;;<br>
+                    &nbsp;&nbsp;} <span class="keyword">else</span> {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;greeting = &lt;h1&gt;Bonjour, invité !&lt;/h1&gt;;<br>
+                    &nbsp;&nbsp;}<br>
+                    &nbsp;&nbsp;<span class="keyword">return</span> &lt;div&gt;{greeting}&lt;/div&gt;;<br>
+                    }
+                </div>
+
+                <h3>5. Méthode 4 : Fonctions de rendu conditionnel</h3>
+                <p>Extrayez la logique conditionnelle dans des fonctions séparées.</p>
+
+                <div class="code-block">
+                    <span class="keyword">function</span> <span class="function">UserDashboard</span>({ <span
+                        class="variable">user</span> }) {<br>
+                    &nbsp;&nbsp;<span class="keyword">const</span> renderContent = () =&gt; {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (!<span class="variable">user</span>)
+                    {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> &lt;p&gt;Veuillez vous
+                    connecter&lt;/p&gt;;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (<span class="variable">user</span>.<span
+                        class="prop">role</span> === <span class="string">'admin'</span>) {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> &lt;<span
+                        class="function">AdminPanel</span> /&gt;;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> &lt;<span
+                        class="function">UserPanel</span> /&gt;;<br>
+                    &nbsp;&nbsp;};<br><br>
+
+                    &nbsp;&nbsp;<span class="keyword">return</span> (<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="function">renderContent</span>()}<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                    &nbsp;&nbsp;);<br>
+                    }
+                </div>
+
+                <h3>6. Méthode 5 : Retour conditionnel early return</h3>
+                <p>Retournez différents JSX en fonction de conditions au début de la fonction.</p>
+
+                <div class="code-block">
+                    <span class="keyword">function</span> <span class="function">Page</span>({ <span
+                        class="variable">isLoading</span>, <span class="variable">error</span>, <span
+                        class="variable">data</span> }) {<br>
+                    &nbsp;&nbsp;<span class="keyword">if</span> (<span class="variable">isLoading</span>) {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>
+                    &lt;div&gt;Chargement...&lt;/div&gt;;<br>
+                    &nbsp;&nbsp;}<br><br>
+
+                    &nbsp;&nbsp;<span class="keyword">if</span> (<span class="variable">error</span>) {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> &lt;div&gt;Erreur : {<span
+                        class="variable">error</span>.<span class="prop">message</span>}&lt;/div&gt;;<br>
+                    &nbsp;&nbsp;}<br><br>
+
+                    &nbsp;&nbsp;<span class="keyword">return</span> (<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;{<span class="variable">data</span>.<span
+                        class="prop">title</span>}&lt;/h1&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;{<span class="variable">data</span>.<span
+                        class="prop">content</span>}&lt;/p&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                    &nbsp;&nbsp;);<br>
+                    }
+                </div>
+
+                <h3>7. Méthode 6 : Pattern avec Enums</h3>
+                <p>Utilisez des objets pour gérer plusieurs états de manière organisée.</p>
+
+                <div class="code-block">
+                    <span class="keyword">const</span> <span class="variable">STATES</span> = {<br>
+                    &nbsp;&nbsp;LOADING: <span class="string">'loading'</span>,<br>
+                    &nbsp;&nbsp;SUCCESS: <span class="string">'success'</span>,<br>
+                    &nbsp;&nbsp;ERROR: <span class="string">'error'</span><br>
+                    };<br><br>
+
+                    <span class="keyword">function</span> <span class="function">DataComponent</span>({ <span
+                        class="variable">state</span>, <span class="variable">data</span>, <span
+                        class="variable">error</span> }) {<br>
+                    &nbsp;&nbsp;<span class="keyword">const</span> stateComponents = {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;[<span class="variable">STATES</span>.<span class="prop">LOADING</span>]:
+                    &lt;div&gt;Chargement...&lt;/div&gt;,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;[<span class="variable">STATES</span>.<span class="prop">SUCCESS</span>]:
+                    &lt;div&gt;Données : {<span class="variable">data</span>}&lt;/div&gt;,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;[<span class="variable">STATES</span>.<span class="prop">ERROR</span>]:
+                    &lt;div&gt;Erreur : {<span class="variable">error</span>}&lt;/div&gt;<br>
+                    &nbsp;&nbsp;};<br><br>
+
+                    &nbsp;&nbsp;<span class="keyword">return</span> stateComponents[<span class="variable">state</span>]
+                    || &lt;div&gt;État inconnu&lt;/div&gt;;<br>
+                    }
+                </div>
+
+                <div class="important-note">
+                    <h4>💡 Bonnes pratiques</h4>
+                    <ul>
+                        <li><strong>Évitez la complexité</strong> : Gardez les conditions simples et lisibles</li>
+                        <li><strong>Extrayez la logique complexe</strong> : Utilisez des fonctions helper</li>
+                        <li><strong>Utilisez des variables</strong> : Pour les conditions complexes</li>
+                        <li><strong>Testez les cas limites</strong> : États vides, erreurs, chargement</li>
+                        <li><strong>Priorisez la lisibilité</strong> : Choisissez la méthode la plus claire</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="practice-section">
+                <h2>Partie Pratique</h2>
+
+                <h3>Exemple 1 : Affichage conditionnel simple</h3>
+                <p>Utilisation des opérateurs && et ternaire pour afficher/masquer du contenu.</p>
+
+                <div id="simple-conditional" class="demo-area">
+                    <!-- Le composant React sera rendu ici -->
+                </div>
+
+                <div class="exercise">
+                    <h4>Exercice 1 : Panier d'achat</h4>
+                    <p>Créez un composant Cart qui affiche soit le panier vide, soit la liste des articles.</p>
+                    <div id="cart-exercise" class="demo-area">
+                        <!-- Le composant React sera rendu ici -->
+                    </div>
+                </div>
+
+                <h3>Exemple 2 : États multiples avec early return</h3>
+                <p>Gestion de différents états (chargement, succès, erreur) avec retour conditionnel.</p>
+
+                <div id="multiple-states" class="demo-area">
+                    <!-- Le composant React sera rendu ici -->
+                </div>
+
+                <div class="exercise">
+                    <h4>Exercice 2 : Système de notation</h4>
+                    <p>Créez un composant qui affiche différentes icônes selon la note.</p>
+                    <div id="rating-exercise" class="demo-area">
+                        <!-- Le composant React sera rendu ici -->
+                    </div>
+                </div>
+
+                <h3>Exemple 3 : Interface utilisateur conditionnelle</h3>
+                <p>Interface qui change selon le rôle de l'utilisateur et ses préférences.</p>
+
+                <div id="user-interface" class="demo-area">
+                    <!-- Le composant React sera rendu ici -->
+                </div>
+            </section>
+        </div>
+
+
+        <!-- Pied de page de la page 1 -->
+        <div id="footer-container"></div>
+    </div>
+
+    <script>
+        // Fonction pour afficher l'en-tête
+        function showHeader() {
+            const headerContainer = document.getElementById('header-container');
+            headerContainer.innerHTML = `
+                <header>
+                    <div class="header-content">
+                        <div class="author-section">
+                            <img src="../img/photo.png"
+                                alt="Habib BEN JABER" class="author-photo" onerror="this.style.display='none'">
+                            <div class="author-name">Habib BEN JABER</div>
+                            <div class="author-title">Enseignant Universitaire</div>
+                        </div>
+                        <div class="title-section">
+                            <h1>Atelier React - Rendu JSX Conditionnel</h1>
+                            <p class="subtitle">Maîtriser l'affichage conditionnel d'éléments dans vos composants React</p>
+                        </div>
+                        <div class="author-section">
+                            
+                                <img src="../img/logo.jpg" alt="ISET Kebili" class="author-photo">
+                            
+                            
+                                <div class="author-name">ISET Kebili</div>
+                                <div class="author-title">Département TI</div>
+                            
+                        </div>
+                    </div>
+                </header>
+            `;
+        }
+
+        // Fonction pour afficher le pied de page
+        function showFooter() {
+            const footerContainer = document.getElementById('footer-container');
+            footerContainer.innerHTML = `
+                <footer>
+                    <div class="footer-content">
+                        <div class="footer-text">
+                            <p>Espace Cours – Habib BEN JABER - ISET Kebili | Plateforme d'enseignement en ligne</p>
+                        </div>
+                        
+                        <div class="social-links">
+                            <a href="https://facebook.com" class="social-link" target="_blank">
+                                <i class="fab fa-facebook social-icon"></i>
+                                <span class="social-name">Facebook</span>
+                            </a>
+                            <a href="https://linkedin.com" class="social-link" target="_blank">
+                                <i class="fab fa-linkedin social-icon"></i>
+                                <span class="social-name">LinkedIn</span>
+                            </a>
+                            <a href="https://youtube.com" class="social-link" target="_blank">
+                                <i class="fab fa-youtube social-icon"></i>
+                                <span class="social-name">YouTube</span>
+                            </a>
+                            <a href="https://github.com" class="social-link" target="_blank">
+                                <i class="fab fa-github social-icon"></i>
+                                <span class="social-name">GitHub</span>
+                            </a>
+                        </div>
+                        
+                        <div class="contact-info">
+                            <p>Contact : <a href="mailto:habib.jaber@gmail.com" class="contact-email">habib.jaber@gmail.com</a></p>
+                        </div>
+                    </div>
+                </footer>
+            `;
+        }
+
+        // Initialiser la page
+        document.addEventListener('DOMContentLoaded', function () {
+            showHeader();
+            showFooter();
+        });
+    </script>
+
+    <script type="text/babel">
+        // Exemple 1 : Affichage conditionnel simple
+        function SimpleConditional() {
+            const [showMessage, setShowMessage] = React.useState(false);
+            const [isPremium, setIsPremium] = React.useState(false);
+
+            return (
+                <div>
+                    <div className="toggle-container">
+                        <label>
+                            <input
+                                type="checkbox"
+                                checked={showMessage}
+                                onChange={(e) => setShowMessage(e.target.checked)}
+                            />
+                            Afficher le message
+                        </label>
+
+                        <label>
+                            <input
+                                type="checkbox"
+                                checked={isPremium}
+                                onChange={(e) => setIsPremium(e.target.checked)}
+                            />
+                            Utilisateur Premium
+                        </label>
+                    </div>
+
+                    {/* Opérateur && */}
+                    {showMessage && (
+                        <div className="card" style={{ backgroundColor: '#d4edda' }}>
+                            ✅ Message important affiché !
+                        </div>
+                    )}
+
+                    {/* Opérateur ternaire */}
+                    <div className="card">
+                        <h4>Statut : {isPremium ? "⭐ Premium" : "🔹 Standard"}</h4>
+                        {isPremium ? (
+                            <p>Merci d'être un membre premium ! Voici du contenu exclusif.</p>
+                        ) : (
+                            <p>Passez premium pour débloquer du contenu exclusif.</p>
+                        )}
+                    </div>
+
+                    {/* Condition avec variable */}
+                    {(() => {
+                        let statusMessage;
+                        if (showMessage && isPremium) {
+                            statusMessage = "Message premium affiché !";
+                        } else if (showMessage) {
+                            statusMessage = "Message standard affiché";
+                        } else {
+                            statusMessage = "Aucun message affiché";
+                        }
+                        return <p><strong>{statusMessage}</strong></p>;
+                    })()}
+                </div>
+            );
+        }
+
+        // Exercice 1 : Panier d'achat
+        function CartExercise() {
+            const [cartItems, setCartItems] = React.useState([]);
+            const [newItem, setNewItem] = React.useState('');
+
+            const addItem = () => {
+                if (newItem.trim()) {
+                    setCartItems([...cartItems, { id: Date.now(), name: newItem }]);
+                    setNewItem('');
+                }
+            };
+
+            const removeItem = (id) => {
+                setCartItems(cartItems.filter(item => item.id !== id));
+            };
+
+            const clearCart = () => {
+                setCartItems([]);
+            };
+
+            return (
+                <div>
+                    <div className="input-group">
+                        <input
+                            type="text"
+                            value={newItem}
+                            onChange={(e) => setNewItem(e.target.value)}
+                            placeholder="Nom de l'article"
+                            onKeyPress={(e) => e.key === 'Enter' && addItem()}
+                        />
+                        <button onClick={addItem}>Ajouter</button>
+                    </div>
+
+                    {/* Early return pour panier vide */}
+                    {cartItems.length === 0 ? (
+                        <div className="card" style={{ textAlign: 'center', color: '#666' }}>
+                            <h3>🛒 Votre panier est vide</h3>
+                            <p>Ajoutez des articles pour commencer vos achats</p>
+                        </div>
+                    ) : (
+                        <div>
+                            <div className="card">
+                                <h4>Panier ({cartItems.length} articles)</h4>
+                                {cartItems.map(item => (
+                                    <div key={item.id} className="user-profile">
+                                        <span>{item.name}</span>
+                                        <button onClick={() => removeItem(item.id)}>Retirer</button>
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* Affichage conditionnel du total */}
+                            {cartItems.length > 0 && (
+                                <div className="card" style={{ backgroundColor: '#e8f4fc' }}>
+                                    <h4>Résumé de la commande</h4>
+                                    <p>Nombre d'articles : {cartItems.length}</p>
+                                    {cartItems.length > 3 && (
+                                        <p style={{ color: '#21a1c4' }}>
+                                            ⭐ Vous bénéficiez de la livraison gratuite !
+                                        </p>
+                                    )}
+                                    <button onClick={clearCart}>Vider le panier</button>
+                                </div>
+                            )}
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        // Exemple 2 : États multiples avec early return
+        function MultipleStates() {
+            const [state, setState] = React.useState('idle'); // idle, loading, success, error
+            const [data, setData] = React.useState(null);
+
+            const simulateApiCall = () => {
+                setState('loading');
+                setTimeout(() => {
+                    if (Math.random() > 0.3) {
+                        setData(['Article 1', 'Article 2', 'Article 3']);
+                        setState('success');
+                    } else {
+                        setState('error');
+                    }
+                }, 1500);
+            };
+
+            const reset = () => {
+                setState('idle');
+                setData(null);
+            };
+
+            // Early return pour chaque état
+            if (state === 'loading') {
+                return (
+                    <div className="card" style={{ textAlign: 'center' }}>
+                        <h3>⏳ Chargement en cours...</h3>
+                        <p>Veuillez patienter</p>
+                        <div style={{ marginTop: '1rem' }}>
+                            <button onClick={reset}>Annuler</button>
+                        </div>
+                    </div>
+                );
+            }
+
+            if (state === 'error') {
+                return (
+                    <div className="card" style={{ backgroundColor: '#f8d7da', color: '#721c24' }}>
+                        <h3>❌ Erreur de chargement</h3>
+                        <p>Impossible de charger les données. Veuillez réessayer.</p>
+                        <button onClick={simulateApiCall}>Réessayer</button>
+                        <button onClick={reset} style={{ marginLeft: '0.5rem' }}>Retour</button>
+                    </div>
+                );
+            }
+
+            if (state === 'success') {
+                return (
+                    <div className="card" style={{ backgroundColor: '#d4edda', color: '#155724' }}>
+                        <h3>✅ Données chargées avec succès !</h3>
+                        <ul>
+                            {data.map((item, index) => (
+                                <li key={index}>{item}</li>
+                            ))}
+                        </ul>
+                        <button onClick={reset}>Charger de nouvelles données</button>
+                    </div>
+                );
+            }
+
+            // État idle (par défaut)
+            return (
+                <div className="card" style={{ textAlign: 'center' }}>
+                    <h3>Bienvenue !</h3>
+                    <p>Cliquez sur le bouton pour charger des données</p>
+                    <button onClick={simulateApiCall}>Charger les données</button>
+                </div>
+            );
+        }
+
+        // Exercice 2 : Système de notation
+        function RatingExercise() {
+            const [rating, setRating] = React.useState(0);
+
+            const renderStars = () => {
+                return [...Array(5)].map((_, index) => (
+                    <button
+                        key={index}
+                        onClick={() => setRating(index + 1)}
+                        style={{
+                            fontSize: '2rem',
+                            background: 'none',
+                            border: 'none',
+                            cursor: 'pointer',
+                            color: index < rating ? '#ffc107' : '#ccc'
+                        }}
+                    >
+                        {index < rating ? '★' : '☆'}
+                    </button>
+                ));
+            };
+
+            const getRatingMessage = () => {
+                if (rating === 0) {
+                    return "Aucune note";
+                } else if (rating <= 2) {
+                    return "❌ Insuffisant";
+                } else if (rating === 3) {
+                    return "⚠️ Moyen";
+                } else if (rating === 4) {
+                    return "✅ Bon";
+                } else {
+                    return "⭐ Excellent !";
+                }
+            };
+
+            const getRatingColor = () => {
+                if (rating === 0) return '#666';
+                if (rating <= 2) return '#dc3545';
+                if (rating === 3) return '#ffc107';
+                if (rating === 4) return '#28a745';
+                return '#007bff';
+            };
+
+            return (
+                <div className="card" style={{ textAlign: 'center' }}>
+                    <h3>Évaluez ce produit</h3>
+
+                    <div style={{ margin: '1rem 0' }}>
+                        {renderStars()}
+                    </div>
+
+                    {/* Affichage conditionnel du message */}
+                    {rating > 0 && (
+                        <div style={{
+                            padding: '1rem',
+                            margin: '1rem 0',
+                            backgroundColor: getRatingColor(),
+                            color: 'white',
+                            borderRadius: '8px',
+                            fontWeight: 'bold'
+                        }}>
+                            {getRatingMessage()} ({rating}/5)
+                        </div>
+                    )}
+
+                    {/* Message différent selon la note */}
+                    <div>
+                        {rating >= 4 ? (
+                            <p>Merci pour votre excellente note ! 🎉</p>
+                        ) : rating >= 3 ? (
+                            <p>Merci pour votre retour !</p>
+                        ) : rating > 0 ? (
+                            <p>Nous regrettons que votre expérience ne soit pas satisfaisante.</p>
+                        ) : (
+                            <p>Sélectionnez une note pour évaluer ce produit.</p>
+                        )}
+                    </div>
+                </div>
+            );
+        }
+
+        // Exemple 3 : Interface utilisateur conditionnelle
+        function UserInterface() {
+            const [user, setUser] = React.useState(null);
+            const [darkMode, setDarkMode] = React.useState(false);
+
+            const loginAsUser = () => {
+                setUser({ name: "Marie", role: "user", isActive: true });
+            };
+
+            const loginAsAdmin = () => {
+                setUser({ name: "Admin", role: "admin", isActive: true });
+            };
+
+            const logout = () => {
+                setUser(null);
+            };
+
+            const renderDashboard = () => {
+                if (!user) {
+                    return (
+                        <div className="card" style={{ textAlign: 'center' }}>
+                            <h3>🔐 Connexion requise</h3>
+                            <p>Veuillez vous connecter pour accéder au tableau de bord</p>
+                            <div style={{ marginTop: '1rem' }}>
+                                <button onClick={loginAsUser}>Connexion Utilisateur</button>
+                                <button onClick={loginAsAdmin}>Connexion Admin</button>
+                            </div>
+                        </div>
+                    );
+                }
+
+                return (
+                    <div className={`card ${darkMode ? 'dark-mode' : ''}`}
+                        style={{
+                            backgroundColor: darkMode ? '#333' : 'white',
+                            color: darkMode ? 'white' : 'inherit'
+                        }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <h3>Tableau de bord</h3>
+                            <div className="toggle-container">
+                                <label>
+                                    <input
+                                        type="checkbox"
+                                        checked={darkMode}
+                                        onChange={(e) => setDarkMode(e.target.checked)}
+                                    />
+                                    Mode sombre
+                                </label>
+                                <button onClick={logout}>Déconnexion</button>
+                            </div>
+                        </div>
+
+                        {/* Contenu différent selon le rôle */}
+                        <div className="user-profile">
+                            <div className="user-avatar">
+                                {user.name.charAt(0)}
+                            </div>
+                            <div>
+                                <h4>{user.name}</h4>
+                                <span className={`status-indicator ${user.isActive ? 'status-online' : 'status-offline'}`}>
+                                    {user.isActive ? 'En ligne' : 'Hors ligne'}
+                                </span>
+                                <p>Rôle : {user.role}</p>
+                            </div>
+                        </div>
+
+                        {/* Contenu spécifique au rôle */}
+                        {user.role === 'admin' ? (
+                            <div>
+                                <h4>🔧 Panneau d'administration</h4>
+                                <div className="product-grid">
+                                    <div className="product-card">Gestion utilisateurs</div>
+                                    <div className="product-card">Statistiques</div>
+                                    <div className="product-card">Paramètres système</div>
+                                </div>
+                                <p style={{ color: darkMode ? '#61dafb' : '#21a1c4', marginTop: '1rem' }}>
+                                    ⚠️ Vous avez accès aux fonctionnalités administrateur
+                                </p>
+                            </div>
+                        ) : (
+                            <div>
+                                <h4>👤 Espace utilisateur</h4>
+                                <div className="product-grid">
+                                    <div className="product-card">Mon profil</div>
+                                    <div className="product-card">Mes commandes</div>
+                                    <div className="product-card">Paramètres</div>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Contenu commun avec variations */}
+                        <div style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: `1px solid ${darkMode ? '#555' : '#ddd'}` }}>
+                            <h4>Notifications</h4>
+                            {user.role === 'admin' ? (
+                                <p>📋 5 rapports en attente de validation</p>
+                            ) : (
+                                <p>📧 Vous avez 3 nouveaux messages</p>
+                            )}
+                        </div>
+                    </div>
+                );
+            };
+
+            return renderDashboard();
+        }
+
+        // Rendu des composants
+        ReactDOM.render(<SimpleConditional />, document.getElementById('simple-conditional'));
+        ReactDOM.render(<CartExercise />, document.getElementById('cart-exercise'));
+        ReactDOM.render(<MultipleStates />, document.getElementById('multiple-states'));
+        ReactDOM.render(<RatingExercise />, document.getElementById('rating-exercise'));
+        ReactDOM.render(<UserInterface />, document.getElementById('user-interface'));
+    </script>
+</body>
+
+</html>
