@@ -91,7 +91,7 @@
         .title-section {
             flex: 1;
             text-align: center;
-            max-width: 500px;
+            max-width: 900px;
         }
 
         h1 {
@@ -509,12 +509,13 @@
 
         <!-- Contenu principal -->
         <div class="main-content">
-            <h1 class="page-title">Espace Cours – Habib BEN JABER</h1>
+
 
             <div class="welcome-section">
-                <h2 class="welcome-title">👋 Bienvenue dans votre Espace Cours</h2>
+
                 <p class="welcome-text">
-                    Cet espace regroupe l'ensemble des cours et ressources pédagogiques pour votre formation en
+                    Cet espace regroupe l'ensemble des fiches de synthèse et ressources pédagogiques pour votre
+                    formation en
                     informatique.
                     Sélectionnez une matière pour accéder à ses chapitres et supports de cours.
                 </p>
@@ -548,86 +549,46 @@
             "matieres": [
                 {
                     "id": "react",
-                    "nom": "Framework Client - React",
+                    "nom": "Atelier Framework Coté Client",
                     "description": "Développement d'applications web modernes avec React",
                     "icone": "⚛️",
                     "progression": 65,
                     "chapitres": [
+
                         {
                             "numero": 1,
-                            "titre": "Introduction à React",
-                            "url": "REACT/react-composant.html",
-                            "lecons": 4,
-                            "duree": "2h30"
-                        },
-                        {
-                            "numero": 2,
-                            "titre": "JSX et Composants",
-                            "url": "react-chapitre2.html",
-                            "lecons": 5,
+                            "titre": "React - Vite et Composants",
+                            "url": "REACT/react-create-vite-project.html",
+                            "lecons": 2,
                             "duree": "3h15"
                         },
                         {
-                            "numero": 3,
-                            "titre": "Props et États",
-                            "url": "react-chapitre3.html",
-                            "lecons": 6,
+                            "numero": 2,
+                            "titre": "React - Les Props (Propriétés)",
+                            "url": "REACT/react-composants-props.html",
+                            "lecons": 7,
                             "duree": "4h00"
                         },
                         {
-                            "numero": 4,
-                            "titre": "Hooks React",
-                            "url": "react-chapitre4.html",
+                            "numero": 3,
+                            "titre": "React - Les États (State)",
+                            "url": "REACT/react-composants-state.html",
                             "lecons": 7,
                             "duree": "4h45"
                         },
                         {
-                            "numero": 5,
-                            "titre": "Gestion d'État Avancée",
-                            "url": "react-chapitre5.html",
-                            "lecons": 5,
-                            "duree": "3h30"
+                            "numero": 4,
+                            "titre": "React - Rendu JSX Conditionnel",
+                            "url": "REACT/react-rendu-jsx-conditionnel.html",
+                            "lecons": 7,
+                            "duree": "4h45"
                         },
-                        {
-                            "numero": 6,
-                            "titre": "Routing avec React Router",
-                            "url": "react-chapitre6.html",
-                            "lecons": 4,
-                            "duree": "2h45"
-                        },
-                        {
-                            "numero": 7,
-                            "titre": "Tests et Debugging",
-                            "url": "react-chapitre7.html",
-                            "lecons": 6,
-                            "duree": "3h15"
-                        },
-                        {
-                            "numero": 8,
-                            "titre": "Performance et Optimisation",
-                            "url": "react-chapitre8.html",
-                            "lecons": 5,
-                            "duree": "3h00"
-                        },
-                        {
-                            "numero": 9,
-                            "titre": "Intégration API",
-                            "url": "react-chapitre9.html",
-                            "lecons": 4,
-                            "duree": "2h30"
-                        },
-                        {
-                            "numero": 10,
-                            "titre": "Projet Final",
-                            "url": "react-chapitre10.html",
-                            "lecons": 8,
-                            "duree": "6h00"
-                        }
+
                     ]
                 },
                 {
                     "id": "javascript",
-                    "nom": "JavaScript Avancé",
+                    "nom": "Atelier Développement web coté serveur",
                     "description": "Maîtrise du langage JavaScript et ses concepts avancés",
                     "icone": "🟨",
                     "progression": 45,
@@ -998,23 +959,23 @@
                 <header>
                     <div class="header-content">
                         <div class="author-section">
-                            <img src="https://media.licdn.com/dms/image/v2/D4D03AQGKY70yUAkNeg/profile-displayphoto-scale_400_400/B4DZoWbkDYGwAk-/0/1761312917906?e=1762992000&v=beta&t=higEye4V5f9zbSmnRTBSuIamwR9MMoaBA6V4NivSiMA"
+                            <img src="img/photo.png"
                                 alt="Habib BEN JABER" class="author-photo" onerror="this.style.display='none'">
                             <div class="author-name">Habib BEN JABER</div>
                             <div class="author-title">Enseignant Universitaire</div>
                         </div>
                         <div class="title-section">
-                            <h1>Espace Cours – ISET Informatique</h1>
+                            <h1>Espace Cours – Informatique</h1>
                             <p class="subtitle">Plateforme d'apprentissage en ligne - Ressources pédagogiques</p>
                         </div>
-                        <div class="institution-section">
-                            <div class="institution-logo">
-                                <img src="https://isetkb.rnu.tn/static/img/logo.png" alt="ISET Kebili" class="institution-img">
-                            </div>
-                            <div class="institution-info">
-                                <div class="institution-name">ISET Kebili</div>
-                                <div class="institution-department">Département Informatique</div>
-                            </div>
+                        <div class="author-section">
+                            
+                                <img src="img/logo.jpg" alt="ISET Kebili" class="author-photo">
+                            
+                            
+                                <div class="author-name">ISET Kebili</div>
+                                <div class="author-title">Département TI</div>
+                            
                         </div>
                     </div>
                 </header>
@@ -1028,7 +989,7 @@
                 <footer>
                     <div class="footer-content">
                         <div class="footer-text">
-                            <p>Espace Cours – Habib BEN JABER - ISET Informatique | Plateforme d'enseignement en ligne</p>
+                            <p>Espace Cours – Habib BEN JABER - ISET Kebili | Plateforme d'enseignement en ligne</p>
                         </div>
                         
                         <div class="social-links">

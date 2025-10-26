@@ -8,7 +8,9 @@
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Styles de l'en-tête et pied de page de la page 1 */
         * {
             margin: 0;
             padding: 0;
@@ -23,11 +25,11 @@
         }
 
         .container {
-            max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
         }
 
+        /* Styles pour l'en-tête */
         header {
             background: linear-gradient(135deg, #61dafb 0%, #21a1c4 100%);
             color: white;
@@ -36,18 +38,297 @@
             border-radius: 10px;
             margin-bottom: 2rem;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            max-width: 1200px;
+
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .author-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            flex: 0 0 auto;
+        }
+
+        .author-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            object-fit: cover;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .author-photo:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .author-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .author-title {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .title-section {
+            flex: 1;
+            text-align: center;
+            max-width: 900px;
         }
 
         h1 {
             font-size: 2.5rem;
             margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .subtitle {
             font-size: 1.2rem;
             opacity: 0.9;
+            font-weight: 300;
         }
 
+        /* Styles pour la section institution */
+        .institution-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            flex: 0 0 auto;
+        }
+
+        .institution-logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .institution-logo:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .institution-img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            border-radius: 50%;
+            padding: 8px;
+        }
+
+        .institution-info {
+            text-align: center;
+        }
+
+        .institution-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .institution-department {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 1.5rem;
+            }
+
+            .title-section {
+                text-align: center;
+                order: -1;
+            }
+
+            .author-section,
+            .institution-section {
+                flex-direction: row;
+                gap: 1rem;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .author-photo,
+            .institution-logo {
+                width: 100px;
+                height: 100px;
+                margin-bottom: 0;
+            }
+
+            .institution-img {
+                width: 80px;
+                height: 80px;
+            }
+
+            .author-info,
+            .institution-info {
+                text-align: left;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-content {
+                padding: 0 1rem;
+            }
+
+            .author-section,
+            .institution-section {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .author-info,
+            .institution-info {
+                text-align: center;
+            }
+
+            .author-photo,
+            .institution-logo {
+                width: 90px;
+                height: 90px;
+            }
+
+            .institution-img {
+                width: 70px;
+                height: 70px;
+            }
+
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+        }
+
+        /* Styles pour le contenu principal */
+        .main-content {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            text-align: center;
+            color: #21a1c4;
+            margin-bottom: 2rem;
+            font-size: 2.2rem;
+        }
+
+        /* Styles pour le pied de page */
+        footer {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 2rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-text {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: white;
+            transition: transform 0.3s ease;
+        }
+
+        .social-link:hover {
+            transform: translateY(-5px);
+        }
+
+        .social-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-link:hover .social-icon {
+            color: #61dafb;
+        }
+
+        .social-name {
+            font-size: 0.9rem;
+        }
+
+        .contact-info {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .contact-email {
+            color: #61dafb;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .contact-email:hover {
+            text-decoration: underline;
+        }
+
+        /* Styles de la page actuelle (contenu principal) */
         .content {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -133,6 +414,10 @@
 
         .variable {
             color: #e06c75;
+        }
+
+        .prop {
+            color: #d19a66;
         }
 
         .example-container {
@@ -256,14 +541,6 @@
             border-radius: 4px;
         }
 
-        footer {
-            text-align: center;
-            margin-top: 2rem;
-            padding: 1rem;
-            color: #666;
-            font-size: 0.9rem;
-        }
-
         .concept-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -287,224 +564,304 @@
 
 <body>
     <div class="container">
-        <header>
-            <h1>Atelier React - Les États (State)</h1>
-            <p class="subtitle">Comprendre et maîtriser la gestion d'état dans les composants React</p>
-        </header>
+        <!-- En-tête de la page 1 -->
+        <div id="header-container"></div>
 
-        <div class="content">
-            <section class="theory-section">
-                <h2>Partie Théorique Détaillée</h2>
+        <!-- Contenu principal de la page actuelle -->
+        <div class="main-content">
+            <div class="content">
+                <section class="theory-section">
+                    <h2>Partie Théorique Détaillée</h2>
 
-                <h3>1. Qu'est-ce que l'état (state) en React ?</h3>
-                <p>L'état est un concept fondamental en React qui représente les données dynamiques d'un composant.
-                    Contrairement aux props qui sont immuables et passées de parent à enfant, l'état est :</p>
-                <ul>
-                    <li><strong>Local au composant</strong> : Géré et modifié à l'intérieur du composant</li>
-                    <li><strong>Mutable</strong> : Peut changer au cours du temps</li>
-                    <li><strong>Déclencheur de rendu</strong> : Toute modification entraîne un nouveau rendu du
-                        composant</li>
-                </ul>
-
-                <div class="concept-grid">
-                    <div class="concept-card">
-                        <h4>État (State)</h4>
-                        <ul>
-                            <li>Données internes au composant</li>
-                            <li>Peut être modifié</li>
-                            <li>Déclenche un re-rendu</li>
-                            <li>Géré avec useState</li>
-                        </ul>
-                    </div>
-                    <div class="concept-card">
-                        <h4>Props</h4>
-                        <ul>
-                            <li>Données passées au composant</li>
-                            <li>Immuables (read-only)</li>
-                            <li>Ne déclenche pas de re-rendu direct</li>
-                            <li>Passées comme attributs</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <h3>2. Le Hook useState</h3>
-                <p><code>useState</code> est un hook React qui permet d'ajouter un état local aux composants
-                    fonctionnels.</p>
-
-                <div class="code-block">
-                    <span class="comment">// Importation du hook</span><br>
-                    <span class="keyword">import</span> React, { <span class="function">useState</span> } <span
-                        class="keyword">from</span> <span class="string">'react'</span>;<br><br>
-
-                    <span class="comment">// Syntaxe de base</span><br>
-                    <span class="keyword">const</span> [state, setState] = <span
-                        class="function">useState</span>(valeurInitiale);<br><br>
-
-                    <span class="comment">// Exemple concret</span><br>
-                    <span class="keyword">const</span> [count, setCount] = <span class="function">useState</span>(0);
-                </div>
-
-                <h4>Décomposition de useState :</h4>
-                <ul>
-                    <li><code class="variable">state</code> : Valeur actuelle de l'état</li>
-                    <li><code class="function">setState</code> : Fonction pour modifier l'état</li>
-                    <li><code>valeurInitiale</code> : Valeur par défaut au premier rendu</li>
-                </ul>
-
-                <h3>3. Règles fondamentales des hooks</h3>
-                <div class="important-note">
-                    <h4>⚠️ Règles importantes :</h4>
+                    <h3>1. Qu'est-ce que l'état (state) en React ?</h3>
+                    <p>L'état est un concept fondamental en React qui représente les données dynamiques d'un composant.
+                        Contrairement aux props qui sont immuables et passées de parent à enfant, l'état est :</p>
                     <ul>
-                        <li><strong>N'appelez les hooks qu'au niveau racine</strong> - Pas dans des boucles, conditions
-                            ou fonctions imbriquées</li>
-                        <li><strong>Appelez les hooks uniquement dans des composants React</strong> - Ou des hooks
-                            personnalisés</li>
-                        <li><strong>Les noms des hooks commencent toujours par "use"</strong></li>
+                        <li><strong>Local au composant</strong> : Géré et modifié à l'intérieur du composant</li>
+                        <li><strong>Mutable</strong> : Peut changer au cours du temps</li>
+                        <li><strong>Déclencheur de rendu</strong> : Toute modification entraîne un nouveau rendu du
+                            composant</li>
                     </ul>
-                </div>
 
-                <h3>4. Mise à jour de l'état</h3>
-                <p>La mise à jour de l'état doit toujours se faire via la fonction setter, jamais par modification
-                    directe.</p>
-
-                <div class="comparison">
-                    <div class="comparison-item incorrect">
-                        <h4>❌ À éviter</h4>
-                        <div class="code-block">
-                            <span class="comment">// Modification directe - INTERDIT !</span><br>
-                            count = 5;<br>
-                            <span class="comment">// Ne déclenche pas de re-rendu</span><br>
-                            <span class="comment">// Corrompt le système de React</span>
+                    <div class="concept-grid">
+                        <div class="concept-card">
+                            <h4>État (State)</h4>
+                            <ul>
+                                <li>Données internes au composant</li>
+                                <li>Peut être modifié</li>
+                                <li>Déclenche un re-rendu</li>
+                                <li>Géré avec useState</li>
+                            </ul>
+                        </div>
+                        <div class="concept-card">
+                            <h4>Props</h4>
+                            <ul>
+                                <li>Données passées au composant</li>
+                                <li>Immuables (read-only)</li>
+                                <li>Ne déclenche pas de re-rendu direct</li>
+                                <li>Passées comme attributs</li>
+                            </ul>
                         </div>
                     </div>
-                    <div class="comparison-item correct">
-                        <h4>✅ Bonnes pratiques</h4>
-                        <div class="code-block">
-                            <span class="comment">// Mise à jour correcte</span><br>
-                            <span class="function">setCount</span>(5);<br>
-                            <span class="comment">// Déclenche un re-rendu</span><br>
-                            <span class="comment">// Respecte l'immutabilité</span>
+
+                    <h3>2. Le Hook useState</h3>
+                    <p><code>useState</code> est un hook React qui permet d'ajouter un état local aux composants
+                        fonctionnels.</p>
+
+                    <div class="code-block">
+                        <span class="comment">// Importation du hook</span><br>
+                        <span class="keyword">import</span> React, { <span class="function">useState</span> } <span
+                            class="keyword">from</span> <span class="string">'react'</span>;<br><br>
+
+                        <span class="comment">// Syntaxe de base</span><br>
+                        <span class="keyword">const</span> [state, setState] = <span
+                            class="function">useState</span>(valeurInitiale);<br><br>
+
+                        <span class="comment">// Exemple concret</span><br>
+                        <span class="keyword">const</span> [count, setCount] = <span
+                            class="function">useState</span>(0);
+                    </div>
+
+                    <h4>Décomposition de useState :</h4>
+                    <ul>
+                        <li><code class="variable">state</code> : Valeur actuelle de l'état</li>
+                        <li><code class="function">setState</code> : Fonction pour modifier l'état</li>
+                        <li><code>valeurInitiale</code> : Valeur par défaut au premier rendu</li>
+                    </ul>
+
+                    <h3>3. Règles fondamentales des hooks</h3>
+                    <div class="important-note">
+                        <h4>⚠️ Règles importantes :</h4>
+                        <ul>
+                            <li><strong>N'appelez les hooks qu'au niveau racine</strong> - Pas dans des boucles,
+                                conditions
+                                ou fonctions imbriquées</li>
+                            <li><strong>Appelez les hooks uniquement dans des composants React</strong> - Ou des hooks
+                                personnalisés</li>
+                            <li><strong>Les noms des hooks commencent toujours par "use"</strong></li>
+                        </ul>
+                    </div>
+
+                    <h3>4. Mise à jour de l'état</h3>
+                    <p>La mise à jour de l'état doit toujours se faire via la fonction setter, jamais par modification
+                        directe.</p>
+
+                    <div class="comparison">
+                        <div class="comparison-item incorrect">
+                            <h4>❌ À éviter</h4>
+                            <div class="code-block">
+                                <span class="comment">// Modification directe - INTERDIT !</span><br>
+                                count = 5;<br>
+                                <span class="comment">// Ne déclenche pas de re-rendu</span><br>
+                                <span class="comment">// Corrompt le système de React</span>
+                            </div>
+                        </div>
+                        <div class="comparison-item correct">
+                            <h4>✅ Bonnes pratiques</h4>
+                            <div class="code-block">
+                                <span class="comment">// Mise à jour correcte</span><br>
+                                <span class="function">setCount</span>(5);<br>
+                                <span class="comment">// Déclenche un re-rendu</span><br>
+                                <span class="comment">// Respecte l'immutabilité</span>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <h3>5. Mise à jour basée sur l'état précédent</h3>
-                <p>Quand la nouvelle valeur dépend de l'ancienne, utilisez la forme fonctionnelle.</p>
+                    <h3>5. Mise à jour basée sur l'état précédent</h3>
+                    <p>Quand la nouvelle valeur dépend de l'ancienne, utilisez la forme fonctionnelle.</p>
 
-                <div class="code-block">
-                    <span class="comment">// ❌ Problématique (mises à jour asynchrones)</span><br>
-                    <span class="function">setCount</span>(count + 1);<br>
-                    <span class="function">setCount</span>(count + 1); <span class="comment">// Peut ne pas fonctionner
-                        comme attendu</span><br><br>
+                    <div class="code-block">
+                        <span class="comment">// ❌ Problématique (mises à jour asynchrones)</span><br>
+                        <span class="function">setCount</span>(count + 1);<br>
+                        <span class="function">setCount</span>(count + 1); <span class="comment">// Peut ne pas
+                            fonctionner
+                            comme attendu</span><br><br>
 
-                    <span class="comment">// ✅ Solution recommandée</span><br>
-                    <span class="function">setCount</span>(prevCount =&gt; prevCount + 1);<br>
-                    <span class="function">setCount</span>(prevCount =&gt; prevCount + 1); <span class="comment">//
-                        Fonctionne correctement</span>
-                </div>
+                        <span class="comment">// ✅ Solution recommandée</span><br>
+                        <span class="function">setCount</span>(prevCount =&gt; prevCount + 1);<br>
+                        <span class="function">setCount</span>(prevCount =&gt; prevCount + 1); <span class="comment">//
+                            Fonctionne correctement</span>
+                    </div>
 
-                <h3>6. États avec objets et tableaux</h3>
-                <p>React compare les références, donc pour les objets et tableaux, créez toujours de nouvelles
-                    références.</p>
+                    <h3>6. États avec objets et tableaux</h3>
+                    <p>React compare les références, donc pour les objets et tableaux, créez toujours de nouvelles
+                        références.</p>
 
-                <div class="code-block">
-                    <span class="comment">// État avec un objet</span><br>
-                    <span class="keyword">const</span> [user, setUser] = <span class="function">useState</span>({<br>
-                    &nbsp;&nbsp;name: <span class="string">''</span>,<br>
-                    &nbsp;&nbsp;email: <span class="string">''</span>,<br>
-                    &nbsp;&nbsp;age: 0<br>
-                    });<br><br>
+                    <div class="code-block">
+                        <span class="comment">// État avec un objet</span><br>
+                        <span class="keyword">const</span> [user, setUser] = <span
+                            class="function">useState</span>({<br>
+                        &nbsp;&nbsp;name: <span class="string">''</span>,<br>
+                        &nbsp;&nbsp;email: <span class="string">''</span>,<br>
+                        &nbsp;&nbsp;age: 0<br>
+                        });<br><br>
 
-                    <span class="comment">// Mise à jour correcte d'un champ</span><br>
-                    <span class="function">setUser</span>(prevUser =&gt; ({<br>
-                    &nbsp;&nbsp;...prevUser,<br>
-                    &nbsp;&nbsp;name: <span class="string">'Marie'</span><br>
-                    }));<br><br>
+                        <span class="comment">// Mise à jour correcte d'un champ</span><br>
+                        <span class="function">setUser</span>(prevUser =&gt; ({<br>
+                        &nbsp;&nbsp;...prevUser,<br>
+                        &nbsp;&nbsp;name: <span class="string">'Marie'</span><br>
+                        }));<br><br>
 
-                    <span class="comment">// État avec un tableau</span><br>
-                    <span class="keyword">const</span> [items, setItems] = <span
-                        class="function">useState</span>([]);<br><br>
+                        <span class="comment">// État avec un tableau</span><br>
+                        <span class="keyword">const</span> [items, setItems] = <span
+                            class="function">useState</span>([]);<br><br>
 
-                    <span class="comment">// Ajout d'un élément</span><br>
-                    <span class="function">setItems</span>(prevItems =&gt; [...prevItems, newItem]);<br><br>
+                        <span class="comment">// Ajout d'un élément</span><br>
+                        <span class="function">setItems</span>(prevItems =&gt; [...prevItems, newItem]);<br><br>
 
-                    <span class="comment">// Suppression d'un élément</span><br>
-                    <span class="function">setItems</span>(prevItems =&gt; prevItems.filter(item =&gt; item.id !==
-                    idToRemove));<br><br>
+                        <span class="comment">// Suppression d'un élément</span><br>
+                        <span class="function">setItems</span>(prevItems =&gt; prevItems.filter(item =&gt; item.id !==
+                        idToRemove));<br><br>
 
-                    <span class="comment">// Modification d'un élément</span><br>
-                    <span class="function">setItems</span>(prevItems =&gt; <br>
-                    &nbsp;&nbsp;prevItems.map(item =&gt; <br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;item.id === id ? { ...item, completed: true } : item<br>
-                    &nbsp;&nbsp;)<br>
-                    );
-                </div>
+                        <span class="comment">// Modification d'un élément</span><br>
+                        <span class="function">setItems</span>(prevItems =&gt; <br>
+                        &nbsp;&nbsp;prevItems.map(item =&gt; <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;item.id === id ? { ...item, completed: true } : item<br>
+                        &nbsp;&nbsp;)<br>
+                        );
+                    </div>
 
-                <h3>7. Bonnes pratiques</h3>
-                <ul>
-                    <li><strong>Minimisez l'état</strong> : Ne stockez que ce qui est nécessaire</li>
-                    <li><strong>Évitez la duplication</strong> : Calculez les valeurs dérivées si possible</li>
-                    <li><strong>Regroupez les états liés</strong> : Utilisez un objet pour les données connexes</li>
-                    <li><strong>Lift state up</strong> : Remontez l'état au plus proche ancêtre commun quand nécessaire
-                    </li>
-                </ul>
+                    <h3>7. Bonnes pratiques</h3>
+                    <ul>
+                        <li><strong>Minimisez l'état</strong> : Ne stockez que ce qui est nécessaire</li>
+                        <li><strong>Évitez la duplication</strong> : Calculez les valeurs dérivées si possible</li>
+                        <li><strong>Regroupez les états liés</strong> : Utilisez un objet pour les données connexes</li>
+                        <li><strong>Lift state up</strong> : Remontez l'état au plus proche ancêtre commun quand
+                            nécessaire
+                        </li>
+                    </ul>
 
-                <h3>8. Cycle de vie de l'état</h3>
-                <ol>
-                    <li><strong>Initialisation</strong> : useState(initialValue) définit la valeur initiale</li>
-                    <li><strong>Lecture</strong> : Utilisez la variable state pendant le rendu</li>
-                    <li><strong>Mise à jour</strong> : Appelez setState pour modifier l'état</li>
-                    <li><strong>Re-rendu</strong> : React recalcule le composant avec la nouvelle valeur</li>
-                </ol>
-            </section>
+                    <h3>8. Cycle de vie de l'état</h3>
+                    <ol>
+                        <li><strong>Initialisation</strong> : useState(initialValue) définit la valeur initiale</li>
+                        <li><strong>Lecture</strong> : Utilisez la variable state pendant le rendu</li>
+                        <li><strong>Mise à jour</strong> : Appelez setState pour modifier l'état</li>
+                        <li><strong>Re-rendu</strong> : React recalcule le composant avec la nouvelle valeur</li>
+                    </ol>
+                </section>
 
-            <section class="practice-section">
-                <h2>Partie Pratique</h2>
+                <section class="practice-section">
+                    <h2>Partie Pratique</h2>
 
-                <h3>Exemple 1: Compteur simple</h3>
-                <p>Un compteur basique qui utilise useState pour gérer un nombre.</p>
+                    <h3>Exemple 1: Compteur simple</h3>
+                    <p>Un compteur basique qui utilise useState pour gérer un nombre.</p>
 
-                <div id="counter-example" class="demo-area">
-                    <!-- Le composant React sera rendu ici -->
-                </div>
-
-                <div class="exercise">
-                    <h4>Exercice 1: Compteur amélioré</h4>
-                    <p>Ajoutez un bouton "Réinitialiser" qui remet le compteur à 0.</p>
-                    <div id="counter-exercise" class="demo-area">
+                    <div id="counter-example" class="demo-area">
                         <!-- Le composant React sera rendu ici -->
                     </div>
-                </div>
 
-                <h3>Exemple 2: Liste de tâches</h3>
-                <p>Une application de liste de tâches qui utilise useState avec un tableau.</p>
+                    <div class="exercise">
+                        <h4>Exercice 1: Compteur amélioré</h4>
+                        <p>Ajoutez un bouton "Réinitialiser" qui remet le compteur à 0.</p>
+                        <div id="counter-exercise" class="demo-area">
+                            <!-- Le composant React sera rendu ici -->
+                        </div>
+                    </div>
 
-                <div id="todo-example" class="demo-area">
-                    <!-- Le composant React sera rendu ici -->
-                </div>
+                    <h3>Exemple 2: Liste de tâches</h3>
+                    <p>Une application de liste de tâches qui utilise useState avec un tableau.</p>
 
-                <div class="exercise">
-                    <h4>Exercice 2: Liste de tâches améliorée</h4>
-                    <p>Ajoutez la possibilité de marquer une tâche comme terminée et de filtrer les tâches (toutes,
-                        actives, terminées).</p>
-                    <div id="todo-exercise" class="demo-area">
+                    <div id="todo-example" class="demo-area">
                         <!-- Le composant React sera rendu ici -->
                     </div>
-                </div>
 
-                <h3>Exemple 3: Gestion d'état complexe</h3>
-                <p>Un exemple combinant plusieurs états et montrant les bonnes pratiques.</p>
+                    <div class="exercise">
+                        <h4>Exercice 2: Liste de tâches améliorée</h4>
+                        <p>Ajoutez la possibilité de marquer une tâche comme terminée et de filtrer les tâches (toutes,
+                            actives, terminées).</p>
+                        <div id="todo-exercise" class="demo-area">
+                            <!-- Le composant React sera rendu ici -->
+                        </div>
+                    </div>
 
-                <div id="complex-example" class="demo-area">
-                    <!-- Le composant React sera rendu ici -->
-                </div>
-            </section>
+                    <h3>Exemple 3: Gestion d'état complexe</h3>
+                    <p>Un exemple combinant plusieurs états et montrant les bonnes pratiques.</p>
+
+                    <div id="complex-example" class="demo-area">
+                        <!-- Le composant React sera rendu ici -->
+                    </div>
+                </section>
+            </div>
         </div>
 
-        <footer>
-            <p>Atelier React - Les États (State) | Conçu pour l'enseignement</p>
-        </footer>
+        <!-- Pied de page de la page 1 -->
+        <div id="footer-container"></div>
     </div>
+
+    <script>
+        // Fonction pour afficher l'en-tête
+        function showHeader() {
+            const headerContainer = document.getElementById('header-container');
+            headerContainer.innerHTML = `
+                <header>
+                    <div class="header-content">
+                        <div class="author-section">
+                            <img src="../img/photo.png"
+                                alt="Habib BEN JABER" class="author-photo" onerror="this.style.display='none'">
+                            <div class="author-name">Habib BEN JABER</div>
+                            <div class="author-title">Enseignant Universitaire</div>
+                        </div>
+                        <div class="title-section">
+                            <h1>Atelier React - Les États (State)</h1>
+                            <p class="subtitle">Comprendre et maîtriser la gestion d'état dans les composants React</p>
+                        </div>
+                        <div class="author-section">
+                            
+                                <img src="../img/logo.jpg" alt="ISET Kebili" class="author-photo">
+                            
+                            
+                                <div class="author-name">ISET Kebili</div>
+                                <div class="author-title">Département TI</div>
+                            
+                        </div>
+                    </div>
+                </header>
+            `;
+        }
+
+        // Fonction pour afficher le pied de page
+        function showFooter() {
+            const footerContainer = document.getElementById('footer-container');
+            footerContainer.innerHTML = `
+                <footer>
+                    <div class="footer-content">
+                        <div class="footer-text">
+                            <p>Espace Cours – Habib BEN JABER - ISET Kebili | Plateforme d'enseignement en ligne</p>
+                        </div>
+                        
+                        <div class="social-links">
+                            <a href="https://facebook.com" class="social-link" target="_blank">
+                                <i class="fab fa-facebook social-icon"></i>
+                                <span class="social-name">Facebook</span>
+                            </a>
+                            <a href="https://linkedin.com" class="social-link" target="_blank">
+                                <i class="fab fa-linkedin social-icon"></i>
+                                <span class="social-name">LinkedIn</span>
+                            </a>
+                            <a href="https://youtube.com" class="social-link" target="_blank">
+                                <i class="fab fa-youtube social-icon"></i>
+                                <span class="social-name">YouTube</span>
+                            </a>
+                            <a href="https://github.com" class="social-link" target="_blank">
+                                <i class="fab fa-github social-icon"></i>
+                                <span class="social-name">GitHub</span>
+                            </a>
+                        </div>
+                        
+                        <div class="contact-info">
+                            <p>Contact : <a href="mailto:habib.jaber@gmail.com" class="contact-email">habib.jaber@gmail.com</a></p>
+                        </div>
+                    </div>
+                </footer>
+            `;
+        }
+
+        // Initialiser la page
+        document.addEventListener('DOMContentLoaded', function () {
+            showHeader();
+            showFooter();
+        });
+    </script>
 
     <script type="text/babel">
         // Exemple 1: Compteur simple

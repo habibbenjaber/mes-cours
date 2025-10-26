@@ -8,7 +8,9 @@
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Styles de l'en-tête et pied de page de la page 1 */
         * {
             margin: 0;
             padding: 0;
@@ -23,11 +25,11 @@
         }
 
         .container {
-            max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
         }
 
+        /* Styles pour l'en-tête */
         header {
             background: linear-gradient(135deg, #61dafb 0%, #21a1c4 100%);
             color: white;
@@ -36,18 +38,295 @@
             border-radius: 10px;
             margin-bottom: 2rem;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .author-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            flex: 0 0 auto;
+        }
+
+        .author-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            object-fit: cover;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .author-photo:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .author-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .author-title {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .title-section {
+            flex: 1;
+            text-align: center;
+            max-width: 900px;
         }
 
         h1 {
             font-size: 2.5rem;
             margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .subtitle {
             font-size: 1.2rem;
             opacity: 0.9;
+            font-weight: 300;
         }
 
+        /* Styles pour la section institution */
+        .institution-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            flex: 0 0 auto;
+        }
+
+        .institution-logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .institution-logo:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .institution-img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            border-radius: 50%;
+            padding: 8px;
+        }
+
+        .institution-info {
+            text-align: center;
+        }
+
+        .institution-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .institution-department {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 1.5rem;
+            }
+
+            .title-section {
+                text-align: center;
+                order: -1;
+            }
+
+            .author-section,
+            .institution-section {
+                flex-direction: row;
+                gap: 1rem;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .author-photo,
+            .institution-logo {
+                width: 100px;
+                height: 100px;
+                margin-bottom: 0;
+            }
+
+            .institution-img {
+                width: 80px;
+                height: 80px;
+            }
+
+            .author-info,
+            .institution-info {
+                text-align: left;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-content {
+                padding: 0 1rem;
+            }
+
+            .author-section,
+            .institution-section {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .author-info,
+            .institution-info {
+                text-align: center;
+            }
+
+            .author-photo,
+            .institution-logo {
+                width: 90px;
+                height: 90px;
+            }
+
+            .institution-img {
+                width: 70px;
+                height: 70px;
+            }
+
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+        }
+
+        /* Styles pour le contenu principal */
+        .main-content {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            text-align: center;
+            color: #21a1c4;
+            margin-bottom: 2rem;
+            font-size: 2.2rem;
+        }
+
+        /* Styles pour le pied de page */
+        footer {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 2rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-text {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: white;
+            transition: transform 0.3s ease;
+        }
+
+        .social-link:hover {
+            transform: translateY(-5px);
+        }
+
+        .social-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-link:hover .social-icon {
+            color: #61dafb;
+        }
+
+        .social-name {
+            font-size: 0.9rem;
+        }
+
+        .contact-info {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .contact-email {
+            color: #61dafb;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .contact-email:hover {
+            text-decoration: underline;
+        }
+
+        /* Styles de la page 2 (contenu principal) */
         .content {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -297,14 +576,6 @@
             border-radius: 4px;
         }
 
-        footer {
-            text-align: center;
-            margin-top: 2rem;
-            padding: 1rem;
-            color: #666;
-            font-size: 0.9rem;
-        }
-
         .concept-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -387,244 +658,327 @@
 
 <body>
     <div class="container">
-        <header>
-            <h1>Atelier React - Rendu JSX Conditionnel</h1>
-            <p class="subtitle">Maîtriser l'affichage conditionnel d'éléments dans vos composants React</p>
-        </header>
+        <!-- En-tête de la page 1 -->
+        <div id="header-container"></div>
 
-        <div class="content">
-            <section class="theory-section">
-                <h2>Partie Théorique Détaillée</h2>
+        <!-- Contenu principal de la page 2 -->
+        <div class="main-content">
+            <div class="content">
+                <section class="theory-section">
+                    <h2>Partie Théorique Détaillée</h2>
 
-                <h3>1. Qu'est-ce que le rendu conditionnel ?</h3>
-                <p>Le rendu conditionnel en React permet d'afficher différents éléments ou composants en fonction de
-                    certaines conditions. C'est comme les instructions <code>if/else</code> en JavaScript, mais adapté
-                    au JSX.</p>
+                    <h3>1. Qu'est-ce que le rendu conditionnel ?</h3>
+                    <p>Le rendu conditionnel en React permet d'afficher différents éléments ou composants en fonction de
+                        certaines conditions. C'est comme les instructions <code>if/else</code> en JavaScript, mais
+                        adapté
+                        au JSX.</p>
 
-                <div class="concept-grid">
-                    <div class="concept-card">
-                        <h4>Pourquoi utiliser le rendu conditionnel ?</h4>
+                    <div class="concept-grid">
+                        <div class="concept-card">
+                            <h4>Pourquoi utiliser le rendu conditionnel ?</h4>
+                            <ul>
+                                <li>Afficher/masquer des éléments</li>
+                                <li>Montrer des états de chargement</li>
+                                <li>Gérer les erreurs</li>
+                                <li>Adapter l'interface aux permissions</li>
+                                <li>Créer des interfaces dynamiques</li>
+                            </ul>
+                        </div>
+                        <div class="concept-card">
+                            <h4>Cas d'utilisation courants</h4>
+                            <ul>
+                                <li>Boutons login/logout</li>
+                                <li>Messages d'erreur</li>
+                                <li>Indicateurs de chargement</li>
+                                <li>Contenu premium</li>
+                                <li>États vides</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>2. Méthode 1 : Opérateur && (ET logique)</h3>
+                    <p>Idéal pour afficher un élément uniquement si une condition est vraie.</p>
+
+                    <div class="code-block">
+                        <span class="keyword">function</span> <span class="function">Notification</span>({ <span
+                            class="variable">message</span>, <span class="variable">show</span> }) {<br>
+                        &nbsp;&nbsp;<span class="keyword">return</span> (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="variable">show</span> && &lt;div
+                        className=<span class="string">"notification"</span>&gt;{<span
+                            class="variable">message</span>}&lt;/div&gt;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                        &nbsp;&nbsp;);<br>
+                        }<br><br>
+
+                        <span class="comment">// Utilisation</span><br>
+                        &lt;<span class="function">Notification</span> message=<span class="string">"Nouveau
+                            message!"</span> show={<span class="variable">true</span>} /&gt;
+                    </div>
+
+                    <div class="important-note">
+                        <h4>⚠️ Attention aux valeurs falsy !</h4>
+                        <p>L'opérateur <code>&&</code> retourne la deuxième valeur si la première est truthy. Mais si
+                            vous
+                            utilisez <code>0</code> comme condition, React affichera <code>0</code> dans le DOM !</p>
+                    </div>
+
+                    <h3>3. Méthode 2 : Opérateur ternaire ? :</h3>
+                    <p>Parfait pour choisir entre deux alternatives.</p>
+
+                    <div class="code-block">
+                        <span class="keyword">function</span> <span class="function">LoginButton</span>({ <span
+                            class="variable">isLoggedIn</span> }) {<br>
+                        &nbsp;&nbsp;<span class="keyword">return</span> (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="variable">isLoggedIn</span> ? (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button&gt;Déconnexion&lt;/button&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) : (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button&gt;Connexion&lt;/button&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                        &nbsp;&nbsp;);<br>
+                        }
+                    </div>
+
+                    <h3>4. Méthode 3 : Variables conditionnelles</h3>
+                    <p>Stockez des éléments JSX dans des variables avant de les retourner.</p>
+
+                    <div class="code-block">
+                        <span class="keyword">function</span> <span class="function">Greeting</span>({ <span
+                            class="variable">user</span> }) {<br>
+                        &nbsp;&nbsp;<span class="keyword">let</span> greeting;<br>
+                        &nbsp;&nbsp;<span class="keyword">if</span> (<span class="variable">user</span>) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;greeting = &lt;h1&gt;Bonjour, {<span class="variable">user</span>.<span
+                            class="prop">name</span>} !&lt;/h1&gt;;<br>
+                        &nbsp;&nbsp;} <span class="keyword">else</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;greeting = &lt;h1&gt;Bonjour, invité !&lt;/h1&gt;;<br>
+                        &nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;<span class="keyword">return</span> &lt;div&gt;{greeting}&lt;/div&gt;;<br>
+                        }
+                    </div>
+
+                    <h3>5. Méthode 4 : Fonctions de rendu conditionnel</h3>
+                    <p>Extrayez la logique conditionnelle dans des fonctions séparées.</p>
+
+                    <div class="code-block">
+                        <span class="keyword">function</span> <span class="function">UserDashboard</span>({ <span
+                            class="variable">user</span> }) {<br>
+                        &nbsp;&nbsp;<span class="keyword">const</span> renderContent = () =&gt; {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (!<span class="variable">user</span>)
+                        {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> &lt;p&gt;Veuillez vous
+                        connecter&lt;/p&gt;;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (<span
+                            class="variable">user</span>.<span class="prop">role</span> === <span
+                            class="string">'admin'</span>) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> &lt;<span
+                            class="function">AdminPanel</span> /&gt;;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> &lt;<span
+                            class="function">UserPanel</span> /&gt;;<br>
+                        &nbsp;&nbsp;};<br><br>
+
+                        &nbsp;&nbsp;<span class="keyword">return</span> (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="function">renderContent</span>()}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                        &nbsp;&nbsp;);<br>
+                        }
+                    </div>
+
+                    <h3>6. Méthode 5 : Retour conditionnel early return</h3>
+                    <p>Retournez différents JSX en fonction de conditions au début de la fonction.</p>
+
+                    <div class="code-block">
+                        <span class="keyword">function</span> <span class="function">Page</span>({ <span
+                            class="variable">isLoading</span>, <span class="variable">error</span>, <span
+                            class="variable">data</span> }) {<br>
+                        &nbsp;&nbsp;<span class="keyword">if</span> (<span class="variable">isLoading</span>) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>
+                        &lt;div&gt;Chargement...&lt;/div&gt;;<br>
+                        &nbsp;&nbsp;}<br><br>
+
+                        &nbsp;&nbsp;<span class="keyword">if</span> (<span class="variable">error</span>) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> &lt;div&gt;Erreur : {<span
+                            class="variable">error</span>.<span class="prop">message</span>}&lt;/div&gt;;<br>
+                        &nbsp;&nbsp;}<br><br>
+
+                        &nbsp;&nbsp;<span class="keyword">return</span> (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;{<span class="variable">data</span>.<span
+                            class="prop">title</span>}&lt;/h1&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;{<span class="variable">data</span>.<span
+                            class="prop">content</span>}&lt;/p&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                        &nbsp;&nbsp;);<br>
+                        }
+                    </div>
+
+                    <h3>7. Méthode 6 : Pattern avec Enums</h3>
+                    <p>Utilisez des objets pour gérer plusieurs états de manière organisée.</p>
+
+                    <div class="code-block">
+                        <span class="keyword">const</span> <span class="variable">STATES</span> = {<br>
+                        &nbsp;&nbsp;LOADING: <span class="string">'loading'</span>,<br>
+                        &nbsp;&nbsp;SUCCESS: <span class="string">'success'</span>,<br>
+                        &nbsp;&nbsp;ERROR: <span class="string">'error'</span><br>
+                        };<br><br>
+
+                        <span class="keyword">function</span> <span class="function">DataComponent</span>({ <span
+                            class="variable">state</span>, <span class="variable">data</span>, <span
+                            class="variable">error</span> }) {<br>
+                        &nbsp;&nbsp;<span class="keyword">const</span> stateComponents = {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;[<span class="variable">STATES</span>.<span
+                            class="prop">LOADING</span>]:
+                        &lt;div&gt;Chargement...&lt;/div&gt;,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;[<span class="variable">STATES</span>.<span
+                            class="prop">SUCCESS</span>]:
+                        &lt;div&gt;Données : {<span class="variable">data</span>}&lt;/div&gt;,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;[<span class="variable">STATES</span>.<span class="prop">ERROR</span>]:
+                        &lt;div&gt;Erreur : {<span class="variable">error</span>}&lt;/div&gt;<br>
+                        &nbsp;&nbsp;};<br><br>
+
+                        &nbsp;&nbsp;<span class="keyword">return</span> stateComponents[<span
+                            class="variable">state</span>]
+                        || &lt;div&gt;État inconnu&lt;/div&gt;;<br>
+                        }
+                    </div>
+
+                    <div class="important-note">
+                        <h4>💡 Bonnes pratiques</h4>
                         <ul>
-                            <li>Afficher/masquer des éléments</li>
-                            <li>Montrer des états de chargement</li>
-                            <li>Gérer les erreurs</li>
-                            <li>Adapter l'interface aux permissions</li>
-                            <li>Créer des interfaces dynamiques</li>
+                            <li><strong>Évitez la complexité</strong> : Gardez les conditions simples et lisibles</li>
+                            <li><strong>Extrayez la logique complexe</strong> : Utilisez des fonctions helper</li>
+                            <li><strong>Utilisez des variables</strong> : Pour les conditions complexes</li>
+                            <li><strong>Testez les cas limites</strong> : États vides, erreurs, chargement</li>
+                            <li><strong>Priorisez la lisibilité</strong> : Choisissez la méthode la plus claire</li>
                         </ul>
                     </div>
-                    <div class="concept-card">
-                        <h4>Cas d'utilisation courants</h4>
-                        <ul>
-                            <li>Boutons login/logout</li>
-                            <li>Messages d'erreur</li>
-                            <li>Indicateurs de chargement</li>
-                            <li>Contenu premium</li>
-                            <li>États vides</li>
-                        </ul>
-                    </div>
-                </div>
+                </section>
 
-                <h3>2. Méthode 1 : Opérateur && (ET logique)</h3>
-                <p>Idéal pour afficher un élément uniquement si une condition est vraie.</p>
+                <section class="practice-section">
+                    <h2>Partie Pratique</h2>
 
-                <div class="code-block">
-                    <span class="keyword">function</span> <span class="function">Notification</span>({ <span
-                        class="variable">message</span>, <span class="variable">show</span> }) {<br>
-                    &nbsp;&nbsp;<span class="keyword">return</span> (<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="variable">show</span> && &lt;div className=<span
-                        class="string">"notification"</span>&gt;{<span class="variable">message</span>}&lt;/div&gt;}<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
-                    &nbsp;&nbsp;);<br>
-                    }<br><br>
+                    <h3>Exemple 1 : Affichage conditionnel simple</h3>
+                    <p>Utilisation des opérateurs && et ternaire pour afficher/masquer du contenu.</p>
 
-                    <span class="comment">// Utilisation</span><br>
-                    &lt;<span class="function">Notification</span> message=<span class="string">"Nouveau
-                        message!"</span> show={<span class="variable">true</span>} /&gt;
-                </div>
-
-                <div class="important-note">
-                    <h4>⚠️ Attention aux valeurs falsy !</h4>
-                    <p>L'opérateur <code>&&</code> retourne la deuxième valeur si la première est truthy. Mais si vous
-                        utilisez <code>0</code> comme condition, React affichera <code>0</code> dans le DOM !</p>
-                </div>
-
-                <h3>3. Méthode 2 : Opérateur ternaire ? :</h3>
-                <p>Parfait pour choisir entre deux alternatives.</p>
-
-                <div class="code-block">
-                    <span class="keyword">function</span> <span class="function">LoginButton</span>({ <span
-                        class="variable">isLoggedIn</span> }) {<br>
-                    &nbsp;&nbsp;<span class="keyword">return</span> (<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="variable">isLoggedIn</span> ? (<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button&gt;Déconnexion&lt;/button&gt;<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) : (<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button&gt;Connexion&lt;/button&gt;<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)}<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
-                    &nbsp;&nbsp;);<br>
-                    }
-                </div>
-
-                <h3>4. Méthode 3 : Variables conditionnelles</h3>
-                <p>Stockez des éléments JSX dans des variables avant de les retourner.</p>
-
-                <div class="code-block">
-                    <span class="keyword">function</span> <span class="function">Greeting</span>({ <span
-                        class="variable">user</span> }) {<br>
-                    &nbsp;&nbsp;<span class="keyword">let</span> greeting;<br>
-                    &nbsp;&nbsp;<span class="keyword">if</span> (<span class="variable">user</span>) {<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;greeting = &lt;h1&gt;Bonjour, {<span class="variable">user</span>.<span
-                        class="prop">name</span>} !&lt;/h1&gt;;<br>
-                    &nbsp;&nbsp;} <span class="keyword">else</span> {<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;greeting = &lt;h1&gt;Bonjour, invité !&lt;/h1&gt;;<br>
-                    &nbsp;&nbsp;}<br>
-                    &nbsp;&nbsp;<span class="keyword">return</span> &lt;div&gt;{greeting}&lt;/div&gt;;<br>
-                    }
-                </div>
-
-                <h3>5. Méthode 4 : Fonctions de rendu conditionnel</h3>
-                <p>Extrayez la logique conditionnelle dans des fonctions séparées.</p>
-
-                <div class="code-block">
-                    <span class="keyword">function</span> <span class="function">UserDashboard</span>({ <span
-                        class="variable">user</span> }) {<br>
-                    &nbsp;&nbsp;<span class="keyword">const</span> renderContent = () =&gt; {<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (!<span class="variable">user</span>) {<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> &lt;p&gt;Veuillez vous
-                    connecter&lt;/p&gt;;<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (<span class="variable">user</span>.<span
-                        class="prop">role</span> === <span class="string">'admin'</span>) {<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> &lt;<span
-                        class="function">AdminPanel</span> /&gt;;<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> &lt;<span
-                        class="function">UserPanel</span> /&gt;;<br>
-                    &nbsp;&nbsp;};<br><br>
-
-                    &nbsp;&nbsp;<span class="keyword">return</span> (<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="function">renderContent</span>()}<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
-                    &nbsp;&nbsp;);<br>
-                    }
-                </div>
-
-                <h3>6. Méthode 5 : Retour conditionnel early return</h3>
-                <p>Retournez différents JSX en fonction de conditions au début de la fonction.</p>
-
-                <div class="code-block">
-                    <span class="keyword">function</span> <span class="function">Page</span>({ <span
-                        class="variable">isLoading</span>, <span class="variable">error</span>, <span
-                        class="variable">data</span> }) {<br>
-                    &nbsp;&nbsp;<span class="keyword">if</span> (<span class="variable">isLoading</span>) {<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>
-                    &lt;div&gt;Chargement...&lt;/div&gt;;<br>
-                    &nbsp;&nbsp;}<br><br>
-
-                    &nbsp;&nbsp;<span class="keyword">if</span> (<span class="variable">error</span>) {<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> &lt;div&gt;Erreur : {<span
-                        class="variable">error</span>.<span class="prop">message</span>}&lt;/div&gt;;<br>
-                    &nbsp;&nbsp;}<br><br>
-
-                    &nbsp;&nbsp;<span class="keyword">return</span> (<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;{<span class="variable">data</span>.<span
-                        class="prop">title</span>}&lt;/h1&gt;<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;{<span class="variable">data</span>.<span
-                        class="prop">content</span>}&lt;/p&gt;<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
-                    &nbsp;&nbsp;);<br>
-                    }
-                </div>
-
-                <h3>7. Méthode 6 : Pattern avec Enums</h3>
-                <p>Utilisez des objets pour gérer plusieurs états de manière organisée.</p>
-
-                <div class="code-block">
-                    <span class="keyword">const</span> <span class="variable">STATES</span> = {<br>
-                    &nbsp;&nbsp;LOADING: <span class="string">'loading'</span>,<br>
-                    &nbsp;&nbsp;SUCCESS: <span class="string">'success'</span>,<br>
-                    &nbsp;&nbsp;ERROR: <span class="string">'error'</span><br>
-                    };<br><br>
-
-                    <span class="keyword">function</span> <span class="function">DataComponent</span>({ <span
-                        class="variable">state</span>, <span class="variable">data</span>, <span
-                        class="variable">error</span> }) {<br>
-                    &nbsp;&nbsp;<span class="keyword">const</span> stateComponents = {<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;[<span class="variable">STATES</span>.<span class="prop">LOADING</span>]:
-                    &lt;div&gt;Chargement...&lt;/div&gt;,<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;[<span class="variable">STATES</span>.<span class="prop">SUCCESS</span>]:
-                    &lt;div&gt;Données : {<span class="variable">data</span>}&lt;/div&gt;,<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;[<span class="variable">STATES</span>.<span class="prop">ERROR</span>]:
-                    &lt;div&gt;Erreur : {<span class="variable">error</span>}&lt;/div&gt;<br>
-                    &nbsp;&nbsp;};<br><br>
-
-                    &nbsp;&nbsp;<span class="keyword">return</span> stateComponents[<span class="variable">state</span>]
-                    || &lt;div&gt;État inconnu&lt;/div&gt;;<br>
-                    }
-                </div>
-
-                <div class="important-note">
-                    <h4>💡 Bonnes pratiques</h4>
-                    <ul>
-                        <li><strong>Évitez la complexité</strong> : Gardez les conditions simples et lisibles</li>
-                        <li><strong>Extrayez la logique complexe</strong> : Utilisez des fonctions helper</li>
-                        <li><strong>Utilisez des variables</strong> : Pour les conditions complexes</li>
-                        <li><strong>Testez les cas limites</strong> : États vides, erreurs, chargement</li>
-                        <li><strong>Priorisez la lisibilité</strong> : Choisissez la méthode la plus claire</li>
-                    </ul>
-                </div>
-            </section>
-
-            <section class="practice-section">
-                <h2>Partie Pratique</h2>
-
-                <h3>Exemple 1 : Affichage conditionnel simple</h3>
-                <p>Utilisation des opérateurs && et ternaire pour afficher/masquer du contenu.</p>
-
-                <div id="simple-conditional" class="demo-area">
-                    <!-- Le composant React sera rendu ici -->
-                </div>
-
-                <div class="exercise">
-                    <h4>Exercice 1 : Panier d'achat</h4>
-                    <p>Créez un composant Cart qui affiche soit le panier vide, soit la liste des articles.</p>
-                    <div id="cart-exercise" class="demo-area">
+                    <div id="simple-conditional" class="demo-area">
                         <!-- Le composant React sera rendu ici -->
                     </div>
-                </div>
 
-                <h3>Exemple 2 : États multiples avec early return</h3>
-                <p>Gestion de différents états (chargement, succès, erreur) avec retour conditionnel.</p>
+                    <div class="exercise">
+                        <h4>Exercice 1 : Panier d'achat</h4>
+                        <p>Créez un composant Cart qui affiche soit le panier vide, soit la liste des articles.</p>
+                        <div id="cart-exercise" class="demo-area">
+                            <!-- Le composant React sera rendu ici -->
+                        </div>
+                    </div>
 
-                <div id="multiple-states" class="demo-area">
-                    <!-- Le composant React sera rendu ici -->
-                </div>
+                    <h3>Exemple 2 : États multiples avec early return</h3>
+                    <p>Gestion de différents états (chargement, succès, erreur) avec retour conditionnel.</p>
 
-                <div class="exercise">
-                    <h4>Exercice 2 : Système de notation</h4>
-                    <p>Créez un composant qui affiche différentes icônes selon la note.</p>
-                    <div id="rating-exercise" class="demo-area">
+                    <div id="multiple-states" class="demo-area">
                         <!-- Le composant React sera rendu ici -->
                     </div>
-                </div>
 
-                <h3>Exemple 3 : Interface utilisateur conditionnelle</h3>
-                <p>Interface qui change selon le rôle de l'utilisateur et ses préférences.</p>
+                    <div class="exercise">
+                        <h4>Exercice 2 : Système de notation</h4>
+                        <p>Créez un composant qui affiche différentes icônes selon la note.</p>
+                        <div id="rating-exercise" class="demo-area">
+                            <!-- Le composant React sera rendu ici -->
+                        </div>
+                    </div>
 
-                <div id="user-interface" class="demo-area">
-                    <!-- Le composant React sera rendu ici -->
-                </div>
-            </section>
+                    <h3>Exemple 3 : Interface utilisateur conditionnelle</h3>
+                    <p>Interface qui change selon le rôle de l'utilisateur et ses préférences.</p>
+
+                    <div id="user-interface" class="demo-area">
+                        <!-- Le composant React sera rendu ici -->
+                    </div>
+                </section>
+            </div>
         </div>
 
-        <footer>
-            <p>Atelier React - Rendu JSX Conditionnel | Conçu pour l'enseignement</p>
-        </footer>
+        <!-- Pied de page de la page 1 -->
+        <div id="footer-container"></div>
     </div>
+
+    <script>
+        // Fonction pour afficher l'en-tête
+        function showHeader() {
+            const headerContainer = document.getElementById('header-container');
+            headerContainer.innerHTML = `
+                <header>
+                    <div class="header-content">
+                        <div class="author-section">
+                            <img src="../img/photo.png"
+                                alt="Habib BEN JABER" class="author-photo" onerror="this.style.display='none'">
+                            <div class="author-name">Habib BEN JABER</div>
+                            <div class="author-title">Enseignant Universitaire</div>
+                        </div>
+                        <div class="title-section">
+                            <h1>Atelier React - Rendu JSX Conditionnel</h1>
+                            <p class="subtitle">Maîtriser l'affichage conditionnel d'éléments dans vos composants React</p>
+                        </div>
+                        <div class="author-section">
+                            
+                                <img src="../img/logo.jpg" alt="ISET Kebili" class="author-photo">
+                            
+                            
+                                <div class="author-name">ISET Kebili</div>
+                                <div class="author-title">Département TI</div>
+                            
+                        </div>
+                    </div>
+                </header>
+            `;
+        }
+
+        // Fonction pour afficher le pied de page
+        function showFooter() {
+            const footerContainer = document.getElementById('footer-container');
+            footerContainer.innerHTML = `
+                <footer>
+                    <div class="footer-content">
+                        <div class="footer-text">
+                            <p>Espace Cours – Habib BEN JABER - ISET Kebili | Plateforme d'enseignement en ligne</p>
+                        </div>
+                        
+                        <div class="social-links">
+                            <a href="https://facebook.com" class="social-link" target="_blank">
+                                <i class="fab fa-facebook social-icon"></i>
+                                <span class="social-name">Facebook</span>
+                            </a>
+                            <a href="https://linkedin.com" class="social-link" target="_blank">
+                                <i class="fab fa-linkedin social-icon"></i>
+                                <span class="social-name">LinkedIn</span>
+                            </a>
+                            <a href="https://youtube.com" class="social-link" target="_blank">
+                                <i class="fab fa-youtube social-icon"></i>
+                                <span class="social-name">YouTube</span>
+                            </a>
+                            <a href="https://github.com" class="social-link" target="_blank">
+                                <i class="fab fa-github social-icon"></i>
+                                <span class="social-name">GitHub</span>
+                            </a>
+                        </div>
+                        
+                        <div class="contact-info">
+                            <p>Contact : <a href="mailto:habib.jaber@gmail.com" class="contact-email">habib.jaber@gmail.com</a></p>
+                        </div>
+                    </div>
+                </footer>
+            `;
+        }
+
+        // Initialiser la page
+        document.addEventListener('DOMContentLoaded', function () {
+            showHeader();
+            showFooter();
+        });
+    </script>
 
     <script type="text/babel">
         // Exemple 1 : Affichage conditionnel simple
