@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atelier CSS - Propriétés de mise en forme</title>
+    <style>
+        /* Styles pour l'en-tête et le pied de page */
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 3px solid #3498db;
+        }
+
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            border-top: 3px solid #3498db;
+            margin-top: 30px;
+        }
+
+        /* Styles pour le contenu principal */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            color: #2c3e50;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        section {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .code-example {
+            background-color: #f8f9fa;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+
+        .property-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+
+        .property-table th,
+        .property-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .property-table th {
+            background-color: #f2f2f2;
+        }
+
+        .demo-box {
+            padding: 15px;
+            margin: 15px 0;
+            border: 1px dashed #ccc;
+        }
+
+        .text-demo {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        .dimension-demo {
+            background-color: #e74c3c;
+            color: white;
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .border-demo {
+            margin: 15px 0;
+            padding: 15px;
+        }
+
+        .unit-demo {
+            background-color: #9b59b6;
+            color: white;
+            margin: 10px 0;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Atelier CSS - Propriétés de mise en forme</h1>
+    </header>
+
+    <div class="container">
+        <section id="introduction">
+            <h2>Introduction aux propriétés CSS</h2>
+            <p>Cet atelier couvre les propriétés fondamentales de mise en forme en CSS, y compris les propriétés de
+                texte, d'arrière-plan, de bordures, de dimensions et les unités de mesure.</p>
+        </section>
+
+        <section id="text-properties">
+            <h2>Propriétés de mise en forme du texte</h2>
+            <p>Les propriétés de texte permettent de contrôler l'apparence du texte dans vos pages web.</p>
+
+            <table class="property-table">
+                <tr>
+                    <th>Propriété</th>
+                    <th>Description</th>
+                    <th>Valeurs courantes</th>
+                </tr>
+                <tr>
+                    <td>color</td>
+                    <td>Définit la couleur du texte</td>
+                    <td>nom (red), hex (#ff0000), rgb(r,g,b)</td>
+                </tr>
+                <tr>
+                    <td>font-family</td>
+                    <td>Définit la police de caractères</td>
+                    <td>Arial, "Times New Roman", sans-serif</td>
+                </tr>
+                <tr>
+                    <td>font-size</td>
+                    <td>Définit la taille de la police</td>
+                    <td>px, em, rem, %</td>
+                </tr>
+                <tr>
+                    <td>font-weight</td>
+                    <td>Définit l'épaisseur de la police</td>
+                    <td>normal, bold, 100-900</td>
+                </tr>
+                <tr>
+                    <td>text-align</td>
+                    <td>Aligne le texte horizontalement</td>
+                    <td>left, right, center, justify</td>
+                </tr>
+                <tr>
+                    <td>text-decoration</td>
+                    <td>Ajoute des décorations au texte</td>
+                    <td>none, underline, overline, line-through</td>
+                </tr>
+                <tr>
+                    <td>line-height</td>
+                    <td>Définit l'espacement entre les lignes</td>
+                    <td>normal, nombre, px, %</td>
+                </tr>
+            </table>
+
+            <h3>Exemples de propriétés de texte</h3>
+            <div class="demo-box">
+                <p class="text-demo" style="color: #e74c3c; font-weight: bold;">Ce texte est en rouge et en gras</p>
+                <p class="text-demo" style="font-family: 'Courier New', monospace; text-decoration: underline;">Ce texte
+                    utilise une police monospace et est souligné</p>
+                <p class="text-demo" style="text-align: center; font-size: 24px;">Ce texte est centré et a une taille de
+                    24px</p>
+                <p class="text-demo" style="line-height: 2;">Ce texte a un interligne de 2 (double interligne)</p>
+            </div>
+
+            <div class="code-example">
+                /* Exemple d'utilisation des propriétés de texte */
+                p {
+                color: #333;
+                font-family: Arial, sans-serif;
+                font-size: 16px;
+                text-align: justify;
+                line-height: 1.5;
+                }
+            </div>
+        </section>
+
+        <section id="background-properties">
+            <h2>Propriétés d'arrière-plan</h2>
+            <p>Les propriétés d'arrière-plan permettent de styliser l'arrière-plan des éléments.</p>
+
+            <table class="property-table">
+                <tr>
+                    <th>Propriété</th>
+                    <th>Description</th>
+                    <th>Valeurs courantes</th>
+                </tr>
+                <tr>
+                    <td>background-color</td>
+                    <td>Définit la couleur d'arrière-plan</td>
+                    <td>nom, hex, rgb, rgba, transparent</td>
+                </tr>
+                <tr>
+                    <td>background-image</td>
+                    <td>Définit une image d'arrière-plan</td>
+                    <td>url('chemin/vers/image.jpg')</td>
+                </tr>
+                <tr>
+                    <td>background-repeat</td>
+                    <td>Définit comment l'image se répète</td>
+                    <td>repeat, no-repeat, repeat-x, repeat-y</td>
+                </tr>
+                <tr>
+                    <td>background-position</td>
+                    <td>Définit la position de l'image</td>
+                    <td>top, bottom, left, right, center, px, %</td>
+                </tr>
+                <tr>
+                    <td>background-size</td>
+                    <td>Définit la taille de l'image</td>
+                    <td>auto, cover, contain, px, %</td>
+                </tr>
+            </table>
+
+            <h3>Exemples de propriétés d'arrière-plan</h3>
+            <div class="demo-box" style="background-color: #3498db; color: white; padding: 20px;">
+                <p>Arrière-plan avec couleur unie</p>
+            </div>
+
+            <div class="demo-box"
+                style="background: linear-gradient(to right, #3498db, #9b59b6); color: white; padding: 20px;">
+                <p>Arrière-plan avec dégradé</p>
+            </div>
+
+            <div class="code-example">
+                /* Exemple d'utilisation des propriétés d'arrière-plan */
+                .element {
+                background-color: #f0f0f0;
+                background-image: url('texture.png');
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: cover;
+                }
+
+                /* Version raccourcie (shorthand) */
+                .element {
+                background: #f0f0f0 url('texture.png') no-repeat center / cover;
+                }
+            </div>
+        </section>
+
+        <section id="border-properties">
+            <h2>Propriétés de bordures</h2>
+            <p>Les propriétés de bordures permettent de styliser les bordures des éléments.</p>
+
+            <table class="property-table">
+                <tr>
+                    <th>Propriété</th>
+                    <th>Description</th>
+                    <th>Valeurs courantes</th>
+                </tr>
+                <tr>
+                    <td>border-width</td>
+                    <td>Définit l'épaisseur de la bordure</td>
+                    <td>px, thin, medium, thick</td>
+                </tr>
+                <tr>
+                    <td>border-style</td>
+                    <td>Définit le style de la bordure</td>
+                    <td>none, solid, dotted, dashed, double</td>
+                </tr>
+                <tr>
+                    <td>border-color</td>
+                    <td>Définit la couleur de la bordure</td>
+                    <td>nom, hex, rgb, rgba</td>
+                </tr>
+                <tr>
+                    <td>border-radius</td>
+                    <td>Définit le rayon des coins arrondis</td>
+                    <td>px, %</td>
+                </tr>
+            </table>
+
+            <h3>Exemples de propriétés de bordures</h3>
+            <div class="border-demo" style="border: 2px solid #e74c3c; padding: 15px;">
+                Bordure solide rouge de 2px
+            </div>
+
+            <div class="border-demo" style="border: 3px dashed #3498db; padding: 15px;">
+                Bordure pointillée bleue de 3px
+            </div>
+
+            <div class="border-demo" style="border: 1px dotted #2ecc71; border-radius: 10px; padding: 15px;">
+                Bordure pointillée verte avec coins arrondis
+            </div>
+
+            <div class="code-example">
+                /* Exemple d'utilisation des propriétés de bordures */
+                .element {
+                border-width: 2px;
+                border-style: solid;
+                border-color: #333;
+                border-radius: 5px;
+                }
+
+                /* Version raccourcie (shorthand) */
+                .element {
+                border: 2px solid #333;
+                border-radius: 5px;
+                }
+
+                /* Bordures individuelles */
+                .element {
+                border-top: 1px solid red;
+                border-right: 2px dashed blue;
+                border-bottom: 1px solid green;
+                border-left: 2px dotted purple;
+                }
+            </div>
+        </section>
+
+        <section id="dimension-properties">
+            <h2>Propriétés de dimensions</h2>
+            <p>Les propriétés de dimensions permettent de contrôler la taille et l'espacement des éléments.</p>
+
+            <table class="property-table">
+                <tr>
+                    <th>Propriété</th>
+                    <th>Description</th>
+                    <th>Valeurs courantes</th>
+                </tr>
+                <tr>
+                    <td>width</td>
+                    <td>Définit la largeur d'un élément</td>
+                    <td>px, %, auto</td>
+                </tr>
+                <tr>
+                    <td>height</td>
+                    <td>Définit la hauteur d'un élément</td>
+                    <td>px, %, auto</td>
+                </tr>
+                <tr>
+                    <td>margin</td>
+                    <td>Définit l'espace extérieur autour d'un élément</td>
+                    <td>px, %, auto</td>
+                </tr>
+                <tr>
+                    <td>padding</td>
+                    <td>Définit l'espace intérieur d'un élément</td>
+                    <td>px, %</td>
+                </tr>
+            </table>
+
+            <h3>Exemples de propriétés de dimensions</h3>
+            <div class="dimension-demo" style="width: 200px; height: 100px;">
+                Largeur: 200px, Hauteur: 100px
+            </div>
+
+            <div class="dimension-demo" style="width: 50%; height: 80px; margin: 20px 0;">
+                Largeur: 50%, Hauteur: 80px, Marge: 20px haut/bas
+            </div>
+
+            <div class="dimension-demo" style="width: 300px; height: 120px; padding: 20px; margin: 0 auto;">
+                Largeur: 300px, Hauteur: 120px, Padding: 20px, Marge: centré
+            </div>
+
+            <div class="code-example">
+                /* Exemple d'utilisation des propriétés de dimensions */
+                .element {
+                width: 300px;
+                height: 200px;
+                margin: 20px;
+                padding: 15px;
+                }
+
+                /* Marges et padding individuels */
+                .element {
+                margin-top: 10px;
+                margin-right: 20px;
+                margin-bottom: 10px;
+                margin-left: 20px;
+
+                padding-top: 15px;
+                padding-right: 25px;
+                padding-bottom: 15px;
+                padding-left: 25px;
+                }
+            </div>
+        </section>
+
+        <section id="measurement-units">
+            <h2>Unités de mesure en CSS</h2>
+            <p>CSS propose différentes unités de mesure pour définir les dimensions et espacements.</p>
+
+            <h3>Unités absolues</h3>
+            <p>Les unités absolues ont une taille fixe qui ne change pas selon le contexte.</p>
+
+            <table class="property-table">
+                <tr>
+                    <th>Unité</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td>px</td>
+                    <td>Pixels - 1px = 1/96ème de pouce</td>
+                </tr>
+                <tr>
+                    <td>pt</td>
+                    <td>Points - 1pt = 1/72ème de pouce</td>
+                </tr>
+                <tr>
+                    <td>cm</td>
+                    <td>Centimètres</td>
+                </tr>
+                <tr>
+                    <td>mm</td>
+                    <td>Millimètres</td>
+                </tr>
+                <tr>
+                    <td>in</td>
+                    <td>Pouces - 1in = 2.54cm = 96px</td>
+                </tr>
+            </table>
+
+            <h3>Unités relatives</h3>
+            <p>Les unités relatives sont calculées par rapport à une autre valeur (taille de police parent, taille de
+                fenêtre, etc.).</p>
+
+            <table class="property-table">
+                <tr>
+                    <th>Unité</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td>%</td>
+                    <td>Pourcentage - relatif à la taille de l'élément parent</td>
+                </tr>
+                <tr>
+                    <td>em</td>
+                    <td>Relatif à la taille de police de l'élément parent</td>
+                </tr>
+                <tr>
+                    <td>rem</td>
+                    <td>Relatif à la taille de police de l'élément racine (html)</td>
+                </tr>
+                <tr>
+                    <td>vw</td>
+                    <td>1% de la largeur de la fenêtre (viewport width)</td>
+                </tr>
+                <tr>
+                    <td>vh</td>
+                    <td>1% de la hauteur de la fenêtre (viewport height)</td>
+                </tr>
+            </table>
+
+            <h3>Exemples d'unités de mesure</h3>
+            <div class="unit-demo" style="width: 50%;">
+                Largeur: 50% (relative au parent)
+            </div>
+
+            <div class="unit-demo" style="width: 300px;">
+                Largeur: 300px (absolue)
+            </div>
+
+            <div class="unit-demo" style="width: 50vw;">
+                Largeur: 50vw (50% de la largeur de la fenêtre)
+            </div>
+
+            <div style="font-size: 20px;">
+                <div class="unit-demo" style="font-size: 1.5em; width: 20em;">
+                    Taille: 1.5em (30px), Largeur: 20em (400px)
+                </div>
+            </div>
+
+            <div class="code-example">
+                /* Exemples d'utilisation des unités */
+                .element-absolu {
+                width: 300px;
+                height: 200px;
+                font-size: 16pt;
+                }
+
+                .element-relatif {
+                width: 50%;
+                height: 80vh;
+                font-size: 1.2rem;
+                margin: 2em;
+                }
+            </div>
+        </section>
+
+        <section id="shorthand-method">
+            <h2>Méthode Shorthand (raccourcis)</h2>
+            <p>La méthode shorthand permet de définir plusieurs propriétés CSS en une seule déclaration.</p>
+
+            <h3>Propriétés avec raccourcis courants</h3>
+
+            <h4>Margin et Padding</h4>
+            <div class="code-example">
+                /* Syntaxe complète */
+                .element {
+                margin-top: 10px;
+                margin-right: 20px;
+                margin-bottom: 10px;
+                margin-left: 20px;
+                }
+
+                /* Syntaxe raccourcie */
+                .element {
+                margin: 10px 20px 10px 20px; /* haut droite bas gauche */
+                }
+
+                /* Syntaxe encore plus courte */
+                .element {
+                margin: 10px 20px; /* haut/bas droite/gauche */
+                }
+
+                /* Une seule valeur pour les 4 côtés */
+                .element {
+                margin: 15px; /* haut droite bas gauche = 15px */
+                }
+            </div>
+
+            <h4>Border</h4>
+            <div class="code-example">
+                /* Syntaxe complète */
+                .element {
+                border-width: 2px;
+                border-style: solid;
+                border-color: #333;
+                }
+
+                /* Syntaxe raccourcie */
+                .element {
+                border: 2px solid #333;
+                }
+            </div>
+
+            <h4>Background</h4>
+            <div class="code-example">
+                /* Syntaxe complète */
+                .element {
+                background-color: #f0f0f0;
+                background-image: url('image.jpg');
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: cover;
+                }
+
+                /* Syntaxe raccourcie */
+                .element {
+                background: #f0f0f0 url('image.jpg') no-repeat center / cover;
+                }
+            </div>
+
+            <h4>Font</h4>
+            <div class="code-example">
+                /* Syntaxe complète */
+                .element {
+                font-style: italic;
+                font-variant: normal;
+                font-weight: bold;
+                font-size: 16px;
+                line-height: 1.5;
+                font-family: Arial, sans-serif;
+                }
+
+                /* Syntaxe raccourcie */
+                .element {
+                font: italic normal bold 16px/1.5 Arial, sans-serif;
+                }
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>Atelier CSS - Propriétés de mise en forme</p>
+    </footer>
+</body>
+
+</html>
