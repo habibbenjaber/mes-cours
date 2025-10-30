@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atelier HTML - Éléments, Balises et Attributs</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Styles pour l'en-tête */
+        header {
+            background: linear-gradient(135deg, #61dafb 0%, #21a1c4 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .author-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            flex: 0 0 auto;
+        }
+
+        .author-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            object-fit: cover;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .author-photo:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .author-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .author-title {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .title-section {
+            flex: 1;
+            text-align: center;
+            max-width: 900px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        /* Styles pour la section institution */
+        .institution-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            flex: 0 0 auto;
+        }
+
+        .institution-logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .institution-logo:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .institution-img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            border-radius: 50%;
+            padding: 8px;
+        }
+
+        .institution-info {
+            text-align: center;
+        }
+
+        .institution-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .institution-department {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 1.5rem;
+            }
+
+            .title-section {
+                text-align: center;
+                order: -1;
+            }
+
+            .author-section,
+            .institution-section {
+                flex-direction: row;
+                gap: 1rem;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .author-photo,
+            .institution-logo {
+                width: 100px;
+                height: 100px;
+                margin-bottom: 0;
+            }
+
+            .institution-img {
+                width: 80px;
+                height: 80px;
+            }
+
+            .author-info,
+            .institution-info {
+                text-align: left;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-content {
+                padding: 0 1rem;
+            }
+
+            .author-section,
+            .institution-section {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .author-info,
+            .institution-info {
+                text-align: center;
+            }
+
+            .author-photo,
+            .institution-logo {
+                width: 90px;
+                height: 90px;
+            }
+
+            .institution-img {
+                width: 70px;
+                height: 70px;
+            }
+
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+        }
+
+        /* Styles pour le pied de page */
+        footer {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 2rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-text {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: white;
+            transition: transform 0.3s ease;
+        }
+
+        .social-link:hover {
+            transform: translateY(-5px);
+        }
+
+        .social-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-link:hover .social-icon {
+            color: #61dafb;
+        }
+
+        .social-name {
+            font-size: 0.9rem;
+        }
+
+        .contact-info {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .contact-email {
+            color: #61dafb;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .contact-email:hover {
+            text-decoration: underline;
+        }
+
+        /* Styles de la page 2 pour le contenu principal */
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .theory-section,
+        .practice-section {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        h2 {
+            color: #21a1c4;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        h3 {
+            color: #333;
+            margin: 1.5rem 0 0.5rem 0;
+            background: linear-gradient(90deg, #61dafb, transparent);
+            padding: 0.5rem;
+            border-radius: 4px;
+        }
+
+        h4 {
+            color: #21a1c4;
+            margin: 1rem 0 0.5rem 0;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        ul,
+        ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        .code-block {
+            background-color: #282c34;
+            color: #abb2bf;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .keyword {
+            color: #c678dd;
+        }
+
+        .function {
+            color: #61afef;
+        }
+
+        .string {
+            color: #98c379;
+        }
+
+        .comment {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        .variable {
+            color: #e06c75;
+        }
+
+        .prop {
+            color: #d19a66;
+        }
+
+        .example-container {
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            padding: 1rem;
+            margin: 1rem 0;
+            background-color: #f9f9f9;
+        }
+
+        .exercise {
+            background-color: #e8f4fc;
+            border-left: 4px solid #21a1c4;
+            padding: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .exercise h4 {
+            color: #21a1c4;
+            margin-bottom: 0.5rem;
+        }
+
+        .important-note {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .comparison-item {
+            padding: 1rem;
+            border-radius: 5px;
+        }
+
+        .correct {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+        }
+
+        .incorrect {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+        }
+
+        button {
+            background-color: #61dafb;
+            color: #333;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #21a1c4;
+            color: white;
+        }
+
+        .demo-area {
+            margin-top: 1rem;
+            padding: 1rem;
+            border: 1px dashed #ccc;
+            border-radius: 5px;
+            min-height: 200px;
+        }
+
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h4 {
+            margin-top: 0;
+            color: #21a1c4;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin: 0.5rem 0;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #61dafb, #21a1c4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .product-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .product-card h4 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #21a1c4;
+            margin: 0.5rem 0;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .concept-card {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 1rem;
+        }
+
+        .concept-card h4 {
+            color: #21a1c4;
+            margin-bottom: 0.5rem;
+        }
+
+        .props-flow {
+            text-align: center;
+            margin: 2rem 0;
+            padding: 1rem;
+            background: linear-gradient(90deg, #f8f9fa, #e9ecef, #f8f9fa);
+            border-radius: 8px;
+        }
+
+        .props-flow-arrow {
+            font-size: 2rem;
+            color: #21a1c4;
+            margin: 0 1rem;
+        }
+
+        /* Styles pour les sections de code source */
+        .code-source {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 1rem;
+            margin: 1rem 0;
+            position: relative;
+        }
+
+        .code-source-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .code-source-title {
+            font-weight: bold;
+            color: #21a1c4;
+        }
+
+        .toggle-button {
+            background: #61dafb;
+            border: none;
+            padding: 0.25rem 0.75rem;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .toggle-button:hover {
+            background: #21a1c4;
+            color: white;
+        }
+
+        .code-content {
+            display: none;
+            margin-top: 0.5rem;
+        }
+
+        .code-content.show {
+            display: block;
+        }
+
+        /* Styles spécifiques pour l'atelier HTML */
+        .tag {
+            color: #e74c3c;
+        }
+
+        .attribute {
+            color: #3498db;
+        }
+
+        .value {
+            color: #2ecc71;
+        }
+
+        .html-flow {
+            text-align: center;
+            margin: 2rem 0;
+            padding: 1rem;
+            background: linear-gradient(90deg, #f8f9fa, #e9ecef, #f8f9fa);
+            border-radius: 8px;
+        }
+
+        .html-flow-arrow {
+            font-size: 2rem;
+            color: #21a1c4;
+            margin: 0 1rem;
+        }
+
+        .tag-types-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .tag-type-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-top: 4px solid #21a1c4;
+        }
+
+        .tag-type-card.inline {
+            border-top-color: #2ecc71;
+        }
+
+        .tag-type-card.pair {
+            border-top-color: #9b59b6;
+        }
+
+        .tag-type-card.orphan {
+            border-top-color: #e74c3c;
+        }
+
+        .tag-type-card h4 {
+            color: #333;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .tag-type-card h4::before {
+            content: "•";
+            margin-right: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .tag-type-card.inline h4::before {
+            color: #2ecc71;
+        }
+
+        .tag-type-card.pair h4::before {
+            color: #9b59b6;
+        }
+
+        .tag-type-card.orphan h4::before {
+            color: #e74c3c;
+        }
+
+        .visual-demo {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+            border: 1px dashed #ddd;
+        }
+
+        .block-demo {
+            background-color: #3498db;
+            color: white;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: 3px;
+        }
+
+        .inline-demo {
+            background-color: #2ecc71;
+            color: white;
+            padding: 0.2rem 0.5rem;
+            margin: 0 0.2rem;
+            border-radius: 3px;
+            display: inline-block;
+        }
+
+        .tag-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .tag-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .tag-list li:last-child {
+            border-bottom: none;
+        }
+
+        .structure-demo {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .classification-title {
+            text-align: center;
+            color: #21a1c4;
+            margin: 2rem 0 1rem;
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .formatting-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+
+        .formatting-table th {
+            background-color: #21a1c4;
+            color: white;
+            padding: 1rem;
+            text-align: left;
+        }
+
+        .formatting-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        .formatting-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .demo-text {
+            font-size: 1.1rem;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            margin: 1rem 0;
+        }
+
+        .demo-text b,
+        .demo-text strong {
+            color: #e74c3c;
+        }
+
+        .demo-text i,
+        .demo-text em {
+            color: #3498db;
+        }
+
+        .demo-text u {
+            color: #2ecc71;
+        }
+
+        .demo-text s {
+            color: #9b59b6;
+        }
+
+        .workshop {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .editor-container,
+        .preview-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .editor-header,
+        .preview-header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .editor {
+            width: 100%;
+            height: 300px;
+            padding: 1rem;
+            border: none;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            resize: vertical;
+            background-color: #2c3e50;
+            color: white;
+        }
+
+        .preview {
+            padding: 1rem;
+            height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- En-tête de la page 1 -->
+        <header>
+            <div class="header-content">
+                <div class="author-section">
+                    <img src="../img/photo.png" alt="Habib BEN JABER" class="author-photo"
+                        onerror="this.style.display='none'">
+                    <div class="author-name">Habib BEN JABER</div>
+                    <div class="author-title">Enseignant Universitaire</div>
+                </div>
+                <div class="title-section">
+                    <h1>Atelier HTML - Éléments, Balises et Attributs</h1>
+                    <p class="subtitle">Comprendre et maîtriser les bases du HTML pour structurer vos pages web</p>
+                </div>
+                <div class="author-section">
+                    <img src="../img/logo.jpg" alt="ISET Kebili" class="author-photo">
+                    <div class="author-name">ISET Kebili</div>
+                    <div class="author-title">Département TI</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Contenu principal de la page 2 -->
+        <div class="content">
+            <section class="theory-section">
+                <h2>Partie Théorique Détaillée</h2>
+
+                <h3>1. Qu'est-ce que le HTML ?</h3>
+                <p>HTML (HyperText Markup Language) est le langage de balisage standard utilisé pour créer des pages
+                    web. Il définit la structure et le contenu d'une page web :</p>
+                <ul>
+                    <li><strong>Structure</strong> : Organisation hiérarchique du contenu</li>
+                    <li><strong>Sémantique</strong> : Signification des différents éléments</li>
+                    <li><strong>Contenu</strong> : Texte, images, liens, etc.</li>
+                    <li><strong>Accessibilité</strong> : Structure compréhensible par les technologies d'assistance</li>
+                </ul>
+
+                <div class="html-flow">
+                    <div style="display: flex; align-items: center; justify-content: center;">
+                        <div class="card">
+                            <h4>Structure HTML</h4>
+                            <p>Organisation du contenu</p>
+                        </div>
+                        <span class="html-flow-arrow">+</span>
+                        <div class="card">
+                            <h4>Style CSS</h4>
+                            <p>Présentation visuelle</p>
+                        </div>
+                        <span class="html-flow-arrow">=</span>
+                        <div class="card">
+                            <h4>Page Web</h4>
+                            <p>Structure + Style</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-grid">
+                    <div class="concept-card">
+                        <h4>HTML</h4>
+                        <ul>
+                            <li>Structure de la page</li>
+                            <li>Contenu textuel</li>
+                            <li>Sémantique</li>
+                            <li>Hiérarchie des éléments</li>
+                        </ul>
+                    </div>
+                    <div class="concept-card">
+                        <h4>CSS</h4>
+                        <ul>
+                            <li>Apparence visuelle</li>
+                            <li>Disposition</li>
+                            <li>Couleurs et polices</li>
+                            <li>Responsive design</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>2. Les Balises HTML de Base</h3>
+                <p>Les balises HTML sont des mots-clés entourés de chevrons (<code>&lt;</code> et <code>&gt;</code>) qui
+                    indiquent au navigateur comment afficher le contenu.</p>
+
+                <div class="code-block">
+                    <span class="comment">/* Structure de base d'une balise */</span><br>
+                    <span class="tag">&lt;nom-balise&gt;</span>Contenu<span class="tag">&lt;/nom-balise&gt;</span>
+                </div>
+
+                <h3>Exemples de balises courantes</h3>
+                <div class="example-container">
+                    <p><code>&lt;h1&gt;</code> à <code>&lt;h6&gt;</code> : Titres de différents niveaux</p>
+                    <p><code>&lt;p&gt;</code> : Paragraphe</p>
+                    <p><code>&lt;a&gt;</code> : Lien hypertexte</p>
+                    <p><code>&lt;img&gt;</code> : Image</p>
+                    <p><code>&lt;ul&gt;</code> et <code>&lt;li&gt;</code> : Liste non ordonnée et éléments de liste</p>
+                    <p><code>&lt;div&gt;</code> : Conteneur générique</p>
+                </div>
+
+                <div class="important-note">
+                    <h4>⚠️ Règles importantes :</h4>
+                    <ul>
+                        <li><strong>La plupart des balises</strong> ont une balise ouvrante et une balise fermante</li>
+                        <li><strong>Certaines balises</strong> comme <code>&lt;img&gt;</code> et <code>&lt;br&gt;</code>
+                            sont auto-fermantes</li>
+                        <li><strong>L'imbrication</strong> doit être correcte - fermez les balises dans l'ordre inverse
+                            de leur ouverture</li>
+                    </ul>
+                </div>
+
+                <h3>3. Les Attributs HTML</h3>
+                <p>Les attributs fournissent des informations supplémentaires sur les éléments. Ils sont toujours
+                    spécifiés dans la balise ouvrante.</p>
+
+                <div class="code-block">
+                    <span class="comment">/* Structure d'un attribut */</span><br>
+                    <span class="tag">&lt;balise</span> <span class="attribute">nom-attribut</span>=<span
+                        class="value">"valeur"</span><span class="tag">&gt;</span>
+                </div>
+
+                <h3>Attributs courants</h3>
+                <div class="example-container">
+                    <p><code>id</code> : Identifiant unique pour un élément</p>
+                    <p><code>class</code> : Classe pour le style CSS</p>
+                    <p><code>src</code> : Source pour les images, scripts, etc.</p>
+                    <p><code>href</code> : Lien pour les balises &lt;a&gt;</p>
+                    <p><code>alt</code> : Texte alternatif pour les images</p>
+                    <p><code>style</code> : Styles CSS inline</p>
+                </div>
+
+                <h3>4. Les Éléments HTML</h3>
+                <p>Un élément HTML est constitué d'une balise ouvrante, d'un contenu et d'une balise fermante.</p>
+
+                <div class="code-block">
+                    <span class="comment">/* Structure d'un élément */</span><br>
+                    <span class="tag">&lt;balise</span> <span class="attribute">attribut</span>=<span
+                        class="value">"valeur"</span><span class="tag">&gt;</span>Contenu<span
+                        class="tag">&lt;/balise&gt;</span>
+                </div>
+
+                <h3>Exemples d'éléments</h3>
+                <div class="code-block">
+                    <span class="tag">&lt;p&gt;</span>Ceci est un paragraphe.<span class="tag">&lt;/p&gt;</span><br>
+                    <span class="tag">&lt;a</span> <span class="attribute">href</span>=<span
+                        class="value">"https://example.com"</span><span class="tag">&gt;</span>Visitez Example<span
+                        class="tag">&lt;/a&gt;</span><br>
+                    <span class="tag">&lt;img</span> <span class="attribute">src</span>=<span
+                        class="value">"image.jpg"</span> <span class="attribute">alt</span>=<span
+                        class="value">"Description"</span><span class="tag">&gt;</span>
+                </div>
+            </section>
+
+            <section class="practice-section">
+                <h2>Partie Pratique</h2>
+
+                <h3>Les Types de Balises HTML</h3>
+                <p>En HTML, les balises peuvent être classées selon deux critères : leur comportement d'affichage et
+                    leur structure syntaxique.</p>
+
+                <div class="classification-title">Classification par Comportement d'Affichage</div>
+
+                <div class="tag-types-grid">
+                    <div class="tag-type-card">
+                        <h4>Balises de Bloc (Block)</h4>
+                        <p>Les balises de bloc créent un nouveau bloc et occupent toute la largeur disponible. Elles
+                            commencent toujours sur une nouvelle ligne.</p>
+
+                        <div class="visual-demo">
+                            <div class="block-demo">Élément Bloc 1</div>
+                            <div class="block-demo">Élément Bloc 2</div>
+                            <div class="block-demo">Élément Bloc 3</div>
+                        </div>
+
+                        <h5>Exemples de balises bloc :</h5>
+                        <ul class="tag-list">
+                            <li><code>&lt;div&gt;</code> - Conteneur générique</li>
+                            <li><code>&lt;p&gt;</code> - Paragraphe</li>
+                            <li><code>&lt;h1&gt;</code> à <code>&lt;h6&gt;</code> - Titres</li>
+                            <li><code>&lt;ul&gt;</code>, <code>&lt;ol&gt;</code> - Listes</li>
+                            <li><code>&lt;li&gt;</code> - Élément de liste</li>
+                            <li><code>&lt;section&gt;</code> - Section</li>
+                        </ul>
+                    </div>
+
+                    <div class="tag-type-card inline">
+                        <h4>Balises en Ligne (Inline)</h4>
+                        <p>Les balises en ligne s'insèrent dans le flux du texte et n'occupent que l'espace nécessaire.
+                            Elles ne créent pas de nouvelle ligne.</p>
+
+                        <div class="visual-demo">
+                            Ceci est un texte avec <span class="inline-demo">élément inline</span> qui continue
+                            <span class="inline-demo">sur la même</span> ligne sans interruption.
+                        </div>
+
+                        <h5>Exemples de balises en ligne :</h5>
+                        <ul class="tag-list">
+                            <li><code>&lt;span&gt;</code> - Conteneur générique inline</li>
+                            <li><code>&lt;a&gt;</code> - Lien</li>
+                            <li><code>&lt;strong&gt;</code>, <code>&lt;em&gt;</code> - Mise en forme</li>
+                            <li><code>&lt;b&gt;</code>, <code>&lt;i&gt;</code> - Style</li>
+                            <li><code>&lt;img&gt;</code> - Image</li>
+                            <li><code>&lt;code&gt;</code> - Code informatique</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="classification-title">Classification par Structure Syntaxique</div>
+
+                <div class="tag-types-grid">
+                    <div class="tag-type-card pair">
+                        <h4>Balises en Paire</h4>
+                        <p>Les balises en paire nécessitent une balise ouvrante et une balise fermante. Elles
+                            contiennent du texte ou d'autres éléments.</p>
+
+                        <div class="structure-demo">
+                            <span class="tag">&lt;balise-ouvrante&gt;</span>Contenu<span
+                                class="tag">&lt;/balise-fermante&gt;</span>
+                        </div>
+
+                        <h5>Exemples de balises en paire :</h5>
+                        <ul class="tag-list">
+                            <li><code>&lt;p&gt;...&lt;/p&gt;</code> - Paragraphe</li>
+                            <li><code>&lt;div&gt;...&lt;/div&gt;</code> - Division</li>
+                            <li><code>&lt;h1&gt;...&lt;/h1&gt;</code> - Titre</li>
+                            <li><code>&lt;a&gt;...&lt;/a&gt;</code> - Lien</li>
+                            <li><code>&lt;span&gt;...&lt;/span&gt;</code> - Span</li>
+                            <li><code>&lt;strong&gt;...&lt;/strong&gt;</code> - Texte important</li>
+                        </ul>
+                    </div>
+
+                    <div class="tag-type-card orphan">
+                        <h4>Balises Orphelines (Auto-fermantes)</h4>
+                        <p>Les balises orphelines n'ont pas de contenu et ne nécessitent pas de balise fermante. Elles
+                            sont auto-fermantes.</p>
+
+                        <div class="structure-demo">
+                            <span class="tag">&lt;balise</span> <span class="attribute">attribut</span>=<span
+                                class="value">"valeur"</span><span class="tag">&gt;</span>
+                        </div>
+
+                        <h5>Exemples de balises orphelines :</h5>
+                        <ul class="tag-list">
+                            <li><code>&lt;img&gt;</code> - Image</li>
+                            <li><code>&lt;br&gt;</code> - Saut de ligne</li>
+                            <li><code>&lt;hr&gt;</code> - Ligne horizontale</li>
+                            <li><code>&lt;input&gt;</code> - Champ de formulaire</li>
+                            <li><code>&lt;meta&gt;</code> - Métadonnées</li>
+                            <li><code>&lt;link&gt;</code> - Liaison externe</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>Les Balises de Mise en Forme</h3>
+                <p>HTML propose plusieurs balises pour mettre en forme le texte sans avoir besoin de CSS.</p>
+
+                <table class="formatting-table">
+                    <thead>
+                        <tr>
+                            <th>Balise</th>
+                            <th>Description</th>
+                            <th>Utilisation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>&lt;b&gt;</code></td>
+                            <td>Texte en <b>gras</b> (style uniquement)</td>
+                            <td>Mettre en évidence visuellement</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;strong&gt;</code></td>
+                            <td>Texte <strong>fort</strong> (sémantique + style)</td>
+                            <td>Indiquer l'importance du contenu</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;i&gt;</code></td>
+                            <td>Texte en <i>italique</i> (style uniquement)</td>
+                            <td>Termes techniques, pensées</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;em&gt;</code></td>
+                            <td>Texte <em>emphatisé</em> (sémantique + style)</td>
+                            <td>Mettre l'accent sur un mot</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;u&gt;</code></td>
+                            <td>Texte <u>souligné</u></td>
+                            <td>Mots-clés, noms propres</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;s&gt;</code></td>
+                            <td>Texte <s>barré</s></td>
+                            <td>Information obsolète</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="exercise">
+                    <h4>Atelier Pratique</h4>
+                    <p>Maintenant, essayez de créer votre propre code HTML ! Utilisez l'éditeur ci-dessous pour
+                        expérimenter avec les différents types de balises.</p>
+
+                    <div class="workshop">
+                        <div class="editor-container">
+                            <div class="editor-header">
+                                <span>Éditeur HTML</span>
+                                <button id="run-btn">Exécuter</button>
+                            </div>
+                            <textarea id="html-editor" class="editor">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Types de Balises&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Exercice sur les Types de Balises&lt;/h1&gt;
+    
+    &lt;!-- Balises de bloc --&gt;
+    &lt;div&gt;
+        &lt;p&gt;Ceci est un paragraphe dans un div.&lt;/p&gt;
+        &lt;ul&gt;
+            &lt;li&gt;Élément de liste 1&lt;/li&gt;
+            &lt;li&gt;Élément de liste 2&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;
+    
+    &lt;!-- Balises en ligne --&gt;
+    &lt;p&gt;
+        Ce texte contient un &lt;strong&gt;mot important&lt;/strong&gt;,
+        un &lt;em&gt;terme emphatisé&lt;/em&gt; et un &lt;a href="#"&gt;lien&lt;/a&gt;.
+    &lt;/p&gt;
+    
+    &lt;!-- Balises orphelines --&gt;
+    &lt;img src="https://via.placeholder.com/150" alt="Image exemple"&gt;
+    &lt;br&gt;
+    &lt;hr&gt;
+&lt;/body&gt;
+&lt;/html&gt;</textarea>
+                        </div>
+
+                        <div class="preview-container">
+                            <div class="preview-header">
+                                <span>Aperçu</span>
+                            </div>
+                            <div id="preview" class="preview">
+                                <!-- Le contenu de l'aperçu sera généré ici -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <h4>Exercice pratique</h4>
+                    <p>Essayez de modifier le code dans l'éditeur pour :</p>
+                    <ol>
+                        <li>Créer une structure avec des balises de bloc (div, section, article)</li>
+                        <li>Ajouter du texte avec différentes balises en ligne (span, strong, em)</li>
+                        <li>Insérer des balises orphelines (img, br, hr)</li>
+                        <li>Expérimenter l'imbrication des balises</li>
+                        <li>Observer le comportement des différents types de balises</li>
+                    </ol>
+                </div>
+            </section>
+        </div>
+
+        <!-- Pied de page de la page 1 -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-text">
+                    <p>Espace Cours – Habib BEN JABER - ISET Kebili | Plateforme d'enseignement en ligne</p>
+                </div>
+
+                <div class="social-links">
+                    <a href="https://facebook.com" class="social-link" target="_blank">
+                        <i class="fab fa-facebook social-icon"></i>
+                        <span class="social-name">Facebook</span>
+                    </a>
+                    <a href="https://linkedin.com" class="social-link" target="_blank">
+                        <i class="fab fa-linkedin social-icon"></i>
+                        <span class="social-name">LinkedIn</span>
+                    </a>
+                    <a href="https://youtube.com" class="social-link" target="_blank">
+                        <i class="fab fa-youtube social-icon"></i>
+                        <span class="social-name">YouTube</span>
+                    </a>
+                    <a href="https://github.com" class="social-link" target="_blank">
+                        <i class="fab fa-github social-icon"></i>
+                        <span class="social-name">GitHub</span>
+                    </a>
+                </div>
+
+                <div class="contact-info">
+                    <p>Contact : <a href="mailto:habib.jaber@gmail.com" class="contact-email">habib.jaber@gmail.com</a>
+                    </p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const editor = document.getElementById('html-editor');
+            const preview = document.getElementById('preview');
+            const runBtn = document.getElementById('run-btn');
+
+            // Fonction pour mettre à jour l'aperçu
+            function updatePreview() {
+                preview.innerHTML = editor.value;
+            }
+
+            // Mettre à jour l'aperçu au chargement initial
+            updatePreview();
+
+            // Mettre à jour l'aperçu lorsqu'on clique sur le bouton
+            runBtn.addEventListener('click', updatePreview);
+        });
+    </script>
+</body>
+
+</html>

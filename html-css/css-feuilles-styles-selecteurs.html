@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atelier CSS - Feuilles de Styles et Sélecteurs</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Styles pour l'en-tête */
+        header {
+            background: linear-gradient(135deg, #61dafb 0%, #21a1c4 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .author-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            flex: 0 0 auto;
+        }
+
+        .author-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            object-fit: cover;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .author-photo:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .author-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .author-title {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .title-section {
+            flex: 1;
+            text-align: center;
+            max-width: 900px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        /* Styles pour la section institution */
+        .institution-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            flex: 0 0 auto;
+        }
+
+        .institution-logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .institution-logo:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .institution-img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            border-radius: 50%;
+            padding: 8px;
+        }
+
+        .institution-info {
+            text-align: center;
+        }
+
+        .institution-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .institution-department {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 1.5rem;
+            }
+
+            .title-section {
+                text-align: center;
+                order: -1;
+            }
+
+            .author-section,
+            .institution-section {
+                flex-direction: row;
+                gap: 1rem;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .author-photo,
+            .institution-logo {
+                width: 100px;
+                height: 100px;
+                margin-bottom: 0;
+            }
+
+            .institution-img {
+                width: 80px;
+                height: 80px;
+            }
+
+            .author-info,
+            .institution-info {
+                text-align: left;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-content {
+                padding: 0 1rem;
+            }
+
+            .author-section,
+            .institution-section {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .author-info,
+            .institution-info {
+                text-align: center;
+            }
+
+            .author-photo,
+            .institution-logo {
+                width: 90px;
+                height: 90px;
+            }
+
+            .institution-img {
+                width: 70px;
+                height: 70px;
+            }
+
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+        }
+
+        /* Styles pour le pied de page */
+        footer {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 2rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-text {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: white;
+            transition: transform 0.3s ease;
+        }
+
+        .social-link:hover {
+            transform: translateY(-5px);
+        }
+
+        .social-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-link:hover .social-icon {
+            color: #61dafb;
+        }
+
+        .social-name {
+            font-size: 0.9rem;
+        }
+
+        .contact-info {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .contact-email {
+            color: #61dafb;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .contact-email:hover {
+            text-decoration: underline;
+        }
+
+        /* Styles de la page 2 pour le contenu principal */
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .theory-section,
+        .practice-section {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        h2 {
+            color: #21a1c4;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        h3 {
+            color: #333;
+            margin: 1.5rem 0 0.5rem 0;
+            background: linear-gradient(90deg, #61dafb, transparent);
+            padding: 0.5rem;
+            border-radius: 4px;
+        }
+
+        h4 {
+            color: #21a1c4;
+            margin: 1rem 0 0.5rem 0;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        ul,
+        ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        .code-block {
+            background-color: #282c34;
+            color: #abb2bf;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .keyword {
+            color: #c678dd;
+        }
+
+        .function {
+            color: #61afef;
+        }
+
+        .string {
+            color: #98c379;
+        }
+
+        .comment {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        .variable {
+            color: #e06c75;
+        }
+
+        .prop {
+            color: #d19a66;
+        }
+
+        .example-container {
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            padding: 1rem;
+            margin: 1rem 0;
+            background-color: #f9f9f9;
+        }
+
+        .exercise {
+            background-color: #e8f4fc;
+            border-left: 4px solid #21a1c4;
+            padding: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .exercise h4 {
+            color: #21a1c4;
+            margin-bottom: 0.5rem;
+        }
+
+        .important-note {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .comparison-item {
+            padding: 1rem;
+            border-radius: 5px;
+        }
+
+        .correct {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+        }
+
+        .incorrect {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+        }
+
+        button {
+            background-color: #61dafb;
+            color: #333;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #21a1c4;
+            color: white;
+        }
+
+        .demo-area {
+            margin-top: 1rem;
+            padding: 1rem;
+            border: 1px dashed #ccc;
+            border-radius: 5px;
+            min-height: 200px;
+        }
+
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h4 {
+            margin-top: 0;
+            color: #21a1c4;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin: 0.5rem 0;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #61dafb, #21a1c4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .product-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .product-card h4 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #21a1c4;
+            margin: 0.5rem 0;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .concept-card {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 1rem;
+        }
+
+        .concept-card h4 {
+            color: #21a1c4;
+            margin-bottom: 0.5rem;
+        }
+
+        .css-flow {
+            text-align: center;
+            margin: 2rem 0;
+            padding: 1rem;
+            background: linear-gradient(90deg, #f8f9fa, #e9ecef, #f8f9fa);
+            border-radius: 8px;
+        }
+
+        .css-flow-arrow {
+            font-size: 2rem;
+            color: #21a1c4;
+            margin: 0 1rem;
+        }
+
+        /* Styles pour les sections de code source */
+        .code-source {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 1rem;
+            margin: 1rem 0;
+            position: relative;
+        }
+
+        .code-source-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .code-source-title {
+            font-weight: bold;
+            color: #21a1c4;
+        }
+
+        .toggle-button {
+            background: #61dafb;
+            border: none;
+            padding: 0.25rem 0.75rem;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .toggle-button:hover {
+            background: #21a1c4;
+            color: white;
+        }
+
+        .code-content {
+            display: none;
+            margin-top: 0.5rem;
+        }
+
+        .code-content.show {
+            display: block;
+        }
+
+        /* Styles spécifiques pour l'atelier CSS */
+        .selector-demo {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .selector-demo h4 {
+            margin-top: 0;
+        }
+
+        .selector-example {
+            padding: 0.5rem;
+            margin: 0.5rem 0;
+            border-radius: 3px;
+        }
+
+        .element-type {
+            background-color: #e8f4fc;
+            border-left: 4px solid #21a1c4;
+        }
+
+        .class-example {
+            background-color: #d4edda;
+            border-left: 4px solid #28a745;
+        }
+
+        .id-example {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+        }
+
+        .attribute-example {
+            background-color: #f8d7da;
+            border-left: 4px solid #dc3545;
+        }
+
+        .pseudo-example {
+            background-color: #e2e3e5;
+            border-left: 4px solid #6c757d;
+        }
+
+        .css-preview {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 1rem;
+            margin: 1rem 0;
+            background-color: #f8f9fa;
+        }
+
+        .css-preview h4 {
+            margin-top: 0;
+        }
+
+        .css-editor {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .css-editor {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .css-input {
+            font-family: 'Courier New', monospace;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            min-height: 200px;
+            resize: vertical;
+        }
+
+        .css-output {
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: white;
+            min-height: 200px;
+        }
+
+        .style-example {
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 5px;
+            background-color: white;
+            border: 1px solid #e0e0e0;
+        }
+
+        .style-example h4 {
+            margin-top: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- En-tête de la page 1 -->
+        <header>
+            <div class="header-content">
+                <div class="author-section">
+                    <img src="../img/photo.png" alt="Habib BEN JABER" class="author-photo"
+                        onerror="this.style.display='none'">
+                    <div class="author-name">Habib BEN JABER</div>
+                    <div class="author-title">Enseignant Universitaire</div>
+                </div>
+                <div class="title-section">
+                    <h1>Atelier CSS - Feuilles de Styles et Sélecteurs</h1>
+                    <p class="subtitle">Comprendre et maîtriser les bases du CSS pour styliser vos pages web</p>
+                </div>
+                <div class="author-section">
+                    <img src="../img/logo.jpg" alt="ISET Kebili" class="author-photo">
+                    <div class="author-name">ISET Kebili</div>
+                    <div class="author-title">Département TI</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Contenu principal de la page 2 -->
+        <div class="content">
+            <section class="theory-section">
+                <h2>Partie Théorique Détaillée</h2>
+
+                <h3>1. Qu'est-ce que le CSS ?</h3>
+                <p>CSS (Cascading Style Sheets) est un langage de style utilisé pour décrire la présentation d'un
+                    document écrit en HTML. Il permet de contrôler l'apparence des éléments d'une page web, notamment :
+                </p>
+                <ul>
+                    <li><strong>Couleurs et fonds</strong> : Couleur du texte, couleur de fond, images de fond</li>
+                    <li><strong>Typographie</strong> : Police, taille, graisse, espacement</li>
+                    <li><strong>Disposition</strong> : Positionnement, mise en page, grilles</li>
+                    <li><strong>Animations</strong> : Transitions, transformations, animations</li>
+                </ul>
+
+                <div class="css-flow">
+                    <div style="display: flex; align-items: center; justify-content: center;">
+                        <div class="card">
+                            <h4>HTML</h4>
+                            <p>Structure et contenu</p>
+                        </div>
+                        <span class="css-flow-arrow">+</span>
+                        <div class="card">
+                            <h4>CSS</h4>
+                            <p>Style et présentation</p>
+                        </div>
+                        <span class="css-flow-arrow">=</span>
+                        <div class="card">
+                            <h4>Page Web</h4>
+                            <p>Structure + Style</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-grid">
+                    <div class="concept-card">
+                        <h4>HTML</h4>
+                        <ul>
+                            <li>Structure de la page</li>
+                            <li>Contenu textuel</li>
+                            <li>Sémantique</li>
+                            <li>Hiérarchie des éléments</li>
+                        </ul>
+                    </div>
+                    <div class="concept-card">
+                        <h4>CSS</h4>
+                        <ul>
+                            <li>Apparence visuelle</li>
+                            <li>Disposition</li>
+                            <li>Couleurs et polices</li>
+                            <li>Responsive design</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>2. Où écrire le CSS ?</h3>
+                <p>Il existe trois méthodes principales pour intégrer du CSS dans vos pages web :</p>
+
+                <div class="code-block">
+                    <span class="comment">/* 1. CSS Interne - Dans la balise &lt;style&gt; */</span><br>
+                    &lt;style&gt;<br>
+                    &nbsp;&nbsp;<span class="variable">body</span> {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="prop">background-color</span>: <span
+                        class="string">#f0f0f0</span>;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="prop">font-family</span>: <span class="string">Arial,
+                        sans-serif</span>;<br>
+                    &nbsp;&nbsp;}<br>
+                    &lt;/style&gt;<br><br>
+
+                    <span class="comment">/* 2. CSS Externe - Fichier séparé */</span><br>
+                    &lt;link rel=<span class="string">"stylesheet"</span> href=<span
+                        class="string">"styles.css"</span>&gt;<br><br>
+
+                    <span class="comment">/* 3. CSS Inline - Directement dans l'élément */</span><br>
+                    &lt;h1 style=<span class="string">"color: blue; font-size: 24px;"</span>&gt;Titre&lt;/h1&gt;
+                </div>
+
+                <div class="comparison">
+                    <div class="comparison-item correct">
+                        <h4>✅ Recommandé</h4>
+                        <ul>
+                            <li>CSS Externe (fichier .css)</li>
+                            <li>CSS Interne (balise &lt;style&gt;)</li>
+                        </ul>
+                    </div>
+                    <div class="comparison-item incorrect">
+                        <h4>❌ À éviter</h4>
+                        <ul>
+                            <li>CSS Inline (attribut style)</li>
+                            <li>Mélanger plusieurs méthodes</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>3. Structure d'une règle CSS</h3>
+                <p>Une règle CSS est composée d'un sélecteur et d'une déclaration :</p>
+
+                <div class="code-block">
+                    <span class="comment">/* Structure d'une règle CSS */</span><br>
+                    <span class="variable">sélecteur</span> {<br>
+                    &nbsp;&nbsp;<span class="prop">propriété</span>: <span class="string">valeur</span>;<br>
+                    &nbsp;&nbsp;<span class="prop">propriété</span>: <span class="string">valeur</span>;<br>
+                    }<br><br>
+
+                    <span class="comment">/* Exemple */</span><br>
+                    <span class="variable">h1</span> {<br>
+                    &nbsp;&nbsp;<span class="prop">color</span>: <span class="string">blue</span>;<br>
+                    &nbsp;&nbsp;<span class="prop">font-size</span>: <span class="string">2rem</span>;<br>
+                    &nbsp;&nbsp;<span class="prop">text-align</span>: <span class="string">center</span>;<br>
+                    }
+                </div>
+
+                <h3>4. Les sélecteurs CSS simples</h3>
+                <p>Les sélecteurs permettent de cibler les éléments HTML à styliser :</p>
+
+                <div class="selector-demo">
+                    <h4>Sélecteur d'élément (Type)</h4>
+                    <div class="selector-example element-type">
+                        <p><strong>Syntaxe :</strong> nom_de_l_element</p>
+                        <p><strong>Exemple :</strong> <code>p { color: red; }</code></p>
+                        <p><strong>Cible :</strong> Tous les éléments &lt;p&gt;</p>
+                    </div>
+
+                    <h4>Sélecteur de classe</h4>
+                    <div class="selector-example class-example">
+                        <p><strong>Syntaxe :</strong> .nom_de_la_classe</p>
+                        <p><strong>Exemple :</strong> <code>.important { font-weight: bold; }</code></p>
+                        <p><strong>Cible :</strong> Tous les éléments avec class="important"</p>
+                    </div>
+
+                    <h4>Sélecteur d'ID</h4>
+                    <div class="selector-example id-example">
+                        <p><strong>Syntaxe :</strong> #nom_de_l_id</p>
+                        <p><strong>Exemple :</strong> <code>#header { background: gray; }</code></p>
+                        <p><strong>Cible :</strong> L'élément avec id="header"</p>
+                    </div>
+
+                    <h4>Sélecteur universel</h4>
+                    <div class="selector-example attribute-example">
+                        <p><strong>Syntaxe :</strong> *</p>
+                        <p><strong>Exemple :</strong> <code>* { margin: 0; padding: 0; }</code></p>
+                        <p><strong>Cible :</strong> Tous les éléments</p>
+                    </div>
+
+                    <h4>Sélecteur d'attribut</h4>
+                    <div class="selector-example attribute-example">
+                        <p><strong>Syntaxe :</strong> [attribut] ou [attribut=valeur]</p>
+                        <p><strong>Exemple :</strong> <code>input[type="text"] { border: 1px solid blue; }</code></p>
+                        <p><strong>Cible :</strong> Éléments avec l'attribut spécifié</p>
+                    </div>
+                </div>
+
+                <h3>5. La cascade et l'héritage</h3>
+                <p>Le CSS suit des règles de priorité pour déterminer quels styles s'appliquent :</p>
+
+                <div class="code-block">
+                    <span class="comment">/* Ordre de priorité (du plus faible au plus fort) */</span><br>
+                    <span class="comment">1. Styles du navigateur (user agent)</span><br>
+                    <span class="comment">2. Styles externes et internes</span><br>
+                    <span class="comment">3. Styles inline (attribut style)</span><br>
+                    <span class="comment">4. Styles avec !important</span><br><br>
+
+                    <span class="comment">/* Exemple de cascade */</span><br>
+                    <span class="variable">p</span> { <span class="prop">color</span>: <span
+                        class="string">black</span>; } <span class="comment">/* Règle externe */</span><br>
+                    &lt;style&gt;<br>
+                    &nbsp;&nbsp;<span class="variable">p</span> { <span class="prop">color</span>: <span
+                        class="string">blue</span>; } <span class="comment">/* Règle interne - prioritaire */</span><br>
+                    &lt;/style&gt;<br>
+                    &lt;p style=<span class="string">"color: red;"</span>&gt;Texte rouge&lt;/p&gt; <span
+                        class="comment">/* Inline - le plus prioritaire */</span>
+                </div>
+
+                <div class="important-note">
+                    <h4>⚠️ Règles importantes :</h4>
+                    <ul>
+                        <li><strong>Spécificité</strong> : Plus un sélecteur est spécifique, plus il est prioritaire
+                        </li>
+                        <li><strong>Ordre</strong> : Les règles définies plus tard écrasent les précédentes</li>
+                        <li><strong>Héritage</strong> : Certaines propriétés sont héritées par les éléments enfants</li>
+                        <li><strong>!important</strong> : À utiliser avec parcimonie, casse la cascade normale</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="practice-section">
+                <h2>Partie Pratique</h2>
+
+                <h3>Exercice 1: Éditeur CSS interactif</h3>
+                <p>Expérimentez avec différents styles CSS et voyez le résultat en temps réel :</p>
+
+                <div class="css-editor">
+                    <div>
+                        <h4>Éditeur CSS</h4>
+                        <textarea id="css-input" class="css-input" placeholder="Écrivez votre CSS ici...">
+/* Votre CSS ici */
+.demo-box {
+    width: 200px;
+    height: 100px;
+    background-color: #61dafb;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    margin: 10px;
+}</textarea>
+                        <button onclick="applyCSS()">Appliquer le CSS</button>
+                    </div>
+                    <div>
+                        <h4>Résultat</h4>
+                        <div id="css-output" class="css-output">
+                            <div class="demo-box">Boîte de démonstration</div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Exemple 2: Application de différents sélecteurs</h3>
+                <p>Observez comment différents sélecteurs affectent les éléments :</p>
+
+                <div class="style-example">
+                    <h4>HTML de test :</h4>
+                    <div class="code-block">
+                        &lt;div id=<span class="string">"main"</span>&gt;<br>
+                        &nbsp;&nbsp;&lt;p&gt;Paragraphe normal&lt;/p&gt;<br>
+                        &nbsp;&nbsp;&lt;p class=<span class="string">"special"</span>&gt;Paragraphe
+                        spécial&lt;/p&gt;<br>
+                        &nbsp;&nbsp;&lt;p class=<span class="string">"special important"</span>&gt;Paragraphe
+                        important&lt;/p&gt;<br>
+                        &nbsp;&nbsp;&lt;div&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;span&gt;Span dans un div&lt;/span&gt;<br>
+                        &nbsp;&nbsp;&lt;/div&gt;<br>
+                        &lt;/div&gt;
+                    </div>
+
+                    <h4>CSS appliqué :</h4>
+                    <div class="code-block">
+                        <span class="comment">/* Sélecteur d'élément */</span><br>
+                        <span class="variable">p</span> { <span class="prop">color</span>: <span
+                            class="string">#333</span>; }<br><br>
+
+                        <span class="comment">/* Sélecteur de classe */</span><br>
+                        <span class="variable">.special</span> { <span class="prop">font-weight</span>: <span
+                            class="string">bold</span>; }<br><br>
+
+                        <span class="comment">/* Sélecteur multiple */</span><br>
+                        <span class="variable">.special.important</span> { <span class="prop">color</span>: <span
+                            class="string">red</span>; }<br><br>
+
+                        <span class="comment">/* Sélecteur descendant */</span><br>
+                        <span class="variable">div span</span> { <span class="prop">background-color</span>: <span
+                            class="string">yellow</span>; }
+                    </div>
+
+                    <h4>Résultat :</h4>
+                    <div id="selector-demo" class="demo-area">
+                        <div id="main">
+                            <p>Paragraphe normal</p>
+                            <p class="special">Paragraphe spécial</p>
+                            <p class="special important">Paragraphe important</p>
+                            <div>
+                                <span>Span dans un div</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="exercise">
+                    <h4>Exercice 3: Création d'une carte de profil</h4>
+                    <p>Utilisez CSS pour créer une carte de profil attrayante :</p>
+
+                    <div class="css-editor">
+                        <div>
+                            <h4>HTML fourni :</h4>
+                            <div class="code-block">
+                                &lt;div class=<span class="string">"profile-card"</span>&gt;<br>
+                                &nbsp;&nbsp;&lt;div class=<span class="string">"profile-header"</span>&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&lt;img src=<span class="string">"avatar.jpg"</span> alt=<span
+                                    class="string">"Avatar"</span>&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&lt;h3&gt;John Doe&lt;/h3&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Développeur Web&lt;/p&gt;<br>
+                                &nbsp;&nbsp;&lt;/div&gt;<br>
+                                &nbsp;&nbsp;&lt;div class=<span class="string">"profile-info"</span>&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;&lt;i class=<span class="string">"fas
+                                    fa-envelope"</span>&gt;&lt;/i&gt; john@example.com&lt;/p&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;&lt;i class=<span class="string">"fas
+                                    fa-phone"</span>&gt;&lt;/i&gt; +123 456 789&lt;/p&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;&lt;i class=<span class="string">"fas
+                                    fa-map-marker-alt"</span>&gt;&lt;/i&gt; Tunis, Tunisie&lt;/p&gt;<br>
+                                &nbsp;&nbsp;&lt;/div&gt;<br>
+                                &lt;/div&gt;
+                            </div>
+                        </div>
+                        <div>
+                            <h4>Votre CSS :</h4>
+                            <textarea id="profile-css" class="css-input" placeholder="Stylez la carte de profil...">
+.profile-card {
+    /* Ajoutez vos styles ici */
+}
+
+.profile-header {
+    /* Styles pour l'en-tête */
+}
+
+.profile-header img {
+    /* Styles pour l'image */
+}
+
+.profile-info {
+    /* Styles pour les informations */
+}</textarea>
+                            <button onclick="applyProfileCSS()">Appliquer le CSS</button>
+                        </div>
+                    </div>
+
+                    <h4>Résultat :</h4>
+                    <div id="profile-result" class="demo-area">
+                        <div class="profile-card">
+                            <div class="profile-header">
+                                <div class="user-avatar">JD</div>
+                                <h3>John Doe</h3>
+                                <p>Développeur Web</p>
+                            </div>
+                            <div class="profile-info">
+                                <p><i class="fas fa-envelope"></i> john@example.com</p>
+                                <p><i class="fas fa-phone"></i> +123 456 789</p>
+                                <p><i class="fas fa-map-marker-alt"></i> Tunis, Tunisie</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="code-source">
+                        <div class="code-source-header">
+                            <div class="code-source-title">Solution suggérée</div>
+                            <button class="toggle-button" onclick="toggleCode('profile-solution')">Afficher la
+                                solution</button>
+                        </div>
+                        <div id="profile-solution" class="code-content">
+                            <div class="code-block">
+                                <span class="variable">.profile-card</span> {<br>
+                                &nbsp;&nbsp;<span class="prop">width</span>: <span class="string">300px</span>;<br>
+                                &nbsp;&nbsp;<span class="prop">background</span>: <span class="string">white</span>;<br>
+                                &nbsp;&nbsp;<span class="prop">border-radius</span>: <span
+                                    class="string">10px</span>;<br>
+                                &nbsp;&nbsp;<span class="prop">box-shadow</span>: <span class="string">0 4px 8px
+                                    rgba(0,0,0,0.1)</span>;<br>
+                                &nbsp;&nbsp;<span class="prop">overflow</span>: <span class="string">hidden</span>;<br>
+                                }<br><br>
+
+                                <span class="variable">.profile-header</span> {<br>
+                                &nbsp;&nbsp;<span class="prop">background</span>: <span
+                                    class="string">linear-gradient(135deg, #61dafb, #21a1c4)</span>;<br>
+                                &nbsp;&nbsp;<span class="prop">color</span>: <span class="string">white</span>;<br>
+                                &nbsp;&nbsp;<span class="prop">text-align</span>: <span
+                                    class="string">center</span>;<br>
+                                &nbsp;&nbsp;<span class="prop">padding</span>: <span class="string">2rem
+                                    1rem</span>;<br>
+                                }<br><br>
+
+                                <span class="variable">.user-avatar</span> {<br>
+                                &nbsp;&nbsp;<span class="prop">width</span>: <span class="string">80px</span>;<br>
+                                &nbsp;&nbsp;<span class="prop">height</span>: <span class="string">80px</span>;<br>
+                                &nbsp;&nbsp;<span class="prop">border-radius</span>: <span
+                                    class="string">50%</span>;<br>
+                                &nbsp;&nbsp;<span class="prop">background</span>: <span
+                                    class="string">rgba(255,255,255,0.2)</span>;<br>
+                                &nbsp;&nbsp;<span class="prop">display</span>: <span class="string">flex</span>;<br>
+                                &nbsp;&nbsp;<span class="prop">align-items</span>: <span
+                                    class="string">center</span>;<br>
+                                &nbsp;&nbsp;<span class="prop">justify-content</span>: <span
+                                    class="string">center</span>;<br>
+                                &nbsp;&nbsp;<span class="prop">font-size</span>: <span class="string">1.5rem</span>;<br>
+                                &nbsp;&nbsp;<span class="prop">font-weight</span>: <span class="string">bold</span>;<br>
+                                &nbsp;&nbsp;<span class="prop">margin</span>: <span class="string">0 auto
+                                    1rem</span>;<br>
+                                }<br><br>
+
+                                <span class="variable">.profile-info</span> {<br>
+                                &nbsp;&nbsp;<span class="prop">padding</span>: <span class="string">1.5rem</span>;<br>
+                                }<br><br>
+
+                                <span class="variable">.profile-info p</span> {<br>
+                                &nbsp;&nbsp;<span class="prop">margin-bottom</span>: <span
+                                    class="string">0.5rem</span>;<br>
+                                &nbsp;&nbsp;<span class="prop">color</span>: <span class="string">#555</span>;<br>
+                                }<br><br>
+
+                                <span class="variable">.profile-info i</span> {<br>
+                                &nbsp;&nbsp;<span class="prop">width</span>: <span class="string">20px</span>;<br>
+                                &nbsp;&nbsp;<span class="prop">color</span>: <span class="string">#21a1c4</span>;<br>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Pied de page de la page 1 -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-text">
+                    <p>Espace Cours – Habib BEN JABER - ISET Kebili | Plateforme d'enseignement en ligne</p>
+                </div>
+
+                <div class="social-links">
+                    <a href="https://facebook.com" class="social-link" target="_blank">
+                        <i class="fab fa-facebook social-icon"></i>
+                        <span class="social-name">Facebook</span>
+                    </a>
+                    <a href="https://linkedin.com" class="social-link" target="_blank">
+                        <i class="fab fa-linkedin social-icon"></i>
+                        <span class="social-name">LinkedIn</span>
+                    </a>
+                    <a href="https://youtube.com" class="social-link" target="_blank">
+                        <i class="fab fa-youtube social-icon"></i>
+                        <span class="social-name">YouTube</span>
+                    </a>
+                    <a href="https://github.com" class="social-link" target="_blank">
+                        <i class="fab fa-github social-icon"></i>
+                        <span class="social-name">GitHub</span>
+                    </a>
+                </div>
+
+                <div class="contact-info">
+                    <p>Contact : <a href="mailto:habib.jaber@gmail.com" class="contact-email">habib.jaber@gmail.com</a>
+                    </p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Fonction pour appliquer le CSS dans l'éditeur interactif
+        function applyCSS() {
+            const cssInput = document.getElementById('css-input').value;
+            const output = document.getElementById('css-output');
+
+            // Créer un élément style
+            const style = document.createElement('style');
+            style.textContent = cssInput;
+
+            // Supprimer l'ancien style s'il existe
+            const oldStyle = output.querySelector('style');
+            if (oldStyle) {
+                oldStyle.remove();
+            }
+
+            // Ajouter le nouveau style
+            output.appendChild(style);
+        }
+
+        // Fonction pour appliquer le CSS à la carte de profil
+        function applyProfileCSS() {
+            const cssInput = document.getElementById('profile-css').value;
+            const output = document.getElementById('profile-result');
+
+            // Créer un élément style
+            const style = document.createElement('style');
+            style.textContent = cssInput;
+
+            // Supprimer l'ancien style s'il existe
+            const oldStyle = output.querySelector('style');
+            if (oldStyle) {
+                oldStyle.remove();
+            }
+
+            // Ajouter le nouveau style
+            output.appendChild(style);
+        }
+
+        // Fonction pour afficher/masquer le code source
+        function toggleCode(elementId) {
+            const element = document.getElementById(elementId);
+            const button = element.previousElementSibling.querySelector('.toggle-button');
+
+            if (element.classList.contains('show')) {
+                element.classList.remove('show');
+                button.textContent = 'Afficher la solution';
+            } else {
+                element.classList.add('show');
+                button.textContent = 'Masquer la solution';
+            }
+        }
+
+        // Appliquer le CSS initial au chargement de la page
+        document.addEventListener('DOMContentLoaded', function () {
+            applyCSS();
+
+            // CSS pour la démonstration des sélecteurs
+            const selectorDemo = document.getElementById('selector-demo');
+            const style = document.createElement('style');
+            style.textContent = `
+                #selector-demo p { color: #333; }
+                #selector-demo .special { font-weight: bold; }
+                #selector-demo .special.important { color: red; }
+                #selector-demo div span { background-color: yellow; }
+            `;
+            selectorDemo.appendChild(style);
+        });
+    </script>
+</body>
+
+</html>

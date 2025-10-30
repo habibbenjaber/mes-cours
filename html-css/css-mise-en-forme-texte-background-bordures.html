@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atelier CSS - Mise en forme de texte, Background et Bordures</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Styles pour l'en-tête */
+        header {
+            background: linear-gradient(135deg, #61dafb 0%, #21a1c4 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .author-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            flex: 0 0 auto;
+        }
+
+        .author-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            object-fit: cover;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .author-photo:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .author-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .author-title {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .title-section {
+            flex: 1;
+            text-align: center;
+            max-width: 900px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        /* Styles pour la section institution */
+        .institution-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            flex: 0 0 auto;
+        }
+
+        .institution-logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .institution-logo:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .institution-img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            border-radius: 50%;
+            padding: 8px;
+        }
+
+        .institution-info {
+            text-align: center;
+        }
+
+        .institution-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .institution-department {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 1.5rem;
+            }
+
+            .title-section {
+                text-align: center;
+                order: -1;
+            }
+
+            .author-section,
+            .institution-section {
+                flex-direction: row;
+                gap: 1rem;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .author-photo,
+            .institution-logo {
+                width: 100px;
+                height: 100px;
+                margin-bottom: 0;
+            }
+
+            .institution-img {
+                width: 80px;
+                height: 80px;
+            }
+
+            .author-info,
+            .institution-info {
+                text-align: left;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-content {
+                padding: 0 1rem;
+            }
+
+            .author-section,
+            .institution-section {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .author-info,
+            .institution-info {
+                text-align: center;
+            }
+
+            .author-photo,
+            .institution-logo {
+                width: 90px;
+                height: 90px;
+            }
+
+            .institution-img {
+                width: 70px;
+                height: 70px;
+            }
+
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+        }
+
+        /* Styles pour le pied de page */
+        footer {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 2rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-text {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: white;
+            transition: transform 0.3s ease;
+        }
+
+        .social-link:hover {
+            transform: translateY(-5px);
+        }
+
+        .social-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-link:hover .social-icon {
+            color: #61dafb;
+        }
+
+        .social-name {
+            font-size: 0.9rem;
+        }
+
+        .contact-info {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .contact-email {
+            color: #61dafb;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .contact-email:hover {
+            text-decoration: underline;
+        }
+
+        /* Styles de la page 2 pour le contenu principal */
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .theory-section,
+        .practice-section {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        h2 {
+            color: #21a1c4;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        h3 {
+            color: #333;
+            margin: 1.5rem 0 0.5rem 0;
+            background: linear-gradient(90deg, #61dafb, transparent);
+            padding: 0.5rem;
+            border-radius: 4px;
+        }
+
+        h4 {
+            color: #21a1c4;
+            margin: 1rem 0 0.5rem 0;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        ul,
+        ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        .code-block {
+            background-color: #282c34;
+            color: #abb2bf;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .keyword {
+            color: #c678dd;
+        }
+
+        .function {
+            color: #61afef;
+        }
+
+        .string {
+            color: #98c379;
+        }
+
+        .comment {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        .variable {
+            color: #e06c75;
+        }
+
+        .prop {
+            color: #d19a66;
+        }
+
+        .example-container {
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            padding: 1rem;
+            margin: 1rem 0;
+            background-color: #f9f9f9;
+        }
+
+        .exercise {
+            background-color: #e8f4fc;
+            border-left: 4px solid #21a1c4;
+            padding: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .exercise h4 {
+            color: #21a1c4;
+            margin-bottom: 0.5rem;
+        }
+
+        .important-note {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .comparison-item {
+            padding: 1rem;
+            border-radius: 5px;
+        }
+
+        .correct {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+        }
+
+        .incorrect {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+        }
+
+        button {
+            background-color: #61dafb;
+            color: #333;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #21a1c4;
+            color: white;
+        }
+
+        .demo-area {
+            margin-top: 1rem;
+            padding: 1rem;
+            border: 1px dashed #ccc;
+            border-radius: 5px;
+            min-height: 200px;
+        }
+
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h4 {
+            margin-top: 0;
+            color: #21a1c4;
+        }
+
+        /* Styles spécifiques pour l'atelier CSS */
+        .color-demo {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        .color-box {
+            width: 100px;
+            height: 100px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .unit-demo {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .unit-box {
+            padding: 1rem;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .box-model-demo {
+            background-color: #f8f9fa;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            position: relative;
+        }
+
+        .margin-box {
+            background-color: #e74c3c;
+            padding: 1rem;
+            margin: 20px;
+        }
+
+        .border-box {
+            background-color: #3498db;
+            padding: 1rem;
+            border: 10px solid #2980b9;
+        }
+
+        .padding-box {
+            background-color: #2ecc71;
+            padding: 20px;
+        }
+
+        .content-box {
+            background-color: #f39c12;
+            padding: 1rem;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .text-demo {
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 5px;
+            background-color: white;
+            border: 1px solid #e0e0e0;
+        }
+
+        .background-demo {
+            height: 150px;
+            margin: 1rem 0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .border-demo {
+            padding: 1rem;
+            margin: 1rem 0;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .css-editor {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .css-input {
+            font-family: 'Courier New', monospace;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            min-height: 200px;
+            resize: vertical;
+            width: 100%;
+        }
+
+        .css-output {
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: white;
+            min-height: 200px;
+            width: 100%;
+        }
+
+        .property-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .property-card {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 1rem;
+        }
+
+        .property-card h4 {
+            color: #21a1c4;
+            margin-bottom: 0.5rem;
+        }
+
+        .demo-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .demo-item {
+            padding: 1rem;
+            border-radius: 5px;
+            background-color: white;
+            border: 1px solid #e0e0e0;
+        }
+
+        .demo-item h4 {
+            margin-top: 0;
+        }
+
+        .shorthand-demo {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+        }
+
+        .editor-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .editor-header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- En-tête de la page 1 -->
+        <header>
+            <div class="header-content">
+                <div class="author-section">
+                    <img src="../img/photo.png" alt="Habib BEN JABER" class="author-photo"
+                        onerror="this.style.display='none'">
+                    <div class="author-name">Habib BEN JABER</div>
+                    <div class="author-title">Enseignant Universitaire</div>
+                </div>
+                <div class="title-section">
+                    <h1>Atelier CSS - Mise en forme de texte, Background et Bordures</h1>
+                    <p class="subtitle">Maîtriser les propriétés CSS essentielles pour styliser vos pages web</p>
+                </div>
+                <div class="author-section">
+                    <img src="../img/logo.jpg" alt="ISET Kebili" class="author-photo">
+                    <div class="author-name">ISET Kebili</div>
+                    <div class="author-title">Département TI</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Contenu principal -->
+        <div class="content">
+            <section class="theory-section">
+                <h2>Partie Théorique</h2>
+
+                <h3>5. Mise en forme du texte</h3>
+                <p>CSS offre de nombreuses propriétés pour styliser le texte :</p>
+
+                <div class="property-grid">
+                    <div class="property-card">
+                        <h4>Police et taille</h4>
+                        <div class="code-block">
+                            <span class="prop">font-family</span>: <span class="string">Arial, sans-serif</span>;<br>
+                            <span class="prop">font-size</span>: <span class="string">16px</span>;<br>
+                            <span class="prop">font-weight</span>: <span class="string">bold</span>;
+                        </div>
+                    </div>
+
+                    <div class="property-card">
+                        <h4>Couleur et alignement</h4>
+                        <div class="code-block">
+                            <span class="prop">color</span>: <span class="string">#333</span>;<br>
+                            <span class="prop">text-align</span>: <span class="string">center</span>;<br>
+                            <span class="prop">line-height</span>: <span class="string">1.5</span>;
+                        </div>
+                    </div>
+
+                    <div class="property-card">
+                        <h4>Décoration et transformation</h4>
+                        <div class="code-block">
+                            <span class="prop">text-decoration</span>: <span class="string">underline</span>;<br>
+                            <span class="prop">text-transform</span>: <span class="string">uppercase</span>;<br>
+                            <span class="prop">letter-spacing</span>: <span class="string">2px</span>;
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-demo"
+                    style="font-family: 'Georgia', serif; font-size: 18px; color: #2c3e50; text-align: justify; line-height: 1.6;">
+                    Ce texte montre l'application de différentes propriétés CSS : police Georgia, taille 18px, couleur
+                    foncée, alignement justifié et interligne de 1.6.
+                </div>
+
+                <h3>1. Les Couleurs en CSS</h3>
+                <p>Il existe plusieurs méthodes pour définir les couleurs en CSS :</p>
+
+                <div class="property-grid">
+                    <div class="property-card">
+                        <h4>Noms de couleurs</h4>
+                        <p>Utilisation de noms prédéfinis</p>
+                        <div class="code-block">
+                            <span class="prop">color</span>: <span class="string">red</span>;<br>
+                            <span class="prop">background-color</span>: <span class="string">blue</span>;
+                        </div>
+                    </div>
+
+                    <div class="property-card">
+                        <h4>Hexadécimal</h4>
+                        <p>Code hexadécimal à 6 chiffres</p>
+                        <div class="code-block">
+                            <span class="prop">color</span>: <span class="string">#ff0000</span>;<br>
+                            <span class="prop">background-color</span>: <span class="string">#0000ff</span>;
+                        </div>
+                    </div>
+
+                    <div class="property-card">
+                        <h4>RGB</h4>
+                        <p>Valeurs Rouge, Vert, Bleu</p>
+                        <div class="code-block">
+                            <span class="prop">color</span>: <span class="function">rgb</span>(255, 0, 0);<br>
+                            <span class="prop">background-color</span>: <span class="function">rgb</span>(0, 0, 255);
+                        </div>
+                    </div>
+
+                    <div class="property-card">
+                        <h4>RGBA</h4>
+                        <p>RGB avec transparence</p>
+                        <div class="code-block">
+                            <span class="prop">color</span>: <span class="function">rgba</span>(255, 0, 0, 0.5);<br>
+                            <span class="prop">background-color</span>: <span class="function">rgba</span>(0, 0, 255,
+                            0.3);
+                        </div>
+                    </div>
+                </div>
+
+                <div class="color-demo">
+                    <div class="color-box" style="background-color: red;">red</div>
+                    <div class="color-box" style="background-color: #00ff00;">#00ff00</div>
+                    <div class="color-box" style="background-color: rgb(0, 0, 255);">rgb(0,0,255)</div>
+                    <div class="color-box" style="background-color: rgba(255, 255, 0, 0.5);">rgba(255,255,0,0.5)</div>
+                </div>
+
+                <h3>6. Background (Arrière-plan)</h3>
+                <p>Les propriétés de background permettent de styliser l'arrière-plan des éléments :</p>
+
+                <div class="code-block">
+                    <span class="comment">/* Couleur de fond */</span><br>
+                    <span class="prop">background-color</span>: <span class="string">#f0f0f0</span>;<br><br>
+
+                    <span class="comment">/* Image de fond */</span><br>
+                    <span class="prop">background-image</span>: <span class="function">url</span>(<span
+                        class="string">'image.jpg'</span>);<br>
+                    <span class="prop">background-repeat</span>: <span class="string">no-repeat</span>;<br>
+                    <span class="prop">background-position</span>: <span class="string">center</span>;<br>
+                    <span class="prop">background-size</span>: <span class="string">cover</span>;<br><br>
+
+                    <span class="comment">/* Syntaxe raccourcie */</span><br>
+                    <span class="prop">background</span>: <span class="string">#f0f0f0 url('image.jpg') no-repeat
+                        center</span>;
+                </div>
+
+                <div class="background-demo" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    Arrière-plan avec dégradé
+                </div>
+
+                <h3>7. Bordures (Borders)</h3>
+                <p>Les bordures permettent de délimiter visuellement les éléments :</p>
+
+                <div class="code-block">
+                    <span class="comment">/* Style complet */</span><br>
+                    <span class="prop">border-width</span>: <span class="string">2px</span>;<br>
+                    <span class="prop">border-style</span>: <span class="string">solid</span>;<br>
+                    <span class="prop">border-color</span>: <span class="string">#3498db</span>;<br><br>
+
+                    <span class="comment">/* Syntaxe raccourcie */</span><br>
+                    <span class="prop">border</span>: <span class="string">2px solid #3498db</span>;<br><br>
+
+                    <span class="comment">/* Bordures individuelles */</span><br>
+                    <span class="prop">border-top</span>: <span class="string">1px dashed red</span>;<br>
+                    <span class="prop">border-radius</span>: <span class="string">10px</span>; <span class="comment">/*
+                        Coins arrondis */</span>
+                </div>
+
+                <div class="demo-container">
+                    <div class="border-demo" style="border: 2px solid #e74c3c; border-radius: 5px;">
+                        Bordure solide
+                    </div>
+                    <div class="border-demo" style="border: 2px dashed #3498db; border-radius: 10px;">
+                        Bordure pointillée
+                    </div>
+                    <div class="border-demo" style="border: 2px dotted #2ecc71; border-radius: 15px;">
+                        Bordure pointillée fine
+                    </div>
+                </div>
+
+                <h3>3. Dimensions : width et height</h3>
+                <p>Les propriétés <code>width</code> et <code>height</code> contrôlent les dimensions des éléments :</p>
+
+                <div class="code-block">
+                    <span class="comment">/* Dimensions fixes */</span><br>
+                    <span class="variable">.element</span> {<br>
+                    &nbsp;&nbsp;<span class="prop">width</span>: <span class="string">300px</span>;<br>
+                    &nbsp;&nbsp;<span class="prop">height</span>: <span class="string">200px</span>;<br>
+                    }<br><br>
+
+                    <span class="comment">/* Dimensions relatives */</span><br>
+                    <span class="variable">.element</span> {<br>
+                    &nbsp;&nbsp;<span class="prop">width</span>: <span class="string">50%</span>;<br>
+                    &nbsp;&nbsp;<span class="prop">height</span>: <span class="string">50vh</span>;<br>
+                    }<br><br>
+
+                    <span class="comment">/* Valeurs spéciales */</span><br>
+                    <span class="variable">.element</span> {<br>
+                    &nbsp;&nbsp;<span class="prop">width</span>: <span class="string">auto</span>;<br>
+                    &nbsp;&nbsp;<span class="prop">height</span>: <span class="string">fit-content</span>;<br>
+                    }
+                </div>
+
+                <h3>Unités de Mesure en CSS</h3>
+                <p>CSS propose différentes unités de mesure pour définir les dimensions :</p>
+
+                <div class="comparison">
+                    <div class="comparison-item correct">
+                        <h4>Unités Absolues</h4>
+                        <ul>
+                            <li><code>px</code> - Pixels</li>
+                            <li><code>cm</code> - Centimètres</li>
+                            <li><code>mm</code> - Millimètres</li>
+                            <li><code>in</code> - Pouces</li>
+                            <li><code>pt</code> - Points</li>
+                        </ul>
+                    </div>
+                    <div class="comparison-item correct">
+                        <h4>Unités Relatives</h4>
+                        <ul>
+                            <li><code>%</code> - Pourcentage</li>
+                            <li><code>em</code> - Taille de police de l'élément</li>
+                            <li><code>rem</code> - Taille de police racine</li>
+                            <li><code>vw</code> - 1% de la largeur de la vue</li>
+                            <li><code>vh</code> - 1% de la hauteur de la vue</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="unit-demo">
+                    <div class="unit-box" style="width: 100px; background: #e74c3c;">100px</div>
+                    <div class="unit-box" style="width: 50%; background: #3498db;">50%</div>
+                    <div class="unit-box" style="width: 10em; background: #2ecc71;">10em</div>
+                    <div class="unit-box" style="width: 20rem; background: #f39c12;">20rem</div>
+                    <div class="unit-box" style="width: 50vw; background: #9b59b6;">50vw</div>
+                </div>
+
+                <h3>4. Espacements : margin et padding</h3>
+                <p>Le modèle de boîte CSS comprend :</p>
+
+                <div class="box-model-demo">
+                    <div class="margin-box">
+                        <div class="border-box">
+                            <div class="padding-box">
+                                <div class="content-box">
+                                    CONTENU
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="code-block">
+                    <span class="comment">/* Syntaxe complète */</span><br>
+                    <span class="variable">.element</span> {<br>
+                    &nbsp;&nbsp;<span class="prop">margin</span>: <span class="string">10px 20px 30px 40px</span>; <span
+                        class="comment">/* haut droite bas gauche */</span><br>
+                    &nbsp;&nbsp;<span class="prop">padding</span>: <span class="string">5px 10px</span>; <span
+                        class="comment">/* haut/bas gauche/droite */</span><br>
+                    }<br><br>
+
+                    <span class="comment">/* Syntaxe simplifiée */</span><br>
+                    <span class="variable">.element</span> {<br>
+                    &nbsp;&nbsp;<span class="prop">margin</span>: <span class="string">20px</span>; <span
+                        class="comment">/* tous les côtés */</span><br>
+                    &nbsp;&nbsp;<span class="prop">padding-top</span>: <span class="string">10px</span>;<br>
+                    &nbsp;&nbsp;<span class="prop">padding-right</span>: <span class="string">15px</span>;<br>
+                    }
+                </div>
+
+                <h3>Notion de Shorthand (Syntaxe Raccourcie)</h3>
+                <p>CSS permet d'utiliser des propriétés raccourcies pour écrire moins de code :</p>
+
+                <div class="shorthand-demo">
+                    <div class="code-block">
+                        <span class="comment">/* Au lieu de : */</span><br>
+                        <span class="prop">margin-top</span>: <span class="string">10px</span>;<br>
+                        <span class="prop">margin-right</span>: <span class="string">20px</span>;<br>
+                        <span class="prop">margin-bottom</span>: <span class="string">10px</span>;<br>
+                        <span class="prop">margin-left</span>: <span class="string">20px</span>;<br><br>
+
+                        <span class="comment">/* On écrit : */</span><br>
+                        <span class="prop">margin</span>: <span class="string">10px 20px</span>; <span
+                            class="comment">/* haut/bas gauche/droite */</span>
+                    </div>
+
+                    <div class="code-block">
+                        <span class="comment">/* Au lieu de : */</span><br>
+                        <span class="prop">background-color</span>: <span class="string">#f0f0f0</span>;<br>
+                        <span class="prop">background-image</span>: <span class="function">url</span>(<span
+                            class="string">'image.jpg'</span>);<br>
+                        <span class="prop">background-repeat</span>: <span class="string">no-repeat</span>;<br>
+                        <span class="prop">background-position</span>: <span class="string">center</span>;<br><br>
+
+                        <span class="comment">/* On écrit : */</span><br>
+                        <span class="prop">background</span>: <span class="string">#f0f0f0 url('image.jpg') no-repeat
+                            center</span>;
+                    </div>
+                </div>
+            </section>
+
+            <section class="practice-section">
+                <h2>Partie Pratique</h2>
+
+                <h3>Éditeur CSS Interactif</h3>
+                <p>Expérimentez avec les différentes propriétés CSS :</p>
+
+                <div class="css-editor">
+                    <div class="editor-container">
+                        <div class="editor-header">
+                            <span>Éditeur CSS</span>
+                            <button onclick="applyCSS()">Appliquer le CSS</button>
+                        </div>
+                        <textarea id="css-input" class="css-input">/* Modifiez ces propriétés pour voir le résultat */
+
+.demo-element {
+    /* Mise en forme du texte */
+    color: #2c3e50;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    text-align: center;
+    line-height: 1.5;
+    
+    /* Couleurs */
+    background-color: #ecf0f1;
+    
+    /* Dimensions */
+    width: 300px;
+    height: 150px;
+    
+    /* Espacements */
+    margin: 20px auto;
+    padding: 20px;
+    
+    /* Bordures */
+    border: 2px solid #3498db;
+    border-radius: 10px;
+    
+    /* Arrière-plan */
+    background: linear-gradient(135deg, #ecf0f1, #bdc3c7);
+}</textarea>
+                    </div>
+
+                    <div class="editor-container">
+                        <div class="editor-header">
+                            <span>Aperçu du Résultat</span>
+                        </div>
+                        <div id="css-output" class="css-output">
+                            <div class="demo-element">
+                                Ceci est un élément de démonstration. Modifiez le CSS pour voir les changements en temps
+                                réel !
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="exercise">
+                    <h4>Exercice 1 : Création d'une carte de profil</h4>
+                    <p>Utilisez les propriétés CSS apprises pour créer une carte de profil attrayante :</p>
+
+                    <div class="css-editor">
+                        <div class="editor-container">
+                            <div class="editor-header">
+                                <span>Votre CSS pour la carte de profil</span>
+                                <button onclick="applyProfileCSS()">Appliquer le CSS</button>
+                            </div>
+                            <textarea id="profile-css" class="css-input">.profile-card {
+    /* Ajoutez vos styles ici */
+    width: 300px;
+    background-color: white;
+    padding: 20px;
+    margin: 20px auto;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.profile-header {
+    /* Styles pour l'en-tête */
+    margin-bottom: 20px;
+}
+
+.profile-name {
+    /* Styles pour le nom */
+    color: #2c3e50;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.profile-title {
+    /* Styles pour le titre */
+    color: #7f8c8d;
+    font-size: 16px;
+    font-style: italic;
+}
+
+.profile-info {
+    /* Styles pour les informations */
+    text-align: left;
+    line-height: 1.6;
+}
+
+.profile-info p {
+    margin-bottom: 10px;
+}
+
+.profile-info i {
+    width: 20px;
+    color: #3498db;
+    margin-right: 10px;
+}</textarea>
+                        </div>
+
+                        <div class="editor-container">
+                            <div class="editor-header">
+                                <span>Résultat de la carte de profil</span>
+                            </div>
+                            <div id="profile-result" class="css-output">
+                                <div class="profile-card">
+                                    <div class="profile-header">
+                                        <div class="user-avatar"
+                                            style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #61dafb, #21a1c4); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 2rem; margin: 0 auto 1rem;">
+                                            HB</div>
+                                        <h3 class="profile-name">Habib BEN JABER</h3>
+                                        <p class="profile-title">Enseignant Universitaire</p>
+                                    </div>
+                                    <div class="profile-info">
+                                        <p><i class="fas fa-envelope"></i> habib.jaber@example.com</p>
+                                        <p><i class="fas fa-phone"></i> +216 12 345 678</p>
+                                        <p><i class="fas fa-map-marker-alt"></i> ISET Kebili, Tunisie</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="exercise">
+                    <h4>Exercice 2 : Mise en forme de texte avancée</h4>
+                    <p>Créez différents styles de texte en utilisant les propriétés CSS appropriées :</p>
+
+                    <div class="demo-container">
+                        <div class="demo-item">
+                            <h4>Texte avec ombre</h4>
+                            <div class="text-demo"
+                                style="text-shadow: 2px 2px 4px rgba(0,0,0,0.5); font-size: 24px; font-weight: bold;">
+                                Texte avec ombre portée
+                            </div>
+                            <div class="code-block">
+                                <span class="prop">text-shadow</span>: <span class="string">2px 2px 4px
+                                    rgba(0,0,0,0.5)</span>;
+                            </div>
+                        </div>
+
+                        <div class="demo-item">
+                            <h4>Texte dégradé</h4>
+                            <div class="text-demo"
+                                style="background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 24px; font-weight: bold;">
+                                Texte avec dégradé de couleurs
+                            </div>
+                            <div class="code-block">
+                                <span class="prop">background</span>: <span class="string">linear-gradient(135deg,
+                                    #667eea, #764ba2)</span>;<br>
+                                <span class="prop">-webkit-background-clip</span>: <span class="string">text</span>;<br>
+                                <span class="prop">-webkit-text-fill-color</span>: <span
+                                    class="string">transparent</span>;
+                            </div>
+                        </div>
+
+                        <div class="demo-item">
+                            <h4>Bordures multiples</h4>
+                            <div class="text-demo"
+                                style="border: 2px solid #3498db; border-radius: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); padding: 20px; background: white;">
+                                Élément avec bordures et ombre
+                            </div>
+                            <div class="code-block">
+                                <span class="prop">border</span>: <span class="string">2px solid #3498db</span>;<br>
+                                <span class="prop">border-radius</span>: <span class="string">15px</span>;<br>
+                                <span class="prop">box-shadow</span>: <span class="string">0 4px 8px
+                                    rgba(0,0,0,0.1)</span>;
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="important-note">
+                    <h4>📝 Bonnes pratiques</h4>
+                    <ul>
+                        <li>Utilisez des unités relatives (<code>rem</code>, <code>%</code>) pour un design responsive
+                        </li>
+                        <li>Préférez <code>rgba()</code> pour les couleurs avec transparence</li>
+                        <li>Utilisez le modèle de boîte <code>border-box</code> pour un calcul plus intuitif des
+                            dimensions</li>
+                        <li>Testez vos couleurs pour l'accessibilité (contraste suffisant)</li>
+                        <li>Organisez vos propriétés CSS de manière logique (positionnement > dimensions > espacements >
+                            texte > bordures > arrière-plan)</li>
+                        <li>Utilisez les propriétés raccourcies (shorthand) pour un code plus concis et lisible</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+
+        <!-- Pied de page -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-text">
+                    <p>Espace Cours – Habib BEN JABER - ISET Kebili | Plateforme d'enseignement en ligne</p>
+                </div>
+
+                <div class="social-links">
+                    <a href="https://facebook.com" class="social-link" target="_blank">
+                        <i class="fab fa-facebook social-icon"></i>
+                        <span class="social-name">Facebook</span>
+                    </a>
+                    <a href="https://linkedin.com" class="social-link" target="_blank">
+                        <i class="fab fa-linkedin social-icon"></i>
+                        <span class="social-name">LinkedIn</span>
+                    </a>
+                    <a href="https://youtube.com" class="social-link" target="_blank">
+                        <i class="fab fa-youtube social-icon"></i>
+                        <span class="social-name">YouTube</span>
+                    </a>
+                    <a href="https://github.com" class="social-link" target="_blank">
+                        <i class="fab fa-github social-icon"></i>
+                        <span class="social-name">GitHub</span>
+                    </a>
+                </div>
+
+                <div class="contact-info">
+                    <p>Contact : <a href="mailto:habib.jaber@gmail.com" class="contact-email">habib.jaber@gmail.com</a>
+                    </p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Fonction pour appliquer le CSS dans l'éditeur interactif
+        function applyCSS() {
+            const cssInput = document.getElementById('css-input').value;
+            const output = document.getElementById('css-output');
+
+            // Créer un élément style
+            const style = document.createElement('style');
+            style.textContent = cssInput;
+
+            // Supprimer l'ancien style s'il existe
+            const oldStyle = output.querySelector('style');
+            if (oldStyle) {
+                oldStyle.remove();
+            }
+
+            // Ajouter le nouveau style
+            output.appendChild(style);
+        }
+
+        // Fonction pour appliquer le CSS à la carte de profil
+        function applyProfileCSS() {
+            const cssInput = document.getElementById('profile-css').value;
+            const output = document.getElementById('profile-result');
+
+            // Créer un élément style
+            const style = document.createElement('style');
+            style.textContent = cssInput;
+
+            // Supprimer l'ancien style s'il existe
+            const oldStyle = output.querySelector('style');
+            if (oldStyle) {
+                oldStyle.remove();
+            }
+
+            // Ajouter le nouveau style
+            output.appendChild(style);
+        }
+
+        // Appliquer le CSS initial au chargement de la page
+        document.addEventListener('DOMContentLoaded', function () {
+            applyCSS();
+            applyProfileCSS();
+        });
+    </script>
+</body>
+
+</html>
